@@ -1,0 +1,8 @@
+name: TesterPlugin
+description: "PocketMine test manager and launcher"
+version: BASE
+#This field MUST be updated on each API version bump
+api: 2.0.0
+load: STARTUP
+main: TesterPlugin\TestManager
+author: "PocketMine Team"
