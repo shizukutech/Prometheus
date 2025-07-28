@@ -21,15 +21,18 @@
 
 namespace pocketmine\block;
 
-class StonePressurePlate extends Solid {
+class StonePressurePlate extends Solid
+{
 
-	protected $id = self::STONE_PRESSURE_PLATE;
+    protected $id = self::STONE_PRESSURE_PLATE;
 
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
+    public function __construct($meta = 0)
+    {
+        $this->meta = $meta;
+    }
 
-	public function getName(){
-		return "Stone Pressure Plate";
-	}
+    public function getName()
+    {
+        return "Stone Pressure Plate";
+    }
 }

@@ -21,6 +21,7 @@
 
 namespace pocketmine\inventory;
 
-class StonecutterBigShapedRecipe extends ShapedRecipe{
+class StonecutterBigShapedRecipe extends ShapedRecipe
+{
 
 }

@@ -21,15 +21,18 @@
 
 namespace pocketmine\block;
 
-class TripwireHook extends Solid {
+class TripwireHook extends Solid
+{
 
     protected $id = self::TRIPWIRE_HOOK;
 
-    public function __construct($meta = 0){
+    public function __construct($meta = 0)
+    {
         $this->meta = $meta;
     }
 
-    public function getName(){
+    public function getName()
+    {
         return "Tripwire Hook";
     }
 }

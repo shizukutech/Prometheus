@@ -21,15 +21,18 @@
 
 namespace pocketmine\block;
 
-class ActivatorRail extends Solid {
+class ActivatorRail extends Solid
+{
 
     protected $id = self::ACTIVATOR_RAIL;
 
-    public function __construct($meta = 0){
+    public function __construct($meta = 0)
+    {
         $this->meta = $meta;
     }
 
-    public function getName(){
+    public function getName()
+    {
         return "Activator Rail";
     }
 }

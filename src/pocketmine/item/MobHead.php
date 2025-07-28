@@ -23,13 +23,16 @@ namespace pocketmine\item;
 
 use pocketmine\block\Block;
 
-class MobHead extends Item{
-	public function __construct($meta = 0, $count = 1){
-		$this->block = Block::get(Item::SKULL_BLOCK);
-		parent::__construct(self::MOB_HEAD, $meta, $count, "Mob Head");
-	}
+class MobHead extends Item
+{
+    public function __construct($meta = 0, $count = 1)
+    {
+        $this->block = Block::get(Item::SKULL_BLOCK);
+        parent::__construct(self::MOB_HEAD, $meta, $count, "Mob Head");
+    }
 
-	public function getMaxStackSize(){
-		return 1;
-	}
+    public function getMaxStackSize()
+    {
+        return 1;
+    }
 }

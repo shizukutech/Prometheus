@@ -22,10 +22,11 @@
 
 namespace TesterPlugin;
 
-interface DelayedTest extends Test{
+interface DelayedTest extends Test
+{
 
-	/**
-	 * @param int $result Test::WAITING, Test::OK, Test::ERROR
-	 */
-	public function setResult($result);
+    /**
+     * @param int $result Test::WAITING, Test::OK, Test::ERROR
+     */
+    public function setResult($result);
 }

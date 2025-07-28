@@ -23,11 +23,13 @@ namespace raklib\protocol;
 
 #ifndef COMPILE
 use raklib\Binary;
+
 #endif
 
 #include <rules/RakLibPacket.h>
 
-class EncapsulatedPacket{
+class EncapsulatedPacket
+{
 
     public $reliability;
     public $hasSplit = false;
@@ -49,21 +51,22 @@ class EncapsulatedPacket{
      *
      * @return EncapsulatedPacket
      */
-    public static function fromBinary($binary, $internal = false, &$offset = null){
+    public static function fromBinary($binary, $internal = false, &$offset = null)
+    {
 
-	    $packet = new EncapsulatedPacket();
+        $packet = new EncapsulatedPacket();
 
         $flags = ord($binary[0]);
         $packet->reliability = $reliability = ($flags & 0b11100000) >> 5;
         $packet->hasSplit = $hasSplit = ($flags & 0b00010000) > 0;
-        if($internal){
+        if ($internal) {
             $length = Binary::readInt(substr($binary, 1, 4));
             $packet->identifierACK = Binary::readInt(substr($binary, 5, 4));
             $offset = 9;
-        }else{
+        } else {
             $length = (int) ceil(Binary::readShort(substr($binary, 1, 2)) / 8);
             $offset = 3;
-	        $packet->identifierACK = null;
+            $packet->identifierACK = null;
         }
 
 
@@ -82,20 +85,20 @@ class EncapsulatedPacket{
          * 7: RELIABLE_ORDERED_WITH_ACK_RECEIPT
          */
 
-		if($reliability > 0){
-			if($reliability >= 2 and $reliability !== 5){
-				$packet->messageIndex = Binary::readLTriad(substr($binary, $offset, 3));
-				$offset += 3;
-			}
+        if ($reliability > 0) {
+            if ($reliability >= 2 and $reliability !== 5) {
+                $packet->messageIndex = Binary::readLTriad(substr($binary, $offset, 3));
+                $offset += 3;
+            }
 
-			if($reliability <= 4 and $reliability !== 2){
-				$packet->orderIndex = Binary::readLTriad(substr($binary, $offset, 3));
-				$offset += 3;
-				$packet->orderChannel = ord($binary[$offset++]);
-			}
-		}
+            if ($reliability <= 4 and $reliability !== 2) {
+                $packet->orderIndex = Binary::readLTriad(substr($binary, $offset, 3));
+                $offset += 3;
+                $packet->orderChannel = ord($binary[$offset++]);
+            }
+        }
 
-        if($hasSplit){
+        if ($hasSplit) {
             $packet->splitCount = Binary::readInt(substr($binary, $offset, 4));
             $offset += 4;
             $packet->splitID = Binary::readShort(substr($binary, $offset, 2));
@@ -110,7 +113,8 @@ class EncapsulatedPacket{
         return $packet;
     }
 
-    public function getTotalLength(){
+    public function getTotalLength()
+    {
         return 3 + strlen($this->buffer) + ($this->messageIndex !== null ? 3 : 0) + ($this->orderIndex !== null ? 4 : 0) + ($this->hasSplit ? 10 : 0);
     }
 
@@ -119,20 +123,23 @@ class EncapsulatedPacket{
      *
      * @return string
      */
-    public function toBinary($internal = false){
+    public function toBinary($internal = false)
+    {
         return
-			chr(($this->reliability << 5) | ($this->hasSplit ? 0b00010000 : 0)) .
-			($internal ? Binary::writeInt(strlen($this->buffer)) . Binary::writeInt($this->identifierACK) : Binary::writeShort(strlen($this->buffer) << 3)) .
-			($this->reliability > 0 ?
-				(($this->reliability >= 2 and $this->reliability !== 5) ? Binary::writeLTriad($this->messageIndex) : "") .
-				(($this->reliability <= 4 and $this->reliability !== 2) ? Binary::writeLTriad($this->orderIndex) . chr($this->orderChannel) : "")
-				: ""
-			) .
-			($this->hasSplit ? Binary::writeInt($this->splitCount) . Binary::writeShort($this->splitID) . Binary::writeInt($this->splitIndex) : "")
-			. $this->buffer;
+            chr(($this->reliability << 5) | ($this->hasSplit ? 0b00010000 : 0)) .
+            ($internal ? Binary::writeInt(strlen($this->buffer)) . Binary::writeInt($this->identifierACK) : Binary::writeShort(strlen($this->buffer) << 3)) .
+            (
+                $this->reliability > 0 ?
+                (($this->reliability >= 2 and $this->reliability !== 5) ? Binary::writeLTriad($this->messageIndex) : "") .
+                (($this->reliability <= 4 and $this->reliability !== 2) ? Binary::writeLTriad($this->orderIndex) . chr($this->orderChannel) : "")
+                : ""
+            ) .
+            ($this->hasSplit ? Binary::writeInt($this->splitCount) . Binary::writeShort($this->splitID) . Binary::writeInt($this->splitIndex) : "")
+            . $this->buffer;
     }
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->toBinary();
     }
 }

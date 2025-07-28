@@ -21,6 +21,7 @@
 
 namespace pocketmine;
 
-class CompatibleClassLoader extends \BaseClassLoader{
+class CompatibleClassLoader extends \BaseClassLoader
+{
 
 }

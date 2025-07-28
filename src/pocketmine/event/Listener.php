@@ -21,6 +21,7 @@
 
 namespace pocketmine\event;
 
-interface Listener{
+interface Listener
+{
 
 }

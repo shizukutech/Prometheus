@@ -21,6 +21,7 @@
 
 namespace pocketmine\utils;
 
-class ChunkException extends \RuntimeException{
+class ChunkException extends \RuntimeException
+{
 
 }

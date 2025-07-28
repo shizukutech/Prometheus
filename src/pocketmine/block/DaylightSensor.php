@@ -21,15 +21,18 @@
 
 namespace pocketmine\block;
 
-class DaylightSensor extends Solid {
+class DaylightSensor extends Solid
+{
 
     protected $id = self::DAYLIGHT_SENSOR;
 
-    public function __construct($meta = 0){
+    public function __construct($meta = 0)
+    {
         $this->meta = $meta;
     }
 
-    public function getName(){
+    public function getName()
+    {
         return "Daylight Sensor";
     }
 }

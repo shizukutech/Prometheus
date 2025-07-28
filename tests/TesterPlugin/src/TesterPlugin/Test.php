@@ -23,24 +23,25 @@ namespace TesterPlugin;
 
 use pocketmine\Server;
 
-interface Test{
+interface Test
+{
 
-	const WAITING = -1;
-	const OK = 0;
-	const ERROR = 1;
+    const WAITING = -1;
+    const OK = 0;
+    const ERROR = 1;
 
-	/**
-	 * @return string
-	 */
-	public function getName();
+    /**
+     * @return string
+     */
+    public function getName();
 
-	/**
-	 * @param Server $server
-	 */
-	public function run(Server $server);
+    /**
+     * @param Server $server
+     */
+    public function run(Server $server);
 
-	/**
-	 * @return int Test::OK, Test::ERROR, Test::WAITING
-	 */
-	public function getResult();
+    /**
+     * @return int Test::OK, Test::ERROR, Test::WAITING
+     */
+    public function getResult();
 }

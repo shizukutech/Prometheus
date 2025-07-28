@@ -2,11 +2,11 @@
 
 /*
  *
- *  ____            _        _   __  __ _                  __  __ ____  
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
  * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -15,7 +15,7 @@
  *
  * @author PocketMine Team
  * @link http://www.pocketmine.net/
- * 
+ *
  *
 */
 
@@ -37,213 +37,227 @@ use pocketmine\network\Network;
 use pocketmine\network\protocol\AddItemEntityPacket;
 use pocketmine\Player;
 
-class Item extends Entity{
-	const NETWORK_ID = 64;
+class Item extends Entity
+{
+    const NETWORK_ID = 64;
 
-	protected $owner = null;
-	protected $thrower = null;
-	protected $pickupDelay = 0;
-	/** @var ItemItem */
-	protected $item;
+    protected $owner = null;
+    protected $thrower = null;
+    protected $pickupDelay = 0;
+    /** @var ItemItem */
+    protected $item;
 
-	public $width = 0.25;
-	public $length = 0.25;
-	public $height = 0.25;
-	protected $gravity = 0.04;
-	protected $drag = 0.02;
+    public $width = 0.25;
+    public $length = 0.25;
+    public $height = 0.25;
+    protected $gravity = 0.04;
+    protected $drag = 0.02;
 
-	public $canCollide = false;
+    public $canCollide = false;
 
-	protected function initEntity(){
-		parent::initEntity();
+    protected function initEntity()
+    {
+        parent::initEntity();
 
-		$this->setMaxHealth(5);
-		$this->setHealth($this->namedtag["Health"]);
-		if(isset($this->namedtag->Age)){
-			$this->age = $this->namedtag["Age"];
-		}
-		if(isset($this->namedtag->PickupDelay)){
-			$this->pickupDelay = $this->namedtag["PickupDelay"];
-		}
-		if(isset($this->namedtag->Owner)){
-			$this->owner = $this->namedtag["Owner"];
-		}
-		if(isset($this->namedtag->Thrower)){
-			$this->thrower = $this->namedtag["Thrower"];
-		}
-
-
-		if(!isset($this->namedtag->Item)){
-			$this->close();
-			return;
-		}
-
-		assert($this->namedtag->Item instanceof CompoundTag);
-
-		$this->item = NBT::getItemHelper($this->namedtag->Item);
+        $this->setMaxHealth(5);
+        $this->setHealth($this->namedtag["Health"]);
+        if (isset($this->namedtag->Age)) {
+            $this->age = $this->namedtag["Age"];
+        }
+        if (isset($this->namedtag->PickupDelay)) {
+            $this->pickupDelay = $this->namedtag["PickupDelay"];
+        }
+        if (isset($this->namedtag->Owner)) {
+            $this->owner = $this->namedtag["Owner"];
+        }
+        if (isset($this->namedtag->Thrower)) {
+            $this->thrower = $this->namedtag["Thrower"];
+        }
 
 
-		$this->server->getPluginManager()->callEvent(new ItemSpawnEvent($this));
-	}
+        if (!isset($this->namedtag->Item)) {
+            $this->close();
+            return;
+        }
 
-	public function attack($damage, EntityDamageEvent $source){
-		if(
-			$source->getCause() === EntityDamageEvent::CAUSE_VOID or
-			$source->getCause() === EntityDamageEvent::CAUSE_FIRE_TICK or
-			$source->getCause() === EntityDamageEvent::CAUSE_ENTITY_EXPLOSION or
-			$source->getCause() === EntityDamageEvent::CAUSE_BLOCK_EXPLOSION
-		){
-			parent::attack($damage, $source);
-		}
-	}
+        assert($this->namedtag->Item instanceof CompoundTag);
 
-	public function onUpdate($currentTick){
-		if($this->closed){
-			return false;
-		}
+        $this->item = NBT::getItemHelper($this->namedtag->Item);
 
-		$tickDiff = $currentTick - $this->lastUpdate;
-		if($tickDiff <= 0 and !$this->justCreated){
-			return true;
-		}
 
-		$this->lastUpdate = $currentTick;
+        $this->server->getPluginManager()->callEvent(new ItemSpawnEvent($this));
+    }
 
-		$this->timings->startTiming();
+    public function attack($damage, EntityDamageEvent $source)
+    {
+        if (
+            $source->getCause() === EntityDamageEvent::CAUSE_VOID or
+            $source->getCause() === EntityDamageEvent::CAUSE_FIRE_TICK or
+            $source->getCause() === EntityDamageEvent::CAUSE_ENTITY_EXPLOSION or
+            $source->getCause() === EntityDamageEvent::CAUSE_BLOCK_EXPLOSION
+        ) {
+            parent::attack($damage, $source);
+        }
+    }
 
-		$hasUpdate = $this->entityBaseTick($tickDiff);
+    public function onUpdate($currentTick)
+    {
+        if ($this->closed) {
+            return false;
+        }
 
-		if($this->isAlive()){
+        $tickDiff = $currentTick - $this->lastUpdate;
+        if ($tickDiff <= 0 and !$this->justCreated) {
+            return true;
+        }
 
-			if($this->pickupDelay > 0 and $this->pickupDelay < 32767){ //Infinite delay
-				$this->pickupDelay -= $tickDiff;
-				if($this->pickupDelay < 0){
-					$this->pickupDelay = 0;
-				}
-			}
+        $this->lastUpdate = $currentTick;
 
-			$this->motionY -= $this->gravity;
+        $this->timings->startTiming();
 
-			if($this->checkObstruction($this->x, $this->y, $this->z)){
-				$hasUpdate = true;
-			}
+        $hasUpdate = $this->entityBaseTick($tickDiff);
 
-			$this->move($this->motionX, $this->motionY, $this->motionZ);
+        if ($this->isAlive()) {
 
-			$friction = 1 - $this->drag;
+            if ($this->pickupDelay > 0 and $this->pickupDelay < 32767) { //Infinite delay
+                $this->pickupDelay -= $tickDiff;
+                if ($this->pickupDelay < 0) {
+                    $this->pickupDelay = 0;
+                }
+            }
 
-			if($this->onGround and (abs($this->motionX) > 0.00001 or abs($this->motionZ) > 0.00001)){
-				$friction = $this->getLevel()->getBlock($this->temporalVector->setComponents((int) floor($this->x), (int) floor($this->y - 1), (int) floor($this->z) - 1))->getFrictionFactor() * $friction;
-			}
+            $this->motionY -= $this->gravity;
 
-			$this->motionX *= $friction;
-			$this->motionY *= 1 - $this->drag;
-			$this->motionZ *= $friction;
+            if ($this->checkObstruction($this->x, $this->y, $this->z)) {
+                $hasUpdate = true;
+            }
 
-			if($this->onGround){
-				$this->motionY *= -0.5;
-			}
+            $this->move($this->motionX, $this->motionY, $this->motionZ);
 
-			$this->updateMovement();
+            $friction = 1 - $this->drag;
 
-			if($this->age > 6000){
-				$this->server->getPluginManager()->callEvent($ev = new ItemDespawnEvent($this));
-				if($ev->isCancelled()){
-					$this->age = 0;
-				}else{
-					$this->kill();
-					$hasUpdate = true;
-				}
-			}
+            if ($this->onGround and (abs($this->motionX) > 0.00001 or abs($this->motionZ) > 0.00001)) {
+                $friction = $this->getLevel()->getBlock($this->temporalVector->setComponents((int) floor($this->x), (int) floor($this->y - 1), (int) floor($this->z) - 1))->getFrictionFactor() * $friction;
+            }
 
-		}
+            $this->motionX *= $friction;
+            $this->motionY *= 1 - $this->drag;
+            $this->motionZ *= $friction;
 
-		$this->timings->stopTiming();
+            if ($this->onGround) {
+                $this->motionY *= -0.5;
+            }
 
-		return $hasUpdate or !$this->onGround or abs($this->motionX) > 0.00001 or abs($this->motionY) > 0.00001 or abs($this->motionZ) > 0.00001;
-	}
+            $this->updateMovement();
 
-	public function saveNBT(){
-		parent::saveNBT();
-		$this->namedtag->Item = NBT::putItemHelper($this->item);
-		$this->namedtag->Health = new ShortTag("Health", $this->getHealth());
-		$this->namedtag->Age = new ShortTag("Age", $this->age);
-		$this->namedtag->PickupDelay = new ShortTag("PickupDelay", $this->pickupDelay);
-		if($this->owner !== null){
-			$this->namedtag->Owner = new StringTag("Owner", $this->owner);
-		}
-		if($this->thrower !== null){
-			$this->namedtag->Thrower = new StringTag("Thrower", $this->thrower);
-		}
-	}
+            if ($this->age > 6000) {
+                $this->server->getPluginManager()->callEvent($ev = new ItemDespawnEvent($this));
+                if ($ev->isCancelled()) {
+                    $this->age = 0;
+                } else {
+                    $this->kill();
+                    $hasUpdate = true;
+                }
+            }
 
-	/**
-	 * @return ItemItem
-	 */
-	public function getItem(){
-		return $this->item;
-	}
+        }
 
-	public function canCollideWith(Entity $entity){
-		return false;
-	}
+        $this->timings->stopTiming();
 
-	/**
-	 * @return int
-	 */
-	public function getPickupDelay(){
-		return $this->pickupDelay;
-	}
+        return $hasUpdate or !$this->onGround or abs($this->motionX) > 0.00001 or abs($this->motionY) > 0.00001 or abs($this->motionZ) > 0.00001;
+    }
 
-	/**
-	 * @param int $delay
-	 */
-	public function setPickupDelay($delay){
-		$this->pickupDelay = $delay;
-	}
+    public function saveNBT()
+    {
+        parent::saveNBT();
+        $this->namedtag->Item = NBT::putItemHelper($this->item);
+        $this->namedtag->Health = new ShortTag("Health", $this->getHealth());
+        $this->namedtag->Age = new ShortTag("Age", $this->age);
+        $this->namedtag->PickupDelay = new ShortTag("PickupDelay", $this->pickupDelay);
+        if ($this->owner !== null) {
+            $this->namedtag->Owner = new StringTag("Owner", $this->owner);
+        }
+        if ($this->thrower !== null) {
+            $this->namedtag->Thrower = new StringTag("Thrower", $this->thrower);
+        }
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getOwner(){
-		return $this->owner;
-	}
+    /**
+     * @return ItemItem
+     */
+    public function getItem()
+    {
+        return $this->item;
+    }
 
-	/**
-	 * @param string $owner
-	 */
-	public function setOwner($owner){
-		$this->owner = $owner;
-	}
+    public function canCollideWith(Entity $entity)
+    {
+        return false;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getThrower(){
-		return $this->thrower;
-	}
+    /**
+     * @return int
+     */
+    public function getPickupDelay()
+    {
+        return $this->pickupDelay;
+    }
 
-	/**
-	 * @param string $thrower
-	 */
-	public function setThrower($thrower){
-		$this->thrower = $thrower;
-	}
+    /**
+     * @param int $delay
+     */
+    public function setPickupDelay($delay)
+    {
+        $this->pickupDelay = $delay;
+    }
 
-	public function spawnTo(Player $player){
-		$pk = new AddItemEntityPacket();
-		$pk->eid = $this->getId();
-		$pk->x = $this->x;
-		$pk->y = $this->y;
-		$pk->z = $this->z;
-		$pk->speedX = $this->motionX;
-		$pk->speedY = $this->motionY;
-		$pk->speedZ = $this->motionZ;
-		$pk->item = $this->getItem();
-		$player->dataPacket($pk);
+    /**
+     * @return string
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
 
-		$this->sendData($player);
+    /**
+     * @param string $owner
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
+    }
 
-		parent::spawnTo($player);
-	}
+    /**
+     * @return string
+     */
+    public function getThrower()
+    {
+        return $this->thrower;
+    }
+
+    /**
+     * @param string $thrower
+     */
+    public function setThrower($thrower)
+    {
+        $this->thrower = $thrower;
+    }
+
+    public function spawnTo(Player $player)
+    {
+        $pk = new AddItemEntityPacket();
+        $pk->eid = $this->getId();
+        $pk->x = $this->x;
+        $pk->y = $this->y;
+        $pk->z = $this->z;
+        $pk->speedX = $this->motionX;
+        $pk->speedY = $this->motionY;
+        $pk->speedZ = $this->motionZ;
+        $pk->item = $this->getItem();
+        $player->dataPacket($pk);
+
+        $this->sendData($player);
+
+        parent::spawnTo($player);
+    }
 }
