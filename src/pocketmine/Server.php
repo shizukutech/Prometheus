@@ -275,7 +275,7 @@ class Server
      */
     public function getName()
     {
-        return "PocketMine-MP";
+        return "Prometheus";
     }
 
     /**
