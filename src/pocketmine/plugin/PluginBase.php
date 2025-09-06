@@ -31,44 +31,44 @@ abstract class PluginBase implements Plugin
 {
 
     /** @var PluginLoader */
-    private $loader;
+    private PluginLoader $loader;
 
     /** @var \pocketmine\Server */
-    private $server;
+    private Server $server;
 
     /** @var bool */
-    private $isEnabled = false;
+    private bool $isEnabled = false;
 
     /** @var bool */
-    private $initialized = false;
+    private bool $initialized = false;
 
     /** @var PluginDescription */
-    private $description;
+    private PluginDescription $description;
 
     /** @var string */
-    private $dataFolder;
-    private $config;
+    private string $dataFolder;
+    private Config $config;
     /** @var string */
-    private $configFile;
-    private $file;
+    private string $configFile;
+    private string $file;
 
     /** @var PluginLogger */
-    private $logger;
+    private PluginLogger $logger;
 
     /**
      * Called when the plugin is loaded, before calling onEnable()
      */
-    public function onLoad()
+    public function onLoad(): void
     {
 
     }
 
-    public function onEnable()
+    public function onEnable(): void
     {
 
     }
 
-    public function onDisable()
+    public function onDisable(): void
     {
 
     }
@@ -76,7 +76,7 @@ abstract class PluginBase implements Plugin
     /**
      * @return bool
      */
-    final public function isEnabled()
+    final public function isEnabled(): bool
     {
         return $this->isEnabled === true;
     }
@@ -84,7 +84,7 @@ abstract class PluginBase implements Plugin
     /**
      * @param bool $boolean
      */
-    final public function setEnabled($boolean = true)
+    final public function setEnabled(bool $boolean = true): void
     {
         if ($this->isEnabled !== $boolean) {
             $this->isEnabled = $boolean;
@@ -99,23 +99,28 @@ abstract class PluginBase implements Plugin
     /**
      * @return bool
      */
-    final public function isDisabled()
+    final public function isDisabled(): bool
     {
         return $this->isEnabled === false;
     }
 
-    final public function getDataFolder()
+    final public function getDataFolder(): string
     {
         return $this->dataFolder;
     }
 
-    final public function getDescription()
+    final public function getDescription(): PluginDescription
     {
         return $this->description;
     }
 
-    final public function init(PluginLoader $loader, Server $server, PluginDescription $description, $dataFolder, $file)
-    {
+    final public function init(
+        PluginLoader $loader,
+        Server $server,
+        PluginDescription $description,
+        string $dataFolder,
+        string $file
+    ): void {
         if ($this->initialized === false) {
             $this->initialized = true;
             $this->loader = $loader;
@@ -131,7 +136,7 @@ abstract class PluginBase implements Plugin
     /**
      * @return PluginLogger
      */
-    public function getLogger()
+    public function getLogger(): PluginLogger
     {
         return $this->logger;
     }
@@ -139,7 +144,7 @@ abstract class PluginBase implements Plugin
     /**
      * @return bool
      */
-    final public function isInitialized()
+    final public function isInitialized(): bool
     {
         return $this->initialized;
     }
@@ -149,7 +154,7 @@ abstract class PluginBase implements Plugin
      *
      * @return Command|PluginIdentifiableCommand
      */
-    public function getCommand($name)
+    public function getCommand(string $name): null|Command|PluginIdentifiableCommand
     {
         $command = $this->getServer()->getPluginCommand($name);
         if ($command === null or $command->getPlugin() !== $this) {
@@ -171,7 +176,7 @@ abstract class PluginBase implements Plugin
      *
      * @return bool
      */
-    public function onCommand(CommandSender $sender, Command $command, $label, array $args)
+    public function onCommand(CommandSender $sender, Command $command, string $label, array $args): bool
     {
         return false;
     }
@@ -179,7 +184,7 @@ abstract class PluginBase implements Plugin
     /**
      * @return bool
      */
-    protected function isPhar()
+    protected function isPhar(): bool
     {
         return substr($this->file, 0, 7) === "phar://";
     }
@@ -192,7 +197,7 @@ abstract class PluginBase implements Plugin
      *
      * @return resource Resource data, or null
      */
-    public function getResource($filename)
+    public function getResource(string $filename)
     {
         $filename = rtrim(str_replace("\\", "/", $filename), "/");
         if (file_exists($this->file . "resources/" . $filename)) {
@@ -208,7 +213,7 @@ abstract class PluginBase implements Plugin
      *
      * @return bool
      */
-    public function saveResource($filename, $replace = false)
+    public function saveResource(string $filename, bool $replace = false): bool
     {
         if (trim($filename) === "") {
             return false;
@@ -235,10 +240,9 @@ abstract class PluginBase implements Plugin
 
     /**
      * Returns all the resources incrusted on the plugin
-     *
      * @return string[]
      */
-    public function getResources()
+    public function getResources(): array
     {
         $resources = [];
         if (is_dir($this->file . "resources/")) {
@@ -253,7 +257,7 @@ abstract class PluginBase implements Plugin
     /**
      * @return Config
      */
-    public function getConfig()
+    public function getConfig(): Config
     {
         if (!isset($this->config)) {
             $this->reloadConfig();
@@ -262,14 +266,14 @@ abstract class PluginBase implements Plugin
         return $this->config;
     }
 
-    public function saveConfig()
+    public function saveConfig(): void
     {
         if ($this->getConfig()->save() === false) {
             $this->getLogger()->critical("Could not save config to " . $this->configFile);
         }
     }
 
-    public function saveDefaultConfig()
+    public function saveDefaultConfig(): bool
     {
         if (!file_exists($this->configFile)) {
             return $this->saveResource("config.yml", false);
@@ -277,7 +281,7 @@ abstract class PluginBase implements Plugin
         return false;
     }
 
-    public function reloadConfig()
+    public function reloadConfig(): void
     {
         $this->config = new Config($this->configFile);
         if (($configStream = $this->getResource("config.yml")) !== null) {
@@ -289,7 +293,7 @@ abstract class PluginBase implements Plugin
     /**
      * @return Server
      */
-    final public function getServer()
+    final public function getServer(): Server
     {
         return $this->server;
     }
@@ -297,7 +301,7 @@ abstract class PluginBase implements Plugin
     /**
      * @return string
      */
-    final public function getName()
+    final public function getName(): string
     {
         return $this->description->getName();
     }
@@ -305,12 +309,12 @@ abstract class PluginBase implements Plugin
     /**
      * @return string
      */
-    final public function getFullName()
+    final public function getFullName(): string
     {
         return $this->description->getFullName();
     }
 
-    protected function getFile()
+    protected function getFile(): string
     {
         return $this->file;
     }
@@ -318,7 +322,7 @@ abstract class PluginBase implements Plugin
     /**
      * @return PluginLoader
      */
-    public function getPluginLoader()
+    public function getPluginLoader(): PluginLoader
     {
         return $this->loader;
     }

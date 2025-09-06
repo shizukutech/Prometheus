@@ -26,7 +26,7 @@ use pocketmine\plugin\PluginBase;
 class TestManager extends PluginBase
 {
 
-    public function onEnable()
+    public function onEnable(): void
     {
 
     }
