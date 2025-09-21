@@ -78,6 +78,7 @@ use pocketmine\level\generator\LightPopulationTask;
 use pocketmine\level\generator\PopulationTask;
 use pocketmine\level\particle\DestroyBlockParticle;
 use pocketmine\level\particle\Particle;
+use pocketmine\level\sound\GenericSound;
 use pocketmine\level\sound\Sound;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\math\Math;
@@ -1629,10 +1630,11 @@ class Level implements ChunkManager, Metadatable{
 	 * @param float   $fy     default 0.0
 	 * @param float   $fz     default 0.0
 	 * @param Player  $player default null
+	 * @param bool    $playSound Whether to play a block-place sound if the block was placed successfully.
 	 *
 	 * @return bool
 	 */
-	public function useItemOn(Vector3 $vector, Item &$item, int $face, float $fx = 0.0, float $fy = 0.0, float $fz = 0.0, Player $player = null) : bool{
+	public function useItemOn(Vector3 $vector, Item &$item, int $face, float $fx = 0.0, float $fy = 0.0, float $fz = 0.0, Player $player = null, bool $playSound = false) : bool{
 		$target = $this->getBlock($vector);
 		$block = $target->getSide($face);
 
@@ -1751,6 +1753,10 @@ class Level implements ChunkManager, Metadatable{
 
 		if($hand->place($item, $block, $target, $face, $fx, $fy, $fz, $player) === false){
 			return false;
+		}
+
+		if($playSound){
+			$this->addSound(new GenericSound($block, 1052, $this->getBlock($block)->getId() / 1000));
 		}
 
 		if($hand->getId() === Item::SIGN_POST or $hand->getId() === Item::WALL_SIGN){
