@@ -135,7 +135,10 @@ use pocketmine\tile\Tile;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
 use raklib\Binary;
+use function cos;
 use function in_array;
+use function sin;
+use const M_PI;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
@@ -2031,9 +2034,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 								new DoubleTag("", $this->z)
 							]),
 							"Motion" => new ListTag("Motion", [
-								new DoubleTag("", $aimPos->x),
-								new DoubleTag("", $aimPos->y),
-								new DoubleTag("", $aimPos->z)
+								new DoubleTag("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI)),
+								new DoubleTag("", -sin($this->pitch / 180 * M_PI)),
+								new DoubleTag("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI))
 							]),
 							"Rotation" => new ListTag("Rotation", [
 								new FloatTag("", $this->yaw),
