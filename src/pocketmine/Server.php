@@ -696,7 +696,7 @@ class Server{
 	public function getOfflinePlayerData($name){
 		$name = strtolower($name);
 		$path = $this->getDataPath() . "players/";
-		if($this->shouldSavePlayerData() and file_exists($path . "$name.dat")){
+		if($this->shouldSavePlayerData() && file_exists($path . "$name.dat")){
 			try{
 				$nbt = new NBT(NBT::BIG_ENDIAN);
 				$nbt->readCompressed(file_get_contents($path . "$name.dat"));
@@ -930,7 +930,7 @@ class Server{
 	 * @param Level $level
 	 */
 	public function setDefaultLevel($level){
-		if($level === null or ($this->isLevelLoaded($level->getFolderName()) and $level !== $this->levelDefault)){
+		if($level === null || ($this->isLevelLoaded($level->getFolderName()) && $level !== $this->levelDefault)){
 			$this->levelDefault = $level;
 		}
 	}
@@ -981,7 +981,7 @@ class Server{
 	 * @throws \InvalidStateException
 	 */
 	public function unloadLevel(Level $level, $forceUnload = false){
-		if($level === $this->getDefaultLevel() and !$forceUnload){
+		if($level === $this->getDefaultLevel() && !$forceUnload){
 			throw new \InvalidStateException("The default level cannot be unloaded while running, please switch levels.");
 		}
 		if($level->unload($forceUnload) === true){
@@ -1059,7 +1059,7 @@ class Server{
 	 * @return bool
 	 */
 	public function generateLevel($name, $seed = null, $generator = null, $options = []){
-		if(trim($name) === "" or $this->isLevelGenerated($name)){
+		if(trim($name) === "" || $this->isLevelGenerated($name)){
 			return false;
 		}
 
@@ -1069,7 +1069,7 @@ class Server{
 			$options["preset"] = $this->getConfigString("generator-settings", "");
 		}
 
-		if(!($generator !== null and class_exists($generator, true) and is_subclass_of($generator, Generator::class))){
+		if(!($generator !== null && class_exists($generator, true) && is_subclass_of($generator, Generator::class))){
 			$generator = Generator::getGenerator($this->getLevelType());
 		}
 
@@ -1327,7 +1327,7 @@ class Server{
 	 * @return bool
 	 */
 	public function isWhitelisted($name){
-		return !$this->hasWhitelist() or $this->operators->exists($name, true) or $this->whitelist->exists($name, true);
+		return !$this->hasWhitelist() || $this->operators->exists($name, true) || $this->whitelist->exists($name, true);
 	}
 
 	/**
@@ -1507,7 +1507,7 @@ class Server{
 
 			$this->operators = new Config($this->dataPath . "ops.txt", Config::ENUM);
 			$this->whitelist = new Config($this->dataPath . "white-list.txt", Config::ENUM);
-			if(file_exists($this->dataPath . "banned.txt") and !file_exists($this->dataPath . "banned-players.txt")){
+			if(file_exists($this->dataPath . "banned.txt") && !file_exists($this->dataPath . "banned-players.txt")){
 				@rename($this->dataPath . "banned.txt", $this->dataPath . "banned-players.txt");
 			}
 			@touch($this->dataPath . "banned-players.txt");
@@ -1520,7 +1520,7 @@ class Server{
 			$this->maxPlayers = $this->getConfigInt("max-players", 20);
 			$this->setAutoSave($this->getConfigBoolean("auto-save", true));
 
-			if($this->getConfigBoolean("hardcore", false) === true and $this->getDifficulty() < 3){
+			if($this->getConfigBoolean("hardcore", false) === true && $this->getDifficulty() < 3){
 				$this->setConfigInt("difficulty", 3);
 			}
 
@@ -1630,7 +1630,7 @@ class Server{
 				}
 				if($this->loadLevel($default) === false){
 					$seed = getopt("", ["level-seed::"])["level-seed"] ?? $this->properties->get("level-seed", time());
-					if(!is_numeric($seed) or bccomp($seed, "9223372036854775807") > 0){
+					if(!is_numeric($seed) || bccomp($seed, "9223372036854775807") > 0){
 						$seed = Utils::javaStringHash($seed);
 					}elseif(PHP_INT_SIZE === 8){
 						$seed = (int) $seed;
@@ -1694,7 +1694,7 @@ class Server{
 			$recipients = [];
 
 			foreach($this->pluginManager->getPermissionSubscriptions(self::BROADCAST_CHANNEL_USERS) as $permissible){
-				if($permissible instanceof Player and $permissible->hasPermission(self::BROADCAST_CHANNEL_USERS)){
+				if($permissible instanceof Player && $permissible->hasPermission(self::BROADCAST_CHANNEL_USERS)){
 					$recipients[spl_object_hash($permissible)] = $permissible; // do not send messages directly, or some might be repeated
 				}
 			}
@@ -1720,7 +1720,7 @@ class Server{
 			$recipients = [];
 
 			foreach($this->pluginManager->getPermissionSubscriptions(self::BROADCAST_CHANNEL_USERS) as $permissible){
-				if($permissible instanceof Player and $permissible->hasPermission(self::BROADCAST_CHANNEL_USERS)){
+				if($permissible instanceof Player && $permissible->hasPermission(self::BROADCAST_CHANNEL_USERS)){
 					$recipients[spl_object_hash($permissible)] = $permissible; // do not send messages directly, or some might be repeated
 				}
 			}
@@ -1745,7 +1745,7 @@ class Server{
 		$recipients = [];
 		foreach(explode(";", $permissions) as $permission){
 			foreach($this->pluginManager->getPermissionSubscriptions($permission) as $permissible){
-				if($permissible instanceof CommandSender and $permissible->hasPermission($permission)){
+				if($permissible instanceof CommandSender && $permissible->hasPermission($permission)){
 					$recipients[spl_object_hash($permissible)] = $permissible; // do not send messages directly, or some might be repeated
 				}
 			}
@@ -1767,7 +1767,7 @@ class Server{
 	public static function broadcastPacket(array $players, DataPacket $packet){
 		$packet->encode();
 		$packet->isEncoded = true;
-		if(Network::$BATCH_THRESHOLD >= 0 and strlen($packet->buffer) >= Network::$BATCH_THRESHOLD){
+		if(Network::$BATCH_THRESHOLD >= 0 && strlen($packet->buffer) >= Network::$BATCH_THRESHOLD){
 			Server::getInstance()->batchPackets($players, [$packet->buffer], false);
 			return;
 		}
@@ -1809,7 +1809,7 @@ class Server{
 			}
 		}
 
-		if(!$forceSync and $this->networkCompressionAsync){
+		if(!$forceSync && $this->networkCompressionAsync){
 			$task = new CompressBatchedTask($str, $targets, $this->networkCompressionLevel);
 			$this->getScheduler()->scheduleAsyncTask($task);
 		}else{
@@ -1838,7 +1838,7 @@ class Server{
 	 */
 	public function enablePlugins($type){
 		foreach($this->pluginManager->getPlugins() as $plugin){
-			if(!$plugin->isEnabled() and $plugin->getDescription()->getOrder() === $type){
+			if(!$plugin->isEnabled() && $plugin->getDescription()->getOrder() === $type){
 				$this->enablePlugin($plugin);
 			}
 		}
@@ -1907,7 +1907,7 @@ class Server{
 		$this->properties->reload();
 		$this->maxPlayers = $this->getConfigInt("max-players", 20);
 
-		if($this->getConfigBoolean("hardcore", false) === true and $this->getDifficulty() < 3){
+		if($this->getConfigBoolean("hardcore", false) === true && $this->getDifficulty() < 3){
 			$this->setConfigInt("difficulty", 3);
 		}
 
@@ -2045,7 +2045,7 @@ class Server{
 	}
 
 	public function handleSignal($signo){
-		if($signo === SIGTERM or $signo === SIGINT or $signo === SIGHUP){
+		if($signo === SIGTERM || $signo === SIGINT || $signo === SIGHUP){
 			$this->shutdown();
 		}
 	}
@@ -2066,7 +2066,7 @@ class Server{
 		$errno = $e->getCode();
 		$errline = $e->getLine();
 
-		$type = ($errno === E_ERROR or $errno === E_USER_ERROR) ? \LogLevel::ERROR : (($errno === E_USER_WARNING or $errno === E_WARNING) ? \LogLevel::WARNING : \LogLevel::NOTICE);
+		$type = ($errno === E_ERROR || $errno === E_USER_ERROR) ? \LogLevel::ERROR : (($errno === E_USER_WARNING || $errno === E_WARNING) ? \LogLevel::WARNING : \LogLevel::NOTICE);
 		if(($pos = strpos($errstr, "\n")) !== false){
 			$errstr = substr($errstr, 0, $pos);
 		}
@@ -2116,13 +2116,13 @@ class Server{
 			$plugin = $dump->getData()["plugin"];
 			if(is_string($plugin)){
 				$p = $this->pluginManager->getPlugin($plugin);
-				if($p instanceof Plugin and !($p->getPluginLoader() instanceof PharPluginLoader)){
+				if($p instanceof Plugin && !($p->getPluginLoader() instanceof PharPluginLoader)){
 					$report = false;
 				}
 			}elseif(\Phar::running(true) == ""){
 				$report = false;
 			}
-			if($dump->getData()["error"]["type"] === "E_PARSE" or $dump->getData()["error"]["type"] === "E_COMPILE_ERROR"){
+			if($dump->getData()["error"]["type"] === "E_PARSE" || $dump->getData()["error"]["type"] === "E_COMPILE_ERROR"){
 				$report = false;
 			}
 
@@ -2134,7 +2134,7 @@ class Server{
 					"reportPaste" => base64_encode($dump->getEncodedData())
 				]);
 
-				if(($data = json_decode($reply)) !== false and isset($data->crashId)){
+				if(($data = json_decode($reply)) !== false && isset($data->crashId)){
 					$reportId = $data->crashId;
 					$reportUrl = $data->crashUrl;
 					$this->logger->emergency($this->getLanguage()->translateString("pocketmine.crash.archive", [$reportUrl, $reportId]));
@@ -2246,7 +2246,7 @@ class Server{
 
 	private function checkTickUpdates($currentTick, $tickTime){
 		foreach($this->players as $p){
-			if(!$p->loggedIn and ($tickTime - $p->creationTime) >= 10){
+			if(!$p->loggedIn && ($tickTime - $p->creationTime) >= 10){
 				$p->close("", "Login timeout");
 			}elseif($this->alwaysTickPlayers){
 				$p->onUpdate($currentTick);
@@ -2255,7 +2255,7 @@ class Server{
 
 		//Do level ticks
 		foreach($this->getLevels() as $level){
-			if($level->getTickRate() > $this->baseTickRate and --$level->tickRateCounter > 0){
+			if($level->getTickRate() > $this->baseTickRate && --$level->tickRateCounter > 0){
 				continue;
 			}
 			try{
@@ -2265,7 +2265,7 @@ class Server{
 				$level->tickRateTime = $tickMs;
 
 				if($this->autoTickRate){
-					if($tickMs < 50 and $level->getTickRate() > $this->baseTickRate){
+					if($tickMs < 50 && $level->getTickRate() > $this->baseTickRate){
 						$level->setTickRate($r = $level->getTickRate() - 1);
 						if($r > $this->baseTickRate){
 							$level->tickRateCounter = $level->getTickRate();
@@ -2275,7 +2275,7 @@ class Server{
 						if($level->getTickRate() === $this->baseTickRate){
 							$level->setTickRate(max($this->baseTickRate + 1, min($this->autoTickRateLimit, floor($tickMs / 50))));
 							$this->getLogger()->debug("Level \"".$level->getName()."\" took ".round($tickMs, 2)."ms, setting tick rate to ".$level->getTickRate()." ticks");
-						}elseif(($tickMs / $level->getTickRate()) >= 50 and $level->getTickRate() < $this->autoTickRateLimit){
+						}elseif(($tickMs / $level->getTickRate()) >= 50 && $level->getTickRate() < $this->autoTickRateLimit){
 							$level->setTickRate($level->getTickRate() + 1);
 							$this->getLogger()->debug("Level \"".$level->getName()."\" took ".round($tickMs, 2)."ms, setting tick rate to ".$level->getTickRate()." ticks");
 						}
@@ -2372,7 +2372,7 @@ class Server{
 	 */
 	public function handlePacket($address, $port, $payload){
 		try{
-			if(strlen($payload) > 2 and substr($payload, 0, 2) === "\xfe\xfd" and $this->queryHandler instanceof QueryHandler){
+			if(strlen($payload) > 2 && substr($payload, 0, 2) === "\xfe\xfd" && $this->queryHandler instanceof QueryHandler){
 				$this->queryHandler->handle($address, $port, $payload);
 			}
 		}catch(\Throwable $e){
@@ -2439,12 +2439,12 @@ class Server{
 			$this->getNetwork()->updateName();
 		}
 
-		if($this->autoSave and ++$this->autoSaveTicker >= $this->autoSaveTicks){
+		if($this->autoSave && ++$this->autoSaveTicker >= $this->autoSaveTicks){
 			$this->autoSaveTicker = 0;
 			$this->doAutoSave();
 		}
 
-		if($this->sendUsageTicker > 0 and --$this->sendUsageTicker === 0){
+		if($this->sendUsageTicker > 0 && --$this->sendUsageTicker === 0){
 			$this->sendUsageTicker = 6000;
 			$this->sendUsage(SendUsageTask::TYPE_STATUS);
 		}
@@ -2459,7 +2459,7 @@ class Server{
 			}
 		}
 
-		if($this->dispatchSignals and $this->tickCounter % 5 === 0){
+		if($this->dispatchSignals && $this->tickCounter % 5 === 0){
 			pcntl_signal_dispatch();
 		}
 

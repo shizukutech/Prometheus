@@ -55,11 +55,11 @@ class PlayerInventory extends BaseInventory{
 	}
 
 	public function getHotbarSlotIndex($index){
-		return ($index >= 0 and $index < $this->getHotbarSize()) ? $this->hotbar[$index] : -1;
+		return ($index >= 0 && $index < $this->getHotbarSize()) ? $this->hotbar[$index] : -1;
 	}
 
 	public function setHotbarSlotIndex($index, $slot){
-		if($index >= 0 and $index < $this->getHotbarSize() and $slot >= -1 and $slot < $this->getSize()){
+		if($index >= 0 && $index < $this->getHotbarSize() && $slot >= -1 && $slot < $this->getSize()){
 			$this->hotbar[$index] = $slot;
 		}
 	}
@@ -69,7 +69,7 @@ class PlayerInventory extends BaseInventory{
 	}
 
 	public function setHeldItemIndex($index){
-		if($index >= 0 and $index < $this->getHotbarSize()){
+		if($index >= 0 && $index < $this->getHotbarSize()){
 			$this->itemInHandIndex = $index;
 
 			if($this->getHolder() instanceof Player){
@@ -103,7 +103,7 @@ class PlayerInventory extends BaseInventory{
 	}
 
 	public function setHeldItemSlot($slot){
-		if($slot >= -1 and $slot < $this->getSize()){
+		if($slot >= -1 && $slot < $this->getSize()){
 			$item = $this->getItem($slot);
 
 			$itemIndex = $this->getHeldItemIndex();
@@ -150,7 +150,7 @@ class PlayerInventory extends BaseInventory{
 
 	public function onSlotChange($index, $before){
 		$holder = $this->getHolder();
-		if($holder instanceof Player and !$holder->spawned){
+		if($holder instanceof Player && !$holder->spawned){
 			return;
 		}
 
@@ -207,15 +207,15 @@ class PlayerInventory extends BaseInventory{
 	}
 
 	public function setItem($index, Item $item){
-		if($index < 0 or $index >= $this->size){
+		if($index < 0 || $index >= $this->size){
 			return false;
-		}elseif($item->getId() === 0 or $item->getCount() <= 0){
+		}elseif($item->getId() === 0 || $item->getCount() <= 0){
 			return $this->clear($index);
 		}
 
 		if($index >= $this->getSize()){ //Armor change
 			Server::getInstance()->getPluginManager()->callEvent($ev = new EntityArmorChangeEvent($this->getHolder(), $this->getItem($index), $item, $index));
-			if($ev->isCancelled() and $this->getHolder() instanceof Human){
+			if($ev->isCancelled() && $this->getHolder() instanceof Human){
 				$this->sendArmorSlot($index, $this->getViewers());
 				return false;
 			}
@@ -241,7 +241,7 @@ class PlayerInventory extends BaseInventory{
 		if(isset($this->slots[$index])){
 			$item = Item::get(Item::AIR, null, 0);
 			$old = $this->slots[$index];
-			if($index >= $this->getSize() and $index < $this->size){ //Armor change
+			if($index >= $this->getSize() && $index < $this->size){ //Armor change
 				Server::getInstance()->getPluginManager()->callEvent($ev = new EntityArmorChangeEvent($this->getHolder(), $old, $item, $index));
 				if($ev->isCancelled()){
 					if($index >= $this->size){
@@ -330,7 +330,7 @@ class PlayerInventory extends BaseInventory{
 	 */
 	public function setArmorContents(array $items){
 		for($i = 0; $i < 4; ++$i){
-			if(!isset($items[$i]) or !($items[$i] instanceof Item)){
+			if(!isset($items[$i]) || !($items[$i] instanceof Item)){
 				$items[$i] = Item::get(Item::AIR, null, 0);
 			}
 
@@ -385,7 +385,7 @@ class PlayerInventory extends BaseInventory{
 		$pk = new ContainerSetContentPacket();
 		$pk->slots = [];
 		$holder = $this->getHolder();
-		if($holder instanceof Player and $holder->isCreative()){
+		if($holder instanceof Player && $holder->isCreative()){
 			//TODO: Remove this workaround because of broken client
 			foreach(Item::getCreativeItems() as $i => $item){
 				$pk->slots[$i] = Item::getCreativeItem($i);
@@ -404,7 +404,7 @@ class PlayerInventory extends BaseInventory{
 					$pk->hotbar[] = $index <= -1 ? -1 : $index + 9;
 				}
 			}
-			if(($id = $player->getWindowId($this)) === -1 or $player->spawned !== true){
+			if(($id = $player->getWindowId($this)) === -1 || $player->spawned !== true){
 				$this->close($player);
 				continue;
 			}

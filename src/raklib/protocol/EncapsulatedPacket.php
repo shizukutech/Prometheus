@@ -83,12 +83,12 @@ class EncapsulatedPacket{
          */
 
 		if($reliability > 0){
-			if($reliability >= 2 and $reliability !== 5){
+			if($reliability >= 2 && $reliability !== 5){
 				$packet->messageIndex = Binary::readLTriad(substr($binary, $offset, 3));
 				$offset += 3;
 			}
 
-			if($reliability <= 4 and $reliability !== 2){
+			if($reliability <= 4 && $reliability !== 2){
 				$packet->orderIndex = Binary::readLTriad(substr($binary, $offset, 3));
 				$offset += 3;
 				$packet->orderChannel = ord($binary[$offset++]);
@@ -124,8 +124,8 @@ class EncapsulatedPacket{
 			chr(($this->reliability << 5) | ($this->hasSplit ? 0b00010000 : 0)) .
 			($internal ? Binary::writeInt(strlen($this->buffer)) . Binary::writeInt($this->identifierACK) : Binary::writeShort(strlen($this->buffer) << 3)) .
 			($this->reliability > 0 ?
-				(($this->reliability >= 2 and $this->reliability !== 5) ? Binary::writeLTriad($this->messageIndex) : "") .
-				(($this->reliability <= 4 and $this->reliability !== 2) ? Binary::writeLTriad($this->orderIndex) . chr($this->orderChannel) : "")
+				(($this->reliability >= 2 && $this->reliability !== 5) ? Binary::writeLTriad($this->messageIndex) : "") .
+				(($this->reliability <= 4 && $this->reliability !== 2) ? Binary::writeLTriad($this->orderIndex) . chr($this->orderChannel) : "")
 				: ""
 			) .
 			($this->hasSplit ? Binary::writeInt($this->splitCount) . Binary::writeShort($this->splitID) . Binary::writeInt($this->splitIndex) : "")

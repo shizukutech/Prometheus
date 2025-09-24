@@ -69,12 +69,12 @@ class RCONInstance extends Thread{
 			return false;
 		}elseif($d === false){
 			return null;
-		}elseif($d === "" or strlen($d) < 4){
+		}elseif($d === "" || strlen($d) < 4){
 			return false;
 		}
 		socket_set_block($client);
 		$size = Binary::readLInt($d);
-		if($size < 0 or $size > 65535){
+		if($size < 0 || $size > 65535){
 			return false;
 		}
 		$requestID = Binary::readLInt(socket_read($client, 4));
@@ -119,8 +119,8 @@ class RCONInstance extends Thread{
 			for($n = 0; $n < $this->maxClients; ++$n){
 				$client = &$this->{"client" . $n};
 				if($client !== null){
-					if($this->{"status" . $n} !== -1 and $this->stop !== true){
-						if($this->{"status" . $n} === 0 and $this->{"timeout" . $n} < microtime(true)){ //Timeout
+					if($this->{"status" . $n} !== -1 && $this->stop !== true){
+						if($this->{"status" . $n} === 0 && $this->{"timeout" . $n} < microtime(true)){ //Timeout
 							$this->{"status" . $n} = -1;
 							continue;
 						}

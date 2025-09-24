@@ -117,7 +117,7 @@ class ChunkRequestTask extends AsyncTask{
 
 	public function onCompletion(Server $server){
 		$level = $server->getLevel($this->levelId);
-		if($level instanceof Level and $this->hasResult()){
+		if($level instanceof Level && $this->hasResult()){
 			$level->chunkRequestCallback($this->chunkX, $this->chunkZ, $this->getResult());
 		}
 	}

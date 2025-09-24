@@ -68,7 +68,7 @@ class Leaves extends Transparent{
 		}
 		if($pos->getId() === self::WOOD){
 			return true;
-		}elseif($pos->getId() === self::LEAVES and $distance < 3){
+		}elseif($pos->getId() === self::LEAVES && $distance < 3){
 			$visited[$index] = true;
 			$down = $pos->getSide(0)->getId();
 			if($down === Item::WOOD){
@@ -139,7 +139,7 @@ class Leaves extends Transparent{
 
 				Server::getInstance()->getPluginManager()->callEvent($ev = new LeavesDecayEvent($this));
 
-				if($ev->isCancelled() or $this->findLog($this, $visited, 0, $check) === true){
+				if($ev->isCancelled() || $this->findLog($this, $visited, 0, $check) === true){
 					$this->getLevel()->setBlock($this, $this, false, false);
 				}else{
 					$this->getLevel()->useBreakOn($this);
@@ -165,7 +165,7 @@ class Leaves extends Transparent{
 			if(mt_rand(1, 20) === 1){ //Saplings
 				$drops[] = [Item::SAPLING, $this->meta & 0x03, 1];
 			}
-			if(($this->meta & 0x03) === self::OAK and mt_rand(1, 200) === 1){ //Apples
+			if(($this->meta & 0x03) === self::OAK && mt_rand(1, 200) === 1){ //Apples
 				$drops[] = [Item::APPLE, 0, 1];
 			}
 		}

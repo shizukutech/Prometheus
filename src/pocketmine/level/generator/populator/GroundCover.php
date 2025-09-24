@@ -42,15 +42,15 @@ class GroundCover extends Populator{
 
 					$column = $chunk->getBlockIdColumn($x, $z);
 					for($y = 127; $y > 0; --$y){
-						if($column[$y] !== "\x00" and !Block::get(ord($column[$y]))->isTransparent()){
+						if($column[$y] !== "\x00" && !Block::get(ord($column[$y]))->isTransparent()){
 							break;
 						}
 					}
 					$startY = min(127, $y + $diffY);
 					$endY = $startY - count($cover);
-					for($y = $startY; $y > $endY and $y >= 0; --$y){
+					for($y = $startY; $y > $endY && $y >= 0; --$y){
 						$b = $cover[$startY - $y];
-						if($column[$y] === "\x00" and $b->isSolid()){
+						if($column[$y] === "\x00" && $b->isSolid()){
 							break;
 						}
 						if($b->getDamage() === 0){

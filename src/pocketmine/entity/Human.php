@@ -264,18 +264,18 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 				$this->setNameTag($this->namedtag["NameTag"]);
 			}
 
-			if(isset($this->namedtag->Skin) and $this->namedtag->Skin instanceof CompoundTag){
+			if(isset($this->namedtag->Skin) && $this->namedtag->Skin instanceof CompoundTag){
 				$this->setSkin($this->namedtag->Skin["Data"], $this->namedtag->Skin["Name"]);
 			}
 
 			$this->uuid = UUID::fromData($this->getId(), $this->getSkinData(), $this->getNameTag());
 		}
 
-		if(isset($this->namedtag->Inventory) and $this->namedtag->Inventory instanceof ListTag){
+		if(isset($this->namedtag->Inventory) && $this->namedtag->Inventory instanceof ListTag){
 			foreach($this->namedtag->Inventory as $item){
-				if($item["Slot"] >= 0 and $item["Slot"] < 9){ //Hotbar
+				if($item["Slot"] >= 0 && $item["Slot"] < 9){ //Hotbar
 					$this->inventory->setHotbarSlotIndex($item["Slot"], isset($item["TrueSlot"]) ? $item["TrueSlot"] : -1);
-				}elseif($item["Slot"] >= 100 and $item["Slot"] < 104){ //Armor
+				}elseif($item["Slot"] >= 100 && $item["Slot"] < 104){ //Armor
 					$this->inventory->setItem($this->inventory->getSize() + $item["Slot"] - 100, NBT::getItemHelper($item));
 				}else{
 					$this->inventory->setItem($item["Slot"] - 9, NBT::getItemHelper($item));
@@ -285,47 +285,47 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 		parent::initEntity();
 
-		if(!isset($this->namedtag->foodLevel) or !($this->namedtag->foodLevel instanceof IntTag)){
+		if(!isset($this->namedtag->foodLevel) || !($this->namedtag->foodLevel instanceof IntTag)){
 			$this->namedtag->foodLevel = new IntTag("foodLevel", $this->getFood());
 		}else{
 			$this->setFood($this->namedtag["foodLevel"]);
 		}
 
-		if(!isset($this->namedtag->foodExhaustionLevel) or !($this->namedtag->foodExhaustionLevel instanceof IntTag)){
+		if(!isset($this->namedtag->foodExhaustionLevel) || !($this->namedtag->foodExhaustionLevel instanceof IntTag)){
 			$this->namedtag->foodExhaustionLevel = new FloatTag("foodExhaustionLevel", $this->getExhaustion());
 		}else{
 			$this->setExhaustion($this->namedtag["foodExhaustionLevel"]);
 		}
 
-		if(!isset($this->namedtag->foodSaturationLevel) or !($this->namedtag->foodSaturationLevel instanceof IntTag)){
+		if(!isset($this->namedtag->foodSaturationLevel) || !($this->namedtag->foodSaturationLevel instanceof IntTag)){
 			$this->namedtag->foodSaturationLevel = new FloatTag("foodSaturationLevel", $this->getSaturation());
 		}else{
 			$this->setSaturation($this->namedtag["foodSaturationLevel"]);
 		}
 
-		if(!isset($this->namedtag->foodTickTimer) or !($this->namedtag->foodTickTimer instanceof IntTag)){
+		if(!isset($this->namedtag->foodTickTimer) || !($this->namedtag->foodTickTimer instanceof IntTag)){
 			$this->namedtag->foodTickTimer = new IntTag("foodTickTimer", $this->foodTickTimer);
 		}else{
 			$this->foodTickTimer = $this->namedtag["foodTickTimer"];
 		}
 
-		if(!isset($this->namedtag->XpLevel) or !($this->namedtag->XpLevel instanceof IntTag)){
+		if(!isset($this->namedtag->XpLevel) || !($this->namedtag->XpLevel instanceof IntTag)){
 			$this->namedtag->XpLevel = new IntTag("XpLevel", $this->getXpLevel());
 		}else{
 			$this->setXpLevel($this->namedtag["XpLevel"]);
 		}
 
-		if(!isset($this->namedtag->XpP) or !($this->namedtag->XpP instanceof FloatTag)){
+		if(!isset($this->namedtag->XpP) || !($this->namedtag->XpP instanceof FloatTag)){
 			$this->namedtag->XpP = new FloatTag("XpP", $this->getXpProgress());
 		}
 
-		if(!isset($this->namedtag->XpTotal) or !($this->namedtag->XpTotal instanceof IntTag)){
+		if(!isset($this->namedtag->XpTotal) || !($this->namedtag->XpTotal instanceof IntTag)){
 			$this->namedtag->XpTotal = new IntTag("XpTotal", $this->totalXp);
 		}else{
 			$this->totalXp = $this->namedtag["XpTotal"];
 		}
 
-		if(!isset($this->namedtag->XpSeed) or !($this->namedtag->XpSeed instanceof IntTag)){
+		if(!isset($this->namedtag->XpSeed) || !($this->namedtag->XpSeed instanceof IntTag)){
 			$this->namedtag->XpSeed = new IntTag("XpSeed", $this->xpSeed ?? ($this->xpSeed = mt_rand(PHP_INT_MIN, PHP_INT_MAX)));
 		}else{
 			$this->xpSeed = $this->namedtag["XpSeed"];
@@ -349,7 +349,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		$health = $this->getHealth();
 		if($food >= 18){
 			$this->foodTickTimer++;
-			if($this->foodTickTimer >= 80 and $health < $this->getMaxHealth()){
+			if($this->foodTickTimer >= 80 && $health < $this->getMaxHealth()){
 				$this->heal(1, new EntityRegainHealthEvent($this, 1, EntityRegainHealthEvent::CAUSE_SATURATION));
 				$this->exhaust(3.0, PlayerExhaustEvent::CAUSE_HEALTH_REGEN);
 				$this->foodTickTimer = 0;
@@ -405,7 +405,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 				$hotbarSlot = $this->inventory->getHotbarSlotIndex($slot);
 				if($hotbarSlot !== -1){
 					$item = $this->inventory->getItem($hotbarSlot);
-					if($item->getId() !== 0 and $item->getCount() > 0){
+					if($item->getId() !== 0 && $item->getCount() > 0){
 						$tag = NBT::putItemHelper($item, $slot);
 						$tag->TrueSlot = new ByteTag("TrueSlot", $hotbarSlot);
 						$this->namedtag->Inventory[$slot] = $tag;
@@ -434,7 +434,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			//Armor
 			for($slot = 100; $slot < 104; ++$slot){
 				$item = $this->inventory->getItem($this->inventory->getSize() + $slot - 100);
-				if($item instanceof ItemItem and $item->getId() !== ItemItem::AIR){
+				if($item instanceof ItemItem && $item->getId() !== ItemItem::AIR){
 					$this->namedtag->Inventory[$slot] = NBT::putItemHelper($item, $slot);
 				}
 			}
@@ -449,7 +449,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	}
 
 	public function spawnTo(Player $player){
-		if($player !== $this and !isset($this->hasSpawned[$player->getLoaderId()])){
+		if($player !== $this && !isset($this->hasSpawned[$player->getLoaderId()])){
 			$this->hasSpawned[$player->getLoaderId()] = $player;
 
 			if(strlen($this->skin) < 64 * 32 * 4){
@@ -497,7 +497,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	public function close(){
 		if(!$this->closed){
-			if(!($this instanceof Player) or $this->loggedIn){
+			if(!($this instanceof Player) || $this->loggedIn){
 				foreach($this->inventory->getViewers() as $viewer){
 					$viewer->removeWindow($this->inventory);
 				}

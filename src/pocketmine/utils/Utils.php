@@ -61,7 +61,7 @@ class Utils{
 	 * @return UUID
 	 */
 	public static function getMachineUniqueId($extra = ""){
-		if(self::$serverUniqueId !== null and $extra === ""){
+		if(self::$serverUniqueId !== null && $extra === ""){
 			return self::$serverUniqueId;
 		}
 
@@ -129,7 +129,7 @@ class Utils{
 	public static function getIP($force = false){
 		if(Utils::$online === false){
 			return false;
-		}elseif(Utils::$ip !== false and $force !== true){
+		}elseif(Utils::$ip !== false && $force !== true){
 			return Utils::$ip;
 		}
 		$ip = trim(strip_tags(Utils::getURL("http://checkip.dyndns.org/")));
@@ -171,7 +171,7 @@ class Utils{
 	 * @return string
 	 */
 	public static function getOS($recalculate = false){
-		if(self::$os === null or $recalculate){
+		if(self::$os === null || $recalculate){
 			$uname = php_uname("s");
 			if(stripos($uname, "Darwin") !== false){
 				if(strpos(php_uname("m"), "iP") === 0){
@@ -179,7 +179,7 @@ class Utils{
 				}else{
 					self::$os = "mac";
 				}
-			}elseif(stripos($uname, "Win") !== false or $uname === "Msys"){
+			}elseif(stripos($uname, "Win") !== false || $uname === "Msys"){
 				self::$os = "win";
 			}elseif(stripos($uname, "Linux") !== false){
 				if(@file_exists("/system/build.prop")){
@@ -187,7 +187,7 @@ class Utils{
 				}else{
 					self::$os = "linux";
 				}
-			}elseif(stripos($uname, "BSD") !== false or $uname === "DragonFly"){
+			}elseif(stripos($uname, "BSD") !== false || $uname === "DragonFly"){
 				self::$os = "bsd";
 			}else{
 				self::$os = "other";
@@ -202,7 +202,7 @@ class Utils{
 		$stack = 0;
 		$heap = 0;
 
-		if(Utils::getOS() === "linux" or Utils::getOS() === "android"){
+		if(Utils::getOS() === "linux" || Utils::getOS() === "android"){
 			$mappings = file("/proc/self/maps");
 			foreach($mappings as $line){
 				if(preg_match("#([a-z0-9]+)\\-([a-z0-9]+) [rwxp\\-]{4} [a-z0-9]+ [^\\[]*\\[([a-zA-z0-9]+)\\]#", trim($line), $matches) > 0){
@@ -222,7 +222,7 @@ class Utils{
 		$reserved = memory_get_usage();
 		$VmSize = null;
 		$VmRSS = null;
-		if(Utils::getOS() === "linux" or Utils::getOS() === "android"){
+		if(Utils::getOS() === "linux" || Utils::getOS() === "android"){
 			$status = file_get_contents("/proc/self/status");
 			if(preg_match("/VmRSS:[ \t]+([0-9]+) kB/", $status, $matches) > 0){
 				$VmRSS = $matches[1] * 1024;
@@ -251,7 +251,7 @@ class Utils{
 	}
 
 	public static function getThreadCount(){
-		if(Utils::getOS() === "linux" or Utils::getOS() === "android"){
+		if(Utils::getOS() === "linux" || Utils::getOS() === "android"){
 			if(preg_match("/Threads:[ \t]+([0-9]+)/", file_get_contents("/proc/self/status"), $matches) > 0){
 				return (int) $matches[1];
 			}
@@ -264,7 +264,7 @@ class Utils{
 	public static function getCoreCount($recalculate = false){
 		static $processors = 0;
 
-		if($processors > 0 and !$recalculate){
+		if($processors > 0 && !$recalculate){
 			return $processors;
 		}else{
 			$processors = 0;

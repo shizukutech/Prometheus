@@ -78,7 +78,7 @@ class Explosion{
 		for($i = 0; $i < $this->rays; ++$i){
 			for($j = 0; $j < $this->rays; ++$j){
 				for($k = 0; $k < $this->rays; ++$k){
-					if($i === 0 or $i === $mRays or $j === 0 or $j === $mRays or $k === 0 or $k === $mRays){
+					if($i === 0 || $i === $mRays || $j === 0 || $j === $mRays || $k === 0 || $k === $mRays){
 						$vector->setComponents($i / $mRays * 2 - 1, $j / $mRays * 2 - 1, $k / $mRays * 2 - 1);
 						$vector->setComponents(($vector->x / ($len = $vector->length())) * $this->stepLen, ($vector->y / $len) * $this->stepLen, ($vector->z / $len) * $this->stepLen);
 						$pointerX = $this->source->x;
@@ -92,7 +92,7 @@ class Explosion{
 							$vBlock->x = $pointerX >= $x ? $x : $x - 1;
 							$vBlock->y = $pointerY >= $y ? $y : $y - 1;
 							$vBlock->z = $pointerZ >= $z ? $z : $z - 1;
-							if($vBlock->y < 0 or $vBlock->y > 127){
+							if($vBlock->y < 0 || $vBlock->y > 127){
 								break;
 							}
 							$block = $this->level->getBlock($vBlock);
@@ -204,7 +204,7 @@ class Explosion{
 
 			for($side = 0; $side < 5; $side++){
 				$sideBlock = $pos->getSide($side);
-				if(!isset($this->affectedBlocks[$index = Level::blockHash($sideBlock->x, $sideBlock->y, $sideBlock->z)]) and !isset($updateBlocks[$index])){
+				if(!isset($this->affectedBlocks[$index = Level::blockHash($sideBlock->x, $sideBlock->y, $sideBlock->z)]) && !isset($updateBlocks[$index])){
 					$this->level->getServer()->getPluginManager()->callEvent($ev = new BlockUpdateEvent($this->level->getBlock($sideBlock)));
 					if(!$ev->isCancelled()){
 						$ev->getBlock()->onUpdate(Level::BLOCK_UPDATE_NORMAL);

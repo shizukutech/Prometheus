@@ -55,7 +55,7 @@ class InstallerLang{
 		}else{
 			$files = [];
 			foreach(new \DirectoryIterator(\pocketmine\PATH . "src/pocketmine/lang/Installer/") as $file){
-				if($file->getExtension() === "ini" and substr($file->getFilename(), 0, 2) === $lang){
+				if($file->getExtension() === "ini" && substr($file->getFilename(), 0, 2) === $lang){
 					$files[$file->getFilename()] = $file->getSize();
 				}
 			}
@@ -99,7 +99,7 @@ class InstallerLang{
 
 	public function get($name, $search = [], $replace = []){
 		if(!isset($this->texts[$this->lang][$name])){
-			if($this->lang !== "en" and isset($this->texts["en"][$name])){
+			if($this->lang !== "en" && isset($this->texts["en"][$name])){
 				return $this->texts["en"][$name];
 			}else{
 				return $name;

@@ -47,9 +47,9 @@ class AutoUpdater{
 				}
 			}elseif($this->server->getProperty("auto-updater.preferred-channel", true)){
 				$version = new VersionString();
-				if(!$version->isDev() and $this->getChannel() !== "stable"){
+				if(!$version->isDev() && $this->getChannel() !== "stable"){
 					$this->showChannelSuggestionStable();
-				}elseif($version->isDev() and $this->getChannel() === "stable"){
+				}elseif($version->isDev() && $this->getChannel() === "stable"){
 					$this->showChannelSuggestionBeta();
 				}
 			}
@@ -130,7 +130,7 @@ class AutoUpdater{
 		$currentVersion = new VersionString($this->server->getPocketMineVersion());
 		$newVersion = new VersionString($this->updateInfo["version"]);
 
-		if($currentVersion->compare($newVersion) > 0 and ($currentVersion->get() !== $newVersion->get() or $currentVersion->getBuild() > 0)){
+		if($currentVersion->compare($newVersion) > 0 && ($currentVersion->get() !== $newVersion->get() || $currentVersion->getBuild() > 0)){
 			$this->hasUpdate = true;
 		}else{
 			$this->hasUpdate = false;
@@ -140,7 +140,7 @@ class AutoUpdater{
 
 	public function getChannel(){
 		$channel = strtolower($this->server->getProperty("auto-updater.preferred-channel", "stable"));
-		if($channel !== "stable" and $channel !== "beta" and $channel !== "development"){
+		if($channel !== "stable" && $channel !== "beta" && $channel !== "development"){
 			$channel = "stable";
 		}
 

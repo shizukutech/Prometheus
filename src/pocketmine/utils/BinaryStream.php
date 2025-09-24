@@ -173,7 +173,7 @@ class BinaryStream extends \stdClass{
 
 	public function getDataArray($len = 10){
 		$data = [];
-		for($i = 1; $i <= $len and !$this->feof(); ++$i){
+		for($i = 1; $i <= $len && !$this->feof(); ++$i){
 			$data[] = $this->get($this->getTriad());
 		}
 

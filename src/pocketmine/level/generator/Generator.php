@@ -33,7 +33,7 @@ abstract class Generator{
 	private static $list = [];
 
 	public static function addGenerator($object, $name){
-		if(is_subclass_of($object, Generator::class) and !isset(Generator::$list[$name = strtolower($name)])){
+		if(is_subclass_of($object, Generator::class) && !isset(Generator::$list[$name = strtolower($name)])){
 			Generator::$list[$name] = $object;
 
 			return true;
@@ -143,7 +143,7 @@ abstract class Generator{
 			}
 
 			for($zz = 0; $zz < $zSize; ++$zz){
-				if($xx % $samplingRate !== 0 or $zz % $samplingRate !== 0){
+				if($xx % $samplingRate !== 0 || $zz % $samplingRate !== 0){
 					$nx = (int) ($xx / $samplingRate) * $samplingRate;
 					$nz = (int) ($zz / $samplingRate) * $samplingRate;
 					$noiseArray[$xx][$zz] = Noise::bilinearLerp(
@@ -198,7 +198,7 @@ abstract class Generator{
 		for($xx = 0; $xx < $xSize; ++$xx){
 			for($zz = 0; $zz < $zSize; ++$zz){
 				for($yy = 0; $yy < $ySize; ++$yy){
-					if($xx % $xSamplingRate !== 0 or $zz % $zSamplingRate !== 0 or $yy % $ySamplingRate !== 0){
+					if($xx % $xSamplingRate !== 0 || $zz % $zSamplingRate !== 0 || $yy % $ySamplingRate !== 0){
 						$nx = (int) ($xx / $xSamplingRate) * $xSamplingRate;
 						$ny = (int) ($yy / $ySamplingRate) * $ySamplingRate;
 						$nz = (int) ($zz / $zSamplingRate) * $zSamplingRate;

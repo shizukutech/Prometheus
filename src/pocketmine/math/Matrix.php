@@ -67,7 +67,7 @@ class Matrix implements \ArrayAccess{
 	}
 
 	public function setElement($row, $column, $value){
-		if($row > $this->rows or $row < 0 or $column > $this->columns or $column < 0){
+		if($row > $this->rows || $row < 0 || $column > $this->columns || $column < 0){
 			return false;
 		}
 		$this->matrix[(int) $row][(int) $column] = $value;
@@ -76,7 +76,7 @@ class Matrix implements \ArrayAccess{
 	}
 
 	public function getElement($row, $column){
-		if($row > $this->rows or $row < 0 or $column > $this->columns or $column < 0){
+		if($row > $this->rows || $row < 0 || $column > $this->columns || $column < 0){
 			return false;
 		}
 
@@ -88,7 +88,7 @@ class Matrix implements \ArrayAccess{
 	}
 
 	public function add(Matrix $matrix){
-		if($this->rows !== $matrix->getRows() or $this->columns !== $matrix->getColumns()){
+		if($this->rows !== $matrix->getRows() || $this->columns !== $matrix->getColumns()){
 			return false;
 		}
 		$result = new Matrix($this->rows, $this->columns);
@@ -102,7 +102,7 @@ class Matrix implements \ArrayAccess{
 	}
 
 	public function substract(Matrix $matrix){
-		if($this->rows !== $matrix->getRows() or $this->columns !== $matrix->getColumns()){
+		if($this->rows !== $matrix->getRows() || $this->columns !== $matrix->getColumns()){
 			return false;
 		}
 		$result = clone $this;

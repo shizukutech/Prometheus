@@ -134,7 +134,7 @@ class Binary{
 		$m = [];
 		$b = ord($value[$offset]);
 		++$offset;
-		while($b !== 127 and isset($value[$offset])){
+		while($b !== 127 && isset($value[$offset])){
 			$bottom = $b & 0x1F;
 			$type = $b >> 5;
 			switch($type){

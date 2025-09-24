@@ -140,7 +140,7 @@ abstract class Command{
 	 * @return bool
 	 */
 	public function testPermissionSilent(CommandSender $target){
-		if($this->permission === null or $this->permission === ""){
+		if($this->permission === null || $this->permission === ""){
 			return true;
 		}
 
@@ -212,7 +212,7 @@ abstract class Command{
 	 * @return bool
 	 */
 	private function allowChangesFrom(CommandMap $commandMap){
-		return $this->commandMap === null or $this->commandMap === $commandMap;
+		return $this->commandMap === null || $this->commandMap === $commandMap;
 	}
 
 	/**
@@ -304,7 +304,7 @@ abstract class Command{
 			$colored = new TranslationContainer(TextFormat::GRAY . TextFormat::ITALIC . "%chat.type.admin", [$source->getName(), $message]);
 		}
 
-		if($sendToSource === true and !($source instanceof ConsoleCommandSender)){
+		if($sendToSource === true && !($source instanceof ConsoleCommandSender)){
 			$source->sendMessage($message);
 		}
 

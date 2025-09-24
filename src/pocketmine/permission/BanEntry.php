@@ -114,7 +114,7 @@ class BanEntry{
 					$entry->setSource(trim(array_shift($str)));
 					if(count($str) > 0){
 						$expire = trim(array_shift($str));
-						if(strtolower($expire) !== "forever" and strlen($expire) > 0){
+						if(strtolower($expire) !== "forever" && strlen($expire) > 0){
 							$entry->setExpires(\DateTime::createFromFormat(self::$format, $expire));
 						}
 						if(count($str) > 0){

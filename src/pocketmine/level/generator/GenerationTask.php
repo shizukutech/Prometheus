@@ -49,7 +49,7 @@ class GenerationTask extends AsyncTask{
 		$manager = $this->getFromThreadStore("generation.level{$this->levelId}.manager");
 		/** @var Generator $generator */
 		$generator = $this->getFromThreadStore("generation.level{$this->levelId}.generator");
-		if($manager === null or $generator === null){
+		if($manager === null || $generator === null){
 			$this->state = false;
 			return;
 		}

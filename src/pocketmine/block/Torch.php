@@ -56,7 +56,7 @@ class Torch extends Flowable{
 				0 => 0,
 			];
 
-			if($this->getSide($faces[$side])->isTransparent() === true and !($side === 0 and ($below->getId() === self::FENCE or $below->getId() === self::COBBLE_WALL))){
+			if($this->getSide($faces[$side])->isTransparent() === true && !($side === 0 && ($below->getId() === self::FENCE || $below->getId() === self::COBBLE_WALL))){
 				$this->getLevel()->useBreakOn($this);
 
 				return Level::BLOCK_UPDATE_NORMAL;
@@ -69,7 +69,7 @@ class Torch extends Flowable{
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$below = $this->getSide(0);
 
-		if($target->isTransparent() === false and $face !== 0){
+		if($target->isTransparent() === false && $face !== 0){
 			$faces = [
 				1 => 5,
 				2 => 4,
@@ -81,7 +81,7 @@ class Torch extends Flowable{
 			$this->getLevel()->setBlock($block, $this, true, true);
 
 			return true;
-		}elseif($below->isTransparent() === false or $below->getId() === self::FENCE or $below->getId() === self::COBBLE_WALL){
+		}elseif($below->isTransparent() === false || $below->getId() === self::FENCE || $below->getId() === self::COBBLE_WALL){
 			$this->meta = 0;
 			$this->getLevel()->setBlock($block, $this, true, true);
 

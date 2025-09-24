@@ -71,12 +71,12 @@ class AsyncPool{
 	}
 
 	public function submitTaskToWorker(AsyncTask $task, $worker){
-		if(isset($this->tasks[$task->getTaskId()]) or $task->isGarbage()){
+		if(isset($this->tasks[$task->getTaskId()]) || $task->isGarbage()){
 			return;
 		}
 
 		$worker = (int) $worker;
-		if($worker < 0 or $worker >= $this->size){
+		if($worker < 0 || $worker >= $this->size){
 			throw new \InvalidArgumentException("Invalid worker $worker");
 		}
 
@@ -88,7 +88,7 @@ class AsyncPool{
 	}
 
 	public function submitTask(AsyncTask $task){
-		if(isset($this->tasks[$task->getTaskId()]) or $task->isGarbage()){
+		if(isset($this->tasks[$task->getTaskId()]) || $task->isGarbage()){
 			return;
 		}
 
@@ -106,7 +106,7 @@ class AsyncPool{
 
 	private function removeTask(AsyncTask $task, $force = false){
 		if(isset($this->taskWorkers[$task->getTaskId()])){
-			if(!$force and ($task->isRunning() or !$task->isGarbage())){
+			if(!$force && ($task->isRunning() || !$task->isGarbage())){
 				return;
 			}
 			$this->workerUsage[$this->taskWorkers[$task->getTaskId()]]--;
@@ -142,14 +142,14 @@ class AsyncPool{
 		Timings::$schedulerAsyncTimer->startTiming();
 
 		foreach($this->tasks as $task){
-			if($task->isGarbage() and !$task->isRunning() and !$task->isCrashed()){
+			if($task->isGarbage() && !$task->isRunning() && !$task->isCrashed()){
 
 				if(!$task->hasCancelledRun()){
 					$task->onCompletion($this->server);
 				}
 
 				$this->removeTask($task);
-			}elseif($task->isTerminated() or $task->isCrashed()){
+			}elseif($task->isTerminated() || $task->isCrashed()){
 				$this->server->getLogger()->critical("Could not execute asynchronous task " . (new \ReflectionClass($task))->getShortName() . ": Task crashed");
 				$this->removeTask($task, true);
 			}

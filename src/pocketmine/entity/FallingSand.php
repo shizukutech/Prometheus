@@ -92,7 +92,7 @@ class FallingSand extends Entity{
 		$this->timings->startTiming();
 
 		$tickDiff = $currentTick - $this->lastUpdate;
-		if($tickDiff <= 0 and !$this->justCreated){
+		if($tickDiff <= 0 && !$this->justCreated){
 			return true;
 		}
 
@@ -127,7 +127,7 @@ class FallingSand extends Entity{
 			if($this->onGround){
 				$this->kill();
 				$block = $this->level->getBlock($pos);
-				if($block->getId() > 0 and !$block->isSolid() and !($block instanceof Liquid)){
+				if($block->getId() > 0 && !$block->isSolid() && !($block instanceof Liquid)){
 					$this->getLevel()->dropItem($this, ItemItem::get($this->getBlock(), $this->getDamage(), 1));
 				}else{
 					$this->server->getPluginManager()->callEvent($ev = new EntityBlockChangeEvent($this, $block, Block::get($this->getBlock(), $this->getDamage())));
@@ -141,7 +141,7 @@ class FallingSand extends Entity{
 			$this->updateMovement();
 		}
 
-		return $hasUpdate or !$this->onGround or abs($this->motionX) > 0.00001 or abs($this->motionY) > 0.00001 or abs($this->motionZ) > 0.00001;
+		return $hasUpdate || !$this->onGround || abs($this->motionX) > 0.00001 || abs($this->motionY) > 0.00001 || abs($this->motionZ) > 0.00001;
 	}
 
 	public function getBlock(){

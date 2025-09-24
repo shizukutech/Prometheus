@@ -77,7 +77,7 @@ abstract class AcknowledgePacket extends Packet{
         $count = $this->getShort();
         $this->packets = [];
         $cnt = 0;
-        for($i = 0; $i < $count and !$this->feof() and $cnt < 4096; ++$i){
+        for($i = 0; $i < $count && !$this->feof() && $cnt < 4096; ++$i){
             if($this->getByte() === 0){
                 $start = $this->getLTriad();
                 $end = $this->getLTriad();

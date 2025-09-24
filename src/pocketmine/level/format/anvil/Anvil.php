@@ -55,7 +55,7 @@ class Anvil extends McRegion{
 	}
 
 	public static function isValid($path){
-		$isValid = (file_exists($path . "/level.dat") and is_dir($path . "/region/"));
+		$isValid = (file_exists($path . "/level.dat") && is_dir($path . "/region/"));
 
 		if($isValid){
 			$files = glob($path . "/region/*.mc*");
@@ -163,7 +163,7 @@ class Anvil extends McRegion{
 
 	public function isChunkGenerated($chunkX, $chunkZ){
 		if(($region = $this->getRegion($chunkX >> 5, $chunkZ >> 5)) !== null){
-			return $region->chunkExists($chunkX - $region->getX() * 32, $chunkZ - $region->getZ() * 32) and $this->getChunk($chunkX - $region->getX() * 32, $chunkZ - $region->getZ() * 32, true)->isGenerated();
+			return $region->chunkExists($chunkX - $region->getX() * 32, $chunkZ - $region->getZ() * 32) && $this->getChunk($chunkX - $region->getX() * 32, $chunkZ - $region->getZ() * 32, true)->isGenerated();
 		}
 
 		return false;

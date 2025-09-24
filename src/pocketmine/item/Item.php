@@ -731,7 +731,7 @@ class Item{
 
 			if(defined(Item::class . "::" . strtoupper($b[0]))){
 				$item = self::get(constant(Item::class . "::" . strtoupper($b[0])), $meta);
-				if($item->getId() === self::AIR and strtoupper($b[0]) !== "AIR"){
+				if($item->getId() === self::AIR && strtoupper($b[0]) !== "AIR"){
 					$item = self::get($b[0] & 0xFFFF, $meta);
 				}
 			}else{
@@ -747,7 +747,7 @@ class Item{
 		$this->meta = $meta !== null ? $meta & 0xffff : null;
 		$this->count = $count;
 		$this->name = $name;
-		if(!isset($this->block) and $this->id <= 0xff and isset(Block::$list[$this->id])){
+		if(!isset($this->block) && $this->id <= 0xff && isset(Block::$list[$this->id])){
 			$this->block = Block::get($this->id, $this->meta);
 			$this->name = $this->block->getName();
 		}
@@ -772,7 +772,7 @@ class Item{
 	}
 
 	public function hasCompoundTag() : bool{
-		return $this->tags !== "" and $this->tags !== null;
+		return $this->tags !== "" && $this->tags !== null;
 	}
 
 	public function hasCustomBlockData() : bool{
@@ -781,7 +781,7 @@ class Item{
 		}
 
 		$tag = $this->getNamedTag();
-		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof CompoundTag){
+		if(isset($tag->BlockEntityTag) && $tag->BlockEntityTag instanceof CompoundTag){
 			return true;
 		}
 
@@ -794,7 +794,7 @@ class Item{
 		}
 		$tag = $this->getNamedTag();
 
-		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof CompoundTag){
+		if(isset($tag->BlockEntityTag) && $tag->BlockEntityTag instanceof CompoundTag){
 			unset($tag->display->BlockEntityTag);
 			$this->setNamedTag($tag);
 		}
@@ -824,7 +824,7 @@ class Item{
 		}
 
 		$tag = $this->getNamedTag();
-		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof CompoundTag){
+		if(isset($tag->BlockEntityTag) && $tag->BlockEntityTag instanceof CompoundTag){
 			return $tag->BlockEntityTag;
 		}
 
@@ -933,7 +933,7 @@ class Item{
 		$tag = $this->getNamedTag();
 		if(isset($tag->display)){
 			$tag = $tag->display;
-			if($tag instanceof CompoundTag and isset($tag->Name) and $tag->Name instanceof StringTag){
+			if($tag instanceof CompoundTag && isset($tag->Name) && $tag->Name instanceof StringTag){
 				return true;
 			}
 		}
@@ -949,7 +949,7 @@ class Item{
 		$tag = $this->getNamedTag();
 		if(isset($tag->display)){
 			$tag = $tag->display;
-			if($tag instanceof CompoundTag and isset($tag->Name) and $tag->Name instanceof StringTag){
+			if($tag instanceof CompoundTag && isset($tag->Name) && $tag->Name instanceof StringTag){
 				return $tag->Name->getValue();
 			}
 		}
@@ -968,7 +968,7 @@ class Item{
 			$tag = $this->getNamedTag();
 		}
 
-		if(isset($tag->display) and $tag->display instanceof CompoundTag){
+		if(isset($tag->display) && $tag->display instanceof CompoundTag){
 			$tag->display->Name = new StringTag("Name", $name);
 		}else{
 			$tag->display = new CompoundTag("display", [
@@ -989,7 +989,7 @@ class Item{
 		}
 		$tag = $this->getNamedTag();
 
-		if(isset($tag->display) and $tag->display instanceof CompoundTag){
+		if(isset($tag->display) && $tag->display instanceof CompoundTag){
 			unset($tag->display->Name);
 			if($tag->display->getCount() === 0){
 				unset($tag->display);
@@ -1047,7 +1047,7 @@ class Item{
 	}
 
 	final public function canBePlaced() : bool{
-		return $this->block !== null and $this->block->canBePlaced();
+		return $this->block !== null && $this->block->canBePlaced();
 	}
 
 	public function canBeConsumed() : bool{
@@ -1089,7 +1089,7 @@ class Item{
 		if(!isset(Fuel::$duration[$this->id])){
 			return null;
 		}
-		if($this->id !== self::BUCKET or $this->meta === 10){
+		if($this->id !== self::BUCKET || $this->meta === 10){
 			return Fuel::$duration[$this->id];
 		}
 
@@ -1156,13 +1156,13 @@ class Item{
 	}
 
 	public final function equals(Item $item, bool $checkDamage = true, bool $checkCompound = true) : bool{
-		return $this->id === $item->getId() and ($checkDamage === false or $this->getDamage() === $item->getDamage()) and ($checkCompound === false or $this->getCompoundTag() === $item->getCompoundTag());
+		return $this->id === $item->getId() && ($checkDamage === false || $this->getDamage() === $item->getDamage()) && ($checkCompound === false || $this->getCompoundTag() === $item->getCompoundTag());
 	}
 
 	public final function deepEquals(Item $item, bool $checkDamage = true, bool $checkCompound = true) : bool{
 		if($this->equals($item, $checkDamage, $checkCompound)){
 			return true;
-		}elseif($item->hasCompoundTag() or $this->hasCompoundTag()){
+		}elseif($item->hasCompoundTag() || $this->hasCompoundTag()){
 			return NBT::matchTree($this->getNamedTag(), $item->getNamedTag());
 		}
 

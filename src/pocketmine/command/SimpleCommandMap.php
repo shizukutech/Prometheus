@@ -159,11 +159,11 @@ class SimpleCommandMap implements CommandMap{
 
 	private function registerAlias(Command $command, $isAlias, $fallbackPrefix, $label){
 		$this->knownCommands[$fallbackPrefix . ":" . $label] = $command;
-		if(($command instanceof VanillaCommand or $isAlias) and isset($this->knownCommands[$label])){
+		if(($command instanceof VanillaCommand || $isAlias) && isset($this->knownCommands[$label])){
 			return false;
 		}
 
-		if(isset($this->knownCommands[$label]) and $this->knownCommands[$label]->getLabel() !== null and $this->knownCommands[$label]->getLabel() === $label){
+		if(isset($this->knownCommands[$label]) && $this->knownCommands[$label]->getLabel() !== null && $this->knownCommands[$label]->getLabel() === $label){
 			return false;
 		}
 
@@ -234,7 +234,7 @@ class SimpleCommandMap implements CommandMap{
 		$values = $this->server->getCommandAliases();
 
 		foreach($values as $alias => $commandStrings){
-			if(strpos($alias, ":") !== false or strpos($alias, " ") !== false){
+			if(strpos($alias, ":") !== false || strpos($alias, " ") !== false){
 				$this->server->getLogger()->warning($this->server->getLanguage()->translateString("pocketmine.command.alias.illegal", [$alias]));
 				continue;
 			}

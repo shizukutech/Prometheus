@@ -103,7 +103,7 @@ class StatusCommand extends VanillaCommand{
 			TextFormat::RED . number_format(count($level->getChunks())) . TextFormat::GREEN . " chunks, " .
 			TextFormat::RED . number_format(count($level->getEntities())) . TextFormat::GREEN . " entities, " .
 			TextFormat::RED . number_format(count($level->getTiles())) . TextFormat::GREEN . " tiles. ".
-			"Time " . (($level->getTickRate() > 1 or $level->getTickRateTime() > 40) ? TextFormat::RED : TextFormat::YELLOW) . round($level->getTickRateTime(), 2)."ms" . ($level->getTickRate() > 1 ? " (tick rate ". $level->getTickRate() .")" : "")
+			"Time " . (($level->getTickRate() > 1 || $level->getTickRateTime() > 40) ? TextFormat::RED : TextFormat::YELLOW) . round($level->getTickRateTime(), 2)."ms" . ($level->getTickRate() > 1 ? " (tick rate ". $level->getTickRate() .")" : "")
 			);
 		}
 

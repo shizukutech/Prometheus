@@ -69,7 +69,7 @@ class PluginDescription{
 			throw new PluginException("Invalid PluginDescription main, cannot start within the PocketMine namespace");
 		}
 
-		if(isset($plugin["commands"]) and is_array($plugin["commands"])){
+		if(isset($plugin["commands"]) && is_array($plugin["commands"])){
 			$this->commands = $plugin["commands"];
 		}
 

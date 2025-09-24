@@ -301,7 +301,7 @@ class Config{
 
 		while(count($vars) > 0){
 			$baseKey = array_shift($vars);
-			if(is_array($base) and isset($base[$baseKey])){
+			if(is_array($base) && isset($base[$baseKey])){
 				$base = $base[$baseKey];
 			}else{
 				return $default;
@@ -318,7 +318,7 @@ class Config{
 	 * @return boolean|mixed
 	 */
 	public function get($k, $default = false){
-		return ($this->correct and isset($this->config[$k])) ? $this->config[$k] : $default;
+		return ($this->correct && isset($this->config[$k])) ? $this->config[$k] : $default;
 	}
 
 	/**
@@ -390,7 +390,7 @@ class Config{
 		$changed = 0;
 		foreach($default as $k => $v){
 			if(is_array($v)){
-				if(!isset($data[$k]) or !is_array($data[$k])){
+				if(!isset($data[$k]) || !is_array($data[$k])){
 					$data[$k] = [];
 				}
 				$changed += $this->fillDefaults($v, $data[$k]);

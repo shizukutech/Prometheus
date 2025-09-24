@@ -212,7 +212,7 @@ class Normal extends Generator{
 
 						$weight = self::$GAUSSIAN_KERNEL[$sx + self::$SMOOTH_SIZE][$sz + self::$SMOOTH_SIZE];
 
-						if($sx === 0 and $sz === 0){
+						if($sx === 0 && $sz === 0){
 							$adjacent = $biome;
 						}else{
 							$index = Level::chunkHash($chunkX * 16 + $x + $sx, $chunkZ * 16 + $z + $sz);

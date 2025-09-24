@@ -80,15 +80,15 @@ class Chest extends Transparent{
 		$this->meta = $faces[$player instanceof Player ? $player->getDirection() : 0];
 
 		for($side = 2; $side <= 5; ++$side){
-			if(($this->meta === 4 or $this->meta === 5) and ($side === 4 or $side === 5)){
+			if(($this->meta === 4 || $this->meta === 5) && ($side === 4 || $side === 5)){
 				continue;
-			}elseif(($this->meta === 3 or $this->meta === 2) and ($side === 2 or $side === 3)){
+			}elseif(($this->meta === 3 || $this->meta === 2) && ($side === 2 || $side === 3)){
 				continue;
 			}
 			$c = $this->getSide($side);
-			if($c instanceof Chest and $c->getDamage() === $this->meta){
+			if($c instanceof Chest && $c->getDamage() === $this->meta){
 				$tile = $this->getLevel()->getTile($c);
-				if($tile instanceof TileChest and !$tile->isPaired()){
+				if($tile instanceof TileChest && !$tile->isPaired()){
 					$chest = $tile;
 					break;
 				}
@@ -117,7 +117,7 @@ class Chest extends Transparent{
 
 		$tile = Tile::createTile("Chest", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 
-		if($chest instanceof TileChest and $tile instanceof TileChest){
+		if($chest instanceof TileChest && $tile instanceof TileChest){
 			$chest->pairWith($tile);
 			$tile->pairWith($chest);
 		}
@@ -158,7 +158,7 @@ class Chest extends Transparent{
 				$chest = Tile::createTile("Chest", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 
-			if(isset($chest->namedtag->Lock) and $chest->namedtag->Lock instanceof StringTag){
+			if(isset($chest->namedtag->Lock) && $chest->namedtag->Lock instanceof StringTag){
 				if($chest->namedtag->Lock->getValue() !== $item->getCustomName()){
 					return true;
 				}

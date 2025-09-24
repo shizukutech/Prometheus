@@ -169,12 +169,12 @@ class ParticleCommand extends VanillaCommand{
 			case "slime":
 				return new ItemBreakParticle($pos, Item::get(Item::SLIMEBALL));
 			case "itembreak":
-				if($data !== null and $data !== 0){
+				if($data !== null && $data !== 0){
 					return new ItemBreakParticle($pos, $data);
 				}
 				break;
 			case "terrain":
-				if($data !== null and $data !== 0){
+				if($data !== null && $data !== 0){
 					return new TerrainParticle($pos, $data);
 				}
 				break;

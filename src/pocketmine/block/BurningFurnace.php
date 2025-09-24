@@ -117,7 +117,7 @@ class BurningFurnace extends Solid{
 				$furnace = Tile::createTile("Furnace", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 
-			if(isset($furnace->namedtag->Lock) and $furnace->namedtag->Lock instanceof StringTag){
+			if(isset($furnace->namedtag->Lock) && $furnace->namedtag->Lock instanceof StringTag){
 				if($furnace->namedtag->Lock->getValue() !== $item->getCustomName()){
 					return true;
 				}

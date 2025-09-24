@@ -84,7 +84,7 @@ class Grass extends Solid{
 	}
 
 	public function onActivate(Item $item, Player $player = null){
-		if($item->getId() === Item::DYE and $item->getDamage() === 0x0F){
+		if($item->getId() === Item::DYE && $item->getDamage() === 0x0F){
 			$item->count--;
 			TallGrassObject::growGrass($this->getLevel(), $this, new Random(mt_rand()), 8, 2);
 
@@ -94,7 +94,7 @@ class Grass extends Solid{
 			$this->getLevel()->setBlock($this, new Farmland());
 
 			return true;
-		}elseif($item->isShovel() and $this->getSide(1)->getId() === Block::AIR){
+		}elseif($item->isShovel() && $this->getSide(1)->getId() === Block::AIR){
 			$item->useOn($this);
 			$this->getLevel()->setBlock($this, new GrassPath());
 

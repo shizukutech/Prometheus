@@ -55,7 +55,7 @@ class ScriptPluginLoader implements PluginLoader{
 		if(($description = $this->getPluginDescription($file)) instanceof PluginDescription){
 			$this->server->getLogger()->info($this->server->getLanguage()->translateString("pocketmine.plugin.load", [$description->getFullName()]));
 			$dataFolder = dirname($file) . DIRECTORY_SEPARATOR . $description->getName();
-			if(file_exists($dataFolder) and !is_dir($dataFolder)){
+			if(file_exists($dataFolder) && !is_dir($dataFolder)){
 				throw new \InvalidStateException("Projected dataFolder '" . $dataFolder . "' for " . $description->getName() . " exists and is not a directory");
 			}
 
@@ -90,7 +90,7 @@ class ScriptPluginLoader implements PluginLoader{
 
 		$insideHeader = false;
 		foreach($content as $line){
-			if(!$insideHeader and strpos($line, "/**") !== false){
+			if(!$insideHeader && strpos($line, "/**") !== false){
 				$insideHeader = true;
 			}
 
@@ -105,7 +105,7 @@ class ScriptPluginLoader implements PluginLoader{
 				$data[$key] = $content;
 			}
 
-			if($insideHeader and strpos($line, "**/") !== false){
+			if($insideHeader && strpos($line, "**/") !== false){
 				break;
 			}
 		}
@@ -140,7 +140,7 @@ class ScriptPluginLoader implements PluginLoader{
 	 * @param Plugin $plugin
 	 */
 	public function enablePlugin(Plugin $plugin){
-		if($plugin instanceof PluginBase and !$plugin->isEnabled()){
+		if($plugin instanceof PluginBase && !$plugin->isEnabled()){
 			$this->server->getLogger()->info($this->server->getLanguage()->translateString("pocketmine.plugin.enable", [$plugin->getDescription()->getFullName()]));
 
 			$plugin->setEnabled(true);
@@ -153,7 +153,7 @@ class ScriptPluginLoader implements PluginLoader{
 	 * @param Plugin $plugin
 	 */
 	public function disablePlugin(Plugin $plugin){
-		if($plugin instanceof PluginBase and $plugin->isEnabled()){
+		if($plugin instanceof PluginBase && $plugin->isEnabled()){
 			$this->server->getLogger()->info($this->server->getLanguage()->translateString("pocketmine.plugin.disable", [$plugin->getDescription()->getFullName()]));
 
 			$this->server->getPluginManager()->callEvent(new PluginDisableEvent($plugin));

@@ -68,10 +68,10 @@ class StoneWall extends Transparent{
 		$w = $west ? 0 : 0.25;
 		$e = $east ? 1 : 0.75;
 
-		if($north and $south and !$west and !$east){
+		if($north && $south && !$west && !$east){
 			$w = 0.3125;
 			$e = 0.6875;
-		}elseif(!$north and !$south and $west and $east){
+		}elseif(!$north && !$south && $west && $east){
 			$n = 0.3125;
 			$s = 0.6875;
 		}
@@ -87,7 +87,7 @@ class StoneWall extends Transparent{
 	}
 
 	public function canConnect(Block $block){
-		return ($block->getId() !== self::COBBLE_WALL and $block->getId() !== self::FENCE_GATE) ? $block->isSolid() and !$block->isTransparent() : true;
+		return ($block->getId() !== self::COBBLE_WALL && $block->getId() !== self::FENCE_GATE) ? $block->isSolid() && !$block->isTransparent() : true;
 	}
 
 }

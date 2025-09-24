@@ -26,7 +26,7 @@ class SplFixedByteArray extends SplFixedArray{
 
 	public function chunk($start, $size, $normalize = true){
 		$end = $start + $size;
-		if($normalize and $this->convert){
+		if($normalize && $this->convert){
 			$d = "";
 			for($i = $start; $i < $end; ++$i){
 				$d .= chr($this[$i]);

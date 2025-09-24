@@ -51,7 +51,7 @@ class Leaves2 extends Leaves{
 		}
 		if($pos->getId() === self::WOOD2){
 			return true;
-		}elseif($pos->getId() === self::LEAVES2 and $distance < 3){
+		}elseif($pos->getId() === self::LEAVES2 && $distance < 3){
 			$visited[$index] = true;
 			$down = $pos->getSide(0)->getId();
 			if($down === Item::WOOD2){
@@ -122,7 +122,7 @@ class Leaves2 extends Leaves{
 
 				Server::getInstance()->getPluginManager()->callEvent($ev = new LeavesDecayEvent($this));
 
-				if($ev->isCancelled() or $this->findLog($this, $visited, 0, $check) === true){
+				if($ev->isCancelled() || $this->findLog($this, $visited, 0, $check) === true){
 					$this->getLevel()->setBlock($this, $this, false, false);
 				}else{
 					$this->getLevel()->useBreakOn($this);

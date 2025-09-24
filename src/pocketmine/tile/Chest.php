@@ -46,7 +46,7 @@ class Chest extends Spawnable implements InventoryHolder, Container, Nameable{
 		parent::__construct($chunk, $nbt);
 		$this->inventory = new ChestInventory($this);
 
-		if(!isset($this->namedtag->Items) or !($this->namedtag->Items instanceof ListTag)){
+		if(!isset($this->namedtag->Items) || !($this->namedtag->Items instanceof ListTag)){
 			$this->namedtag->Items = new ListTag("Items", []);
 			$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		}
@@ -128,7 +128,7 @@ class Chest extends Spawnable implements InventoryHolder, Container, Nameable{
 
 		$d = NBT::putItemHelper($item, $index);
 
-		if($item->getId() === Item::AIR or $item->getCount() <= 0){
+		if($item->getId() === Item::AIR || $item->getCount() <= 0){
 			if($i >= 0){
 				unset($this->namedtag->Items[$i]);
 			}
@@ -150,7 +150,7 @@ class Chest extends Spawnable implements InventoryHolder, Container, Nameable{
 	 * @return ChestInventory|DoubleChestInventory
 	 */
 	public function getInventory(){
-		if($this->isPaired() and $this->doubleInventory === null){
+		if($this->isPaired() && $this->doubleInventory === null){
 			$this->checkPairing();
 		}
 		return $this->doubleInventory instanceof DoubleChestInventory ? $this->doubleInventory : $this->inventory;
@@ -200,7 +200,7 @@ class Chest extends Spawnable implements InventoryHolder, Container, Nameable{
 	}
 
 	public function isPaired(){
-		if(!isset($this->namedtag->pairx) or !isset($this->namedtag->pairz)){
+		if(!isset($this->namedtag->pairx) || !isset($this->namedtag->pairz)){
 			return false;
 		}
 
@@ -222,7 +222,7 @@ class Chest extends Spawnable implements InventoryHolder, Container, Nameable{
 	}
 
 	public function pairWith(Chest $tile){
-		if($this->isPaired() or $tile->isPaired()){
+		if($this->isPaired() || $tile->isPaired()){
 			return false;
 		}
 

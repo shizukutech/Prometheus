@@ -131,7 +131,7 @@ class Session{
     }
 
     public function update($time){
-        if(!$this->isActive and ($this->lastUpdate + 10) < $time){
+        if(!$this->isActive && ($this->lastUpdate + 10) < $time){
             $this->disconnect("timeout");
 
             return;
@@ -225,7 +225,7 @@ class Session{
      */
     private function addToQueue(EncapsulatedPacket $pk, $flags = RakLib::PRIORITY_NORMAL){
         $priority = $flags & 0b0000111;
-        if($pk->needACK and $pk->messageIndex !== null){
+        if($pk->needACK && $pk->messageIndex !== null){
             $this->needACK[$pk->identifierACK][$pk->messageIndex] = $pk->messageIndex;
         }
         if($priority === RakLib::PRIORITY_IMMEDIATE){ //Skip queues
@@ -309,7 +309,7 @@ class Session{
     }
 	
 	private function handleSplit(EncapsulatedPacket $packet){
-		if($packet->splitCount >= self::MAX_SPLIT_SIZE or $packet->splitIndex >= self::MAX_SPLIT_SIZE or $packet->splitIndex < 0){
+		if($packet->splitCount >= self::MAX_SPLIT_SIZE || $packet->splitIndex >= self::MAX_SPLIT_SIZE || $packet->splitIndex < 0){
 			return;
 		}
 
@@ -341,7 +341,7 @@ class Session{
 		if($packet->messageIndex === null){
 			$this->handleEncapsulatedPacketRoute($packet);
 		}else{
-			if($packet->messageIndex < $this->reliableWindowStart or $packet->messageIndex > $this->reliableWindowEnd){
+			if($packet->messageIndex < $this->reliableWindowStart || $packet->messageIndex > $this->reliableWindowEnd){
 				return;
 			}
 
@@ -415,7 +415,7 @@ class Session{
 					$dataPacket->buffer = $packet->buffer;
 					$dataPacket->decode();
 
-					if($dataPacket->port === $this->sessionManager->getPort() or !$this->sessionManager->portChecking){
+					if($dataPacket->port === $this->sessionManager->getPort() || !$this->sessionManager->portChecking){
 						$this->state = self::STATE_CONNECTED; //FINALLY!
 						$this->isTemporal = false;
 						$this->sessionManager->openSession($this);
@@ -449,11 +449,11 @@ class Session{
     public function handlePacket(Packet $packet){
         $this->isActive = true;
         $this->lastUpdate = microtime(true);
-        if($this->state === self::STATE_CONNECTED or $this->state === self::STATE_CONNECTING_2){
-            if($packet::$ID >= 0x80 and $packet::$ID <= 0x8f and $packet instanceof DataPacket){ //Data packet
+        if($this->state === self::STATE_CONNECTED || $this->state === self::STATE_CONNECTING_2){
+            if($packet::$ID >= 0x80 && $packet::$ID <= 0x8f && $packet instanceof DataPacket){ //Data packet
                 $packet->decode();
 
-				if($packet->seqNumber < $this->windowStart or $packet->seqNumber > $this->windowEnd or isset($this->receivedWindow[$packet->seqNumber])){
+				if($packet->seqNumber < $this->windowStart || $packet->seqNumber > $this->windowEnd || isset($this->receivedWindow[$packet->seqNumber])){
 					return;
 				}
 
@@ -486,7 +486,7 @@ class Session{
                     foreach($packet->packets as $seq){
                         if(isset($this->recoveryQueue[$seq])){
                             foreach($this->recoveryQueue[$seq]->packets as $pk){
-                                if($pk instanceof EncapsulatedPacket and $pk->needACK and $pk->messageIndex !== null){
+                                if($pk instanceof EncapsulatedPacket && $pk->needACK && $pk->messageIndex !== null){
                                     unset($this->needACK[$pk->identifierACK][$pk->messageIndex]);
                                 }
                             }
@@ -506,7 +506,7 @@ class Session{
                 }
             }
 
-        }elseif($packet::$ID > 0x00 and $packet::$ID < 0x80){ //Not Data packet :)
+        }elseif($packet::$ID > 0x00 && $packet::$ID < 0x80){ //Not Data packet :)
             $packet->decode();
             if($packet instanceof OPEN_CONNECTION_REQUEST_1){
                 $packet->protocol; //TODO: check protocol number and refuse connections
@@ -515,9 +515,9 @@ class Session{
                 $pk->serverID = $this->sessionManager->getID();
                 $this->sendPacket($pk);
                 $this->state = self::STATE_CONNECTING_1;
-            }elseif($this->state === self::STATE_CONNECTING_1 and $packet instanceof OPEN_CONNECTION_REQUEST_2){
+            }elseif($this->state === self::STATE_CONNECTING_1 && $packet instanceof OPEN_CONNECTION_REQUEST_2){
                 $this->id = $packet->clientID;
-                if($packet->serverPort === $this->sessionManager->getPort() or !$this->sessionManager->portChecking){
+                if($packet->serverPort === $this->sessionManager->getPort() || !$this->sessionManager->portChecking){
                     $this->mtuSize = min(abs($packet->mtuSize), 1464); //Max size, do not allow creating large buffers to fill server memory
                     $pk = new OPEN_CONNECTION_REPLY_2();
                     $pk->mtuSize = $this->mtuSize;

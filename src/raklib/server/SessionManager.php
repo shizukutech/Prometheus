@@ -102,7 +102,7 @@ class SessionManager{
         while(!$this->shutdown){
             $start = microtime(true);
             $max = 5000;
-            while(--$max and $this->receivePacket());
+            while(--$max && $this->receivePacket());
 	        while($this->receiveStream());
 			$time = microtime(true) - $start;
 			if($time < 0.05){
@@ -334,7 +334,7 @@ class SessionManager{
 
     public function blockAddress($address, $timeout = 300){
         $final = microtime(true) + $timeout;
-        if(!isset($this->block[$address]) or $timeout === -1){
+        if(!isset($this->block[$address]) || $timeout === -1){
             if($timeout === -1){
                 $final = PHP_INT_MAX;
             }else{

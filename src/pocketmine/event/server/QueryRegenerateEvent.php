@@ -173,7 +173,7 @@ class QueryRegenerateEvent extends ServerEvent{
 		$query = "";
 
 		$plist = $this->server_engine;
-		if(count($this->plugins) > 0 and $this->listPlugins){
+		if(count($this->plugins) > 0 && $this->listPlugins){
 			$plist .= ":";
 			foreach($this->plugins as $p){
 				$d = $p->getDescription();

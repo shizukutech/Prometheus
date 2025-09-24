@@ -123,9 +123,9 @@ class TimingsHandler{
 	}
 
 	public function startTiming(){
-		if(PluginManager::$useTimings and ++$this->timingDepth === 1){
+		if(PluginManager::$useTimings && ++$this->timingDepth === 1){
 			$this->start = microtime(true);
-			if($this->parent !== null and ++$this->parent->timingDepth === 1){
+			if($this->parent !== null && ++$this->parent->timingDepth === 1){
 				$this->parent->start = $this->start;
 			}
 		}
@@ -133,7 +133,7 @@ class TimingsHandler{
 
 	public function stopTiming(){
 		if(PluginManager::$useTimings){
-			if(--$this->timingDepth !== 0 or $this->start === 0){
+			if(--$this->timingDepth !== 0 || $this->start === 0){
 				return;
 			}
 

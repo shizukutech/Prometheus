@@ -85,7 +85,7 @@ abstract class Noise{
 	public static function grad($hash, $x, $y, $z){
 		$hash &= 15;
 		$u = $hash < 8 ? $x : $y;
-		$v = $hash < 4 ? $y : (($hash === 12 or $hash === 14) ? $x : $z);
+		$v = $hash < 4 ? $y : (($hash === 12 || $hash === 14) ? $x : $z);
 
 		return (($hash & 1) === 0 ? $u : -$u) + (($hash & 2) === 0 ? $v : -$v);
 	}

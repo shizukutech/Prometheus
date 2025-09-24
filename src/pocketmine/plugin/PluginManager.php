@@ -192,7 +192,7 @@ class PluginManager{
 			}
 			foreach($loaders as $loader){
 				foreach(new \RegexIterator(new \DirectoryIterator($directory), $loader->getPluginFilters()) as $file){
-					if($file === "." or $file === ".."){
+					if($file === "." || $file === ".."){
 						continue;
 					}
 					$file = $directory . $file;
@@ -200,14 +200,14 @@ class PluginManager{
 						$description = $loader->getPluginDescription($file);
 						if($description instanceof PluginDescription){
 							$name = $description->getName();
-							if(stripos($name, "pocketmine") !== false or stripos($name, "minecraft") !== false or stripos($name, "mojang") !== false){
+							if(stripos($name, "pocketmine") !== false || stripos($name, "minecraft") !== false || stripos($name, "mojang") !== false){
 								$this->server->getLogger()->error($this->server->getLanguage()->translateString("pocketmine.plugin.loadError", [$name, "%pocketmine.plugin.restrictedName"]));
 								continue;
 							}elseif(strpos($name, " ") !== false){
 								$this->server->getLogger()->warning($this->server->getLanguage()->translateString("pocketmine.plugin.spacesDiscouraged", [$name]));
 							}
 
-							if(isset($plugins[$name]) or $this->getPlugin($name) instanceof Plugin){
+							if(isset($plugins[$name]) || $this->getPlugin($name) instanceof Plugin){
 								$this->server->getLogger()->error($this->server->getLanguage()->translateString("pocketmine.plugin.duplicateError", [$name]));
 								continue;
 							}
@@ -262,7 +262,7 @@ class PluginManager{
 				foreach($plugins as $name => $file){
 					if(isset($dependencies[$name])){
 						foreach($dependencies[$name] as $key => $dependency){
-							if(isset($loadedPlugins[$dependency]) or $this->getPlugin($dependency) instanceof Plugin){
+							if(isset($loadedPlugins[$dependency]) || $this->getPlugin($dependency) instanceof Plugin){
 								unset($dependencies[$name][$key]);
 							}elseif(!isset($plugins[$dependency])){
 								$this->server->getLogger()->critical($this->server->getLanguage()->translateString("pocketmine.plugin.loadError", [$name, "%pocketmine.plugin.unknownDependency"]));
@@ -277,7 +277,7 @@ class PluginManager{
 
 					if(isset($softDependencies[$name])){
 						foreach($softDependencies[$name] as $key => $dependency){
-							if(isset($loadedPlugins[$dependency]) or $this->getPlugin($dependency) instanceof Plugin){
+							if(isset($loadedPlugins[$dependency]) || $this->getPlugin($dependency) instanceof Plugin){
 								unset($softDependencies[$name][$key]);
 							}
 						}
@@ -287,10 +287,10 @@ class PluginManager{
 						}
 					}
 
-					if(!isset($dependencies[$name]) and !isset($softDependencies[$name])){
+					if(!isset($dependencies[$name]) && !isset($softDependencies[$name])){
 						unset($plugins[$name]);
 						$missingDependency = false;
-						if($plugin = $this->loadPlugin($file, $loaders) and $plugin instanceof Plugin){
+						if($plugin = $this->loadPlugin($file, $loaders) && $plugin instanceof Plugin){
 							$loadedPlugins[$name] = $plugin;
 						}else{
 							$this->server->getLogger()->critical($this->server->getLanguage()->translateString("pocketmine.plugin.genericLoadError", [$name]));
@@ -304,7 +304,7 @@ class PluginManager{
 							unset($softDependencies[$name]);
 							unset($plugins[$name]);
 							$missingDependency = false;
-							if($plugin = $this->loadPlugin($file, $loaders) and $plugin instanceof Plugin){
+							if($plugin = $this->loadPlugin($file, $loaders) && $plugin instanceof Plugin){
 								$loadedPlugins[$name] = $plugin;
 							}else{
 								$this->server->getLogger()->critical($this->server->getLanguage()->translateString("pocketmine.plugin.genericLoadError", [$name]));
@@ -401,12 +401,12 @@ class PluginManager{
 	 */
 	private function calculatePermissionDefault(Permission $permission){
 		Timings::$permissionDefaultTimer->startTiming();
-		if($permission->getDefault() === Permission::DEFAULT_OP or $permission->getDefault() === Permission::DEFAULT_TRUE){
+		if($permission->getDefault() === Permission::DEFAULT_OP || $permission->getDefault() === Permission::DEFAULT_TRUE){
 			$this->defaultPermsOp[$permission->getName()] = $permission;
 			$this->dirtyPermissibles(true);
 		}
 
-		if($permission->getDefault() === Permission::DEFAULT_NOT_OP or $permission->getDefault() === Permission::DEFAULT_TRUE){
+		if($permission->getDefault() === Permission::DEFAULT_NOT_OP || $permission->getDefault() === Permission::DEFAULT_TRUE){
 			$this->defaultPerms[$permission->getName()] = $permission;
 			$this->dirtyPermissibles(false);
 		}
@@ -543,7 +543,7 @@ class PluginManager{
 	 * @return bool
 	 */
 	public function isPluginEnabled(Plugin $plugin){
-		if($plugin instanceof Plugin and isset($this->plugins[$plugin->getDescription()->getName()])){
+		if($plugin instanceof Plugin && isset($this->plugins[$plugin->getDescription()->getName()])){
 			return $plugin->isEnabled();
 		}else{
 			return false;
@@ -590,7 +590,7 @@ class PluginManager{
 					$newCmd->setUsage($data["usage"]);
 				}
 
-				if(isset($data["aliases"]) and is_array($data["aliases"])){
+				if(isset($data["aliases"]) && is_array($data["aliases"])){
 					$aliasList = [];
 					foreach($data["aliases"] as $alias){
 						if(strpos($alias, ":") !== false){
@@ -712,10 +712,10 @@ class PluginManager{
 				}
 
 				$parameters = $method->getParameters();
-				if(count($parameters) === 1 and $parameters[0]->getType() instanceof \ReflectionNamedType and !$parameters[0]->getType()->isBuiltin() and is_subclass_of($parameters[0]->getType()->getName(), Event::class)){
+				if(count($parameters) === 1 && $parameters[0]->getType() instanceof \ReflectionNamedType && !$parameters[0]->getType()->isBuiltin() && is_subclass_of($parameters[0]->getType()->getName(), Event::class)){
 					$class = $parameters[0]->getType()->getName();
 					$reflection = new \ReflectionClass($class);
-					if(strpos((string) $reflection->getDocComment(), "@deprecated") !== false and $this->server->getProperty("settings.deprecated-verbose", true)){
+					if(strpos((string) $reflection->getDocComment(), "@deprecated") !== false && $this->server->getProperty("settings.deprecated-verbose", true)){
 						$this->server->getLogger()->warning($this->server->getLanguage()->translateString("pocketmine.plugin.deprecatedEvent", [
 							$plugin->getName(),
 							$class,

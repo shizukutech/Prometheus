@@ -94,7 +94,7 @@ class LevelDB extends BaseLevelProvider{
 	}
 
 	public static function isValid($path){
-		return file_exists($path . "/level.dat") and is_dir($path . "/db/");
+		return file_exists($path . "/level.dat") && is_dir($path . "/db/");
 	}
 
 	public static function generate($path, $name, $seed, $generator, array $options = []){
@@ -215,7 +215,7 @@ class LevelDB extends BaseLevelProvider{
 
 		$this->level->timings->syncChunkLoadDataTimer->startTiming();
 		$chunk = $this->readChunk($chunkX, $chunkZ, $create);
-		if($chunk === null and $create){
+		if($chunk === null && $create){
 			$chunk = Chunk::getEmptyChunk($chunkX, $chunkZ, $this);
 		}
 		$this->level->timings->syncChunkLoadDataTimer->stopTiming();
@@ -237,7 +237,7 @@ class LevelDB extends BaseLevelProvider{
 	private function readChunk($chunkX, $chunkZ){
 		$index = LevelDB::chunkIndex($chunkX, $chunkZ);
 
-		if(!$this->chunkExists($chunkX, $chunkZ) or ($data = $this->db->get($index . self::ENTRY_TERRAIN)) === false){
+		if(!$this->chunkExists($chunkX, $chunkZ) || ($data = $this->db->get($index . self::ENTRY_TERRAIN)) === false){
 			return null;
 		}
 
@@ -259,7 +259,7 @@ class LevelDB extends BaseLevelProvider{
 
 	public function unloadChunk($x, $z, $safe = true){
 		$chunk = isset($this->chunks[$index = Level::chunkHash($x, $z)]) ? $this->chunks[$index] : null;
-		if($chunk instanceof FullChunk and $chunk->unload(false, $safe)){
+		if($chunk instanceof FullChunk && $chunk->unload(false, $safe)){
 			unset($this->chunks[$index]);
 			return true;
 		}
@@ -312,7 +312,7 @@ class LevelDB extends BaseLevelProvider{
 		$chunk->setX($chunkX);
 		$chunk->setZ($chunkZ);
 
-		if(isset($this->chunks[$index = Level::chunkHash($chunkX, $chunkZ)]) and $this->chunks[$index] !== $chunk){
+		if(isset($this->chunks[$index = Level::chunkHash($chunkX, $chunkZ)]) && $this->chunks[$index] !== $chunk){
 			$this->unloadChunk($chunkX, $chunkZ, false);
 		}
 
@@ -332,7 +332,7 @@ class LevelDB extends BaseLevelProvider{
 	}
 
 	public function isChunkGenerated($chunkX, $chunkZ){
-		if($this->chunkExists($chunkX, $chunkZ) and ($chunk = $this->getChunk($chunkX, $chunkZ, false)) !== null){
+		if($this->chunkExists($chunkX, $chunkZ) && ($chunk = $this->getChunk($chunkX, $chunkZ, false)) !== null){
 			return true;
 		}
 

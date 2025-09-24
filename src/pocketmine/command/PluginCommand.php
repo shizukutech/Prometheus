@@ -56,7 +56,7 @@ class PluginCommand extends Command implements PluginIdentifiableCommand{
 
 		$success = $this->executor->onCommand($sender, $this, $commandLabel, $args);
 
-		if(!$success and $this->usageMessage !== ""){
+		if(!$success && $this->usageMessage !== ""){
 			$sender->sendMessage(new TranslationContainer("commands.generic.usage", [$this->usageMessage]));
 		}
 

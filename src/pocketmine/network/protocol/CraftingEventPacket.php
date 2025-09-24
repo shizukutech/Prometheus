@@ -45,12 +45,12 @@ class CraftingEventPacket extends DataPacket{
 		$this->id = $this->getUUID();
 
 		$size = $this->getInt();
-		for($i = 0; $i < $size and $i < 128; ++$i){
+		for($i = 0; $i < $size && $i < 128; ++$i){
 			$this->input[] = $this->getSlot();
 		}
 
 		$size = $this->getInt();
-		for($i = 0; $i < $size and $i < 128; ++$i){
+		for($i = 0; $i < $size && $i < 128; ++$i){
 			$this->output[] = $this->getSlot();
 		}
 	}

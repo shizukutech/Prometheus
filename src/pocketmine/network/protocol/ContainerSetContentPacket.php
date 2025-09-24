@@ -44,12 +44,12 @@ class ContainerSetContentPacket extends DataPacket{
 	public function decode(){
 		$this->windowid = $this->getByte();
 		$count = $this->getShort();
-		for($s = 0; $s < $count and !$this->feof(); ++$s){
+		for($s = 0; $s < $count && !$this->feof(); ++$s){
 			$this->slots[$s] = $this->getSlot();
 		}
 		if($this->windowid === self::SPECIAL_INVENTORY){
 			$count = $this->getShort();
-			for($s = 0; $s < $count and !$this->feof(); ++$s){
+			for($s = 0; $s < $count && !$this->feof(); ++$s){
 				$this->hotbar[$s] = $this->getInt();
 			}
 		}
@@ -62,7 +62,7 @@ class ContainerSetContentPacket extends DataPacket{
 		foreach($this->slots as $slot){
 			$this->putSlot($slot);
 		}
-		if($this->windowid === self::SPECIAL_INVENTORY and count($this->hotbar) > 0){
+		if($this->windowid === self::SPECIAL_INVENTORY && count($this->hotbar) > 0){
 			$this->putShort(count($this->hotbar));
 			foreach($this->hotbar as $slot){
 				$this->putInt($slot);

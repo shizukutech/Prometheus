@@ -40,7 +40,7 @@ class Dandelion extends Flowable{
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$down = $this->getSide(0);
-		if($down->getId() === 2 or $down->getId() === 3 or $down->getId() === 60){
+		if($down->getId() === 2 || $down->getId() === 3 || $down->getId() === 60){
 			$this->getLevel()->setBlock($block, $this, true, true);
 
 			return true;

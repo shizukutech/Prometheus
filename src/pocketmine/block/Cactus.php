@@ -72,7 +72,7 @@ class Cactus extends Transparent{
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			$down = $this->getSide(0);
-			if($down->getId() !== self::SAND and $down->getId() !== self::CACTUS){
+			if($down->getId() !== self::SAND && $down->getId() !== self::CACTUS){
 				$this->getLevel()->useBreakOn($this);
 			}else{
 				for($side = 2; $side <= 5; ++$side){
@@ -108,12 +108,12 @@ class Cactus extends Transparent{
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$down = $this->getSide(0);
-		if($down->getId() === self::SAND or $down->getId() === self::CACTUS){
+		if($down->getId() === self::SAND || $down->getId() === self::CACTUS){
 			$block0 = $this->getSide(2);
 			$block1 = $this->getSide(3);
 			$block2 = $this->getSide(4);
 			$block3 = $this->getSide(5);
-			if($block0->isTransparent() === true and $block1->isTransparent() === true and $block2->isTransparent() === true and $block3->isTransparent() === true){
+			if($block0->isTransparent() === true && $block1->isTransparent() === true && $block2->isTransparent() === true && $block3->isTransparent() === true){
 				$this->getLevel()->setBlock($this, $this, true);
 
 				return true;

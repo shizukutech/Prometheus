@@ -139,11 +139,11 @@ abstract class PluginBase implements Plugin{
 	 */
 	public function getCommand($name){
 		$command = $this->getServer()->getPluginCommand($name);
-		if($command === null or $command->getPlugin() !== $this){
+		if($command === null || $command->getPlugin() !== $this){
 			$command = $this->getServer()->getPluginCommand(strtolower($this->description->getName()) . ":" . $name);
 		}
 
-		if($command instanceof PluginIdentifiableCommand and $command->getPlugin() === $this){
+		if($command instanceof PluginIdentifiableCommand && $command->getPlugin() === $this){
 			return $command;
 		}else{
 			return null;
@@ -206,7 +206,7 @@ abstract class PluginBase implements Plugin{
 			mkdir(dirname($out), 0755, true);
 		}
 
-		if(file_exists($out) and $replace !== true){
+		if(file_exists($out) && $replace !== true){
 			return false;
 		}
 

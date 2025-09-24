@@ -59,7 +59,7 @@ class FenceGate extends Transparent{
 		}
 
 		$i = ($this->getDamage() & 0x03);
-		if($i === 2 and $i === 0){
+		if($i === 2 && $i === 0){
 			return new AxisAlignedBB(
 				$this->x,
 				$this->y,

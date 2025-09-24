@@ -91,7 +91,7 @@ abstract class Tile extends Position{
 	 */
 	public static function registerTile($className){
 		$class = new \ReflectionClass($className);
-		if(is_a($className, Tile::class, true) and !$class->isAbstract()){
+		if(is_a($className, Tile::class, true) && !$class->isAbstract()){
 			self::$knownTiles[$class->getShortName()] = $className;
 			self::$shortNames[$className] = $class->getShortName();
 			return true;
@@ -110,7 +110,7 @@ abstract class Tile extends Position{
 	}
 
 	public function __construct(FullChunk $chunk, CompoundTag $nbt){
-		assert($chunk !== null and $chunk->getProvider() !== null);
+		assert($chunk !== null && $chunk->getProvider() !== null);
 
 		$this->timings = Timings::getTileEntityTimings($this);
 

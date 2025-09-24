@@ -63,7 +63,7 @@ abstract class DataPacket extends BinaryStream{
 		foreach($this as $k => $v){
 			if($k === "buffer"){
 				$data[$k] = bin2hex($v);
-			}elseif(is_string($v) or (is_object($v) and method_exists($v, "__toString"))){
+			}elseif(is_string($v) || (is_object($v) && method_exists($v, "__toString"))){
 				$data[$k] = Utils::printable((string) $v);
 			}else{
 				$data[$k] = $v;

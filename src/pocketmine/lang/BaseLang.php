@@ -54,10 +54,10 @@ class BaseLang{
 	}
 
 	protected function loadLang($path, array &$d){
-		if(file_exists($path) and strlen($content = file_get_contents($path)) > 0){
+		if(file_exists($path) && strlen($content = file_get_contents($path)) > 0){
 			foreach(explode("\n", $content) as $line){
 				$line = trim($line);
-				if($line === "" or $line[0] === "#"){
+				if($line === "" || $line[0] === "#"){
 					continue;
 				}
 
@@ -86,7 +86,7 @@ class BaseLang{
 	 */
 	public function translateString($str, array $params = [], $onlyPrefix = null){
 		$baseText = $this->get($str);
-		$baseText = $this->parseTranslation( ($baseText !== null and ($onlyPrefix === null or strpos($str, $onlyPrefix) === 0)) ? $baseText : $str, $onlyPrefix);
+		$baseText = $this->parseTranslation( ($baseText !== null && ($onlyPrefix === null || strpos($str, $onlyPrefix) === 0)) ? $baseText : $str, $onlyPrefix);
 
 		foreach($params as $i => $p){
 			$baseText = str_replace("{%$i}", $this->parseTranslation((string) $p), $baseText, $onlyPrefix);
@@ -141,14 +141,14 @@ class BaseLang{
 			if($replaceString !== null){
 				$ord = ord($c);
 				if(
-					($ord >= 0x30 and $ord <= 0x39) // 0-9
-					or ($ord >= 0x41 and $ord <= 0x5a) // A-Z
-					or ($ord >= 0x61 and $ord <= 0x7a) or // a-z
-					$c === "." or $c === "-"
+					($ord >= 0x30 && $ord <= 0x39) // 0-9
+					|| ($ord >= 0x41 && $ord <= 0x5a) // A-Z
+					|| ($ord >= 0x61 && $ord <= 0x7a) || // a-z
+					$c === "." || $c === "-"
 				){
 					$replaceString .= $c;
 				}else{
-					if(($t = $this->internalGet(substr($replaceString, 1))) !== null and ($onlyPrefix === null or strpos($replaceString, $onlyPrefix) === 1)){
+					if(($t = $this->internalGet(substr($replaceString, 1))) !== null && ($onlyPrefix === null || strpos($replaceString, $onlyPrefix) === 1)){
 						$newString .= $t;
 					}else{
 						$newString .= $replaceString;
@@ -169,7 +169,7 @@ class BaseLang{
 		}
 
 		if($replaceString !== null){
-			if(($t = $this->internalGet(substr($replaceString, 1))) !== null and ($onlyPrefix === null or strpos($replaceString, $onlyPrefix) === 1)){
+			if(($t = $this->internalGet(substr($replaceString, 1))) !== null && ($onlyPrefix === null || strpos($replaceString, $onlyPrefix) === 1)){
 				$newString .= $t;
 			}else{
 				$newString .= $replaceString;

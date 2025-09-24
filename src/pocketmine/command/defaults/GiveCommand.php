@@ -70,7 +70,7 @@ class GiveCommand extends VanillaCommand{
 				$exception = $ex;
 			}
 
-			if(!($tags instanceof CompoundTag) or $exception !== null){
+			if(!($tags instanceof CompoundTag) || $exception !== null){
 				$sender->sendMessage(new TranslationContainer("commands.give.tagError", [$exception !== null ? $exception->getMessage() : "Invalid tag conversion"]));
 				return true;
 			}

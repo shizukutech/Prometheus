@@ -112,10 +112,10 @@ LICENSE;
 		do{
 			echo "[?] " . $this->lang->server_port . " (" . self::DEFAULT_PORT . "): ";
 			$port = (int) $this->getInput(self::DEFAULT_PORT);
-			if($port <= 0 or $port > 65535){
+			if($port <= 0 || $port > 65535){
 				echo "[!] " . $this->lang->invalid_port . "\n";
 			}
-		}while($port <= 0 or $port > 65535);
+		}while($port <= 0 || $port > 65535);
 		$config->set("server-port", $port);
 		/*echo "[*] " . $this->lang->ram_warning . "\n";
 		echo "[?] " . $this->lang->server_ram . " (" . self::DEFAULT_MEMORY . "): ";
@@ -124,7 +124,7 @@ LICENSE;
 		do{
 			echo "[?] " . $this->lang->default_gamemode . ": (" . self::DEFAULT_GAMEMODE . "): ";
 			$gamemode = (int) $this->getInput(self::DEFAULT_GAMEMODE);
-		}while($gamemode < 0 or $gamemode > 3);
+		}while($gamemode < 0 || $gamemode > 3);
 		$config->set("gamemode", $gamemode);
 		echo "[?] " . $this->lang->max_players . " (" . self::DEFAULT_PLAYERS . "): ";
 		$config->set("max-players", (int) $this->getInput(self::DEFAULT_PLAYERS));

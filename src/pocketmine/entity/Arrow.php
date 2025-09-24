@@ -56,7 +56,7 @@ class Arrow extends Projectile{
 
 		$hasUpdate = parent::onUpdate($currentTick);
 
-		if(!$this->hadCollision and $this->isCritical){
+		if(!$this->hadCollision && $this->isCritical){
 			$this->level->addParticle(new CriticalParticle($this->add(
 				$this->width / 2 + mt_rand(-100, 100) / 500,
 				$this->height / 2 + mt_rand(-100, 100) / 500,

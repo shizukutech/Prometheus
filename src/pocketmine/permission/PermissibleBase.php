@@ -108,9 +108,9 @@ class PermissibleBase implements Permissible{
 		if(($perm = Server::getInstance()->getPluginManager()->getPermission($name)) !== null){
 			$perm = $perm->getDefault();
 
-			return $perm === Permission::DEFAULT_TRUE or ($this->isOp() and $perm === Permission::DEFAULT_OP) or (!$this->isOp() and $perm === Permission::DEFAULT_NOT_OP);
+			return $perm === Permission::DEFAULT_TRUE || ($this->isOp() && $perm === Permission::DEFAULT_OP) || (!$this->isOp() && $perm === Permission::DEFAULT_NOT_OP);
 		}else{
-			return Permission::$DEFAULT_PERMISSION === Permission::DEFAULT_TRUE or ($this->isOp() and Permission::$DEFAULT_PERMISSION === Permission::DEFAULT_OP) or (!$this->isOp() and Permission::$DEFAULT_PERMISSION === Permission::DEFAULT_NOT_OP);
+			return Permission::$DEFAULT_PERMISSION === Permission::DEFAULT_TRUE || ($this->isOp() && Permission::$DEFAULT_PERMISSION === Permission::DEFAULT_OP) || (!$this->isOp() && Permission::$DEFAULT_PERMISSION === Permission::DEFAULT_NOT_OP);
 		}
 
 	}
@@ -135,7 +135,7 @@ class PermissibleBase implements Permissible{
 
 		$result = new PermissionAttachment($plugin, $this->parent !== null ? $this->parent : $this);
 		$this->attachments[spl_object_hash($result)] = $result;
-		if($name !== null and $value !== null){
+		if($name !== null && $value !== null){
 			$result->setPermission($name, $value);
 		}
 

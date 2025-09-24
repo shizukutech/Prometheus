@@ -104,13 +104,13 @@ class NBT{
 	 * @return Item
 	 */
 	public static function getItemHelper(CompoundTag $tag){
-		if(!isset($tag->id) or !isset($tag->Count)){
+		if(!isset($tag->id) || !isset($tag->Count)){
 			return Item::get(0);
 		}
 
 		$item = Item::get($tag->id->getValue(), !isset($tag->Damage) ? 0 : $tag->Damage->getValue(), $tag->Count->getValue());
 		
-		if(isset($tag->tag) and $tag->tag instanceof CompoundTag){
+		if(isset($tag->tag) && $tag->tag instanceof CompoundTag){
 			$item->setNamedTag($tag->tag);
 		}
 
@@ -118,7 +118,7 @@ class NBT{
 	}
 
 	public static function matchList(ListTag $tag1, ListTag $tag2){
-		if($tag1->getName() !== $tag2->getName() or $tag1->getCount() !== $tag2->getCount()){
+		if($tag1->getName() !== $tag2->getName() || $tag1->getCount() !== $tag2->getCount()){
 			return false;
 		}
 
@@ -127,7 +127,7 @@ class NBT{
 				continue;
 			}
 
-			if(!isset($tag2->{$k}) or !($tag2->{$k} instanceof $v)){
+			if(!isset($tag2->{$k}) || !($tag2->{$k} instanceof $v)){
 				return false;
 			}
 
@@ -150,7 +150,7 @@ class NBT{
 	}
 
 	public static function matchTree(CompoundTag $tag1, CompoundTag $tag2){
-		if($tag1->getName() !== $tag2->getName() or $tag1->getCount() !== $tag2->getCount()){
+		if($tag1->getName() !== $tag2->getName() || $tag1->getCount() !== $tag2->getCount()){
 			return false;
 		}
 
@@ -159,7 +159,7 @@ class NBT{
 				continue;
 			}
 
-			if(!isset($tag2->{$k}) or !($tag2->{$k} instanceof $v)){
+			if(!isset($tag2->{$k}) || !($tag2->{$k} instanceof $v)){
 				return false;
 			}
 
@@ -189,7 +189,7 @@ class NBT{
 				++$offset;
 				$data = self::parseCompound($data, $offset);
 				return new CompoundTag("", $data);
-			}elseif($c !== " " and $c !== "\r" and $c !== "\n" and $c !== "\t"){
+			}elseif($c !== " " && $c !== "\r" && $c !== "\n" && $c !== "\t"){
 				throw new \Exception("Syntax error: unexpected '$c' at offset $offset");
 			}
 		}
@@ -323,8 +323,8 @@ class NBT{
 		for(; $offset < $len; ++$offset){
 			$c = $data[$offset];
 
-			if(!$inQuotes and ($c === " " or $c === "\r" or $c === "\n" or $c === "\t" or $c === "," or $c === "}" or $c === "]")){
-				if($c === "," or $c === "}" or $c === "]"){
+			if(!$inQuotes && ($c === " " || $c === "\r" || $c === "\n" || $c === "\t" || $c === "," || $c === "}" || $c === "]")){
+				if($c === "," || $c === "}" || $c === "]"){
 					break;
 				}
 			}elseif($c === '"'){
@@ -337,7 +337,7 @@ class NBT{
 			}elseif($c === "\\"){
 				$value .= isset($data[$offset + 1]) ? $data[$offset + 1] : "";
 				++$offset;
-			}elseif($c === "{" and !$inQuotes){
+			}elseif($c === "{" && !$inQuotes){
 				if($value !== ""){
 					throw new \Exception("Syntax error: invalid compound start at offset $offset");
 				}
@@ -345,7 +345,7 @@ class NBT{
 				$value = self::parseCompound($data, $offset);
 				$type = self::TAG_Compound;
 				break;
-			}elseif($c === "[" and !$inQuotes){
+			}elseif($c === "[" && !$inQuotes){
 				if($value !== ""){
 					throw new \Exception("Syntax error: invalid list start at offset $offset");
 				}
@@ -362,17 +362,17 @@ class NBT{
 			throw new \Exception("Syntax error: invalid empty value at offset $offset");
 		}
 
-		if($type === null and strlen($value) > 0){
+		if($type === null && strlen($value) > 0){
 			$value = trim($value);
 			$last = strtolower(substr($value, -1));
 			$part = substr($value, 0, -1);
 
-			if($last !== "b" and $last !== "s" and $last !== "l" and $last !== "f" and $last !== "d"){
+			if($last !== "b" && $last !== "s" && $last !== "l" && $last !== "f" && $last !== "d"){
 				$part = $value;
 				$last = null;
 			}
 
-			if($last !== "f" and $last !== "d" and ((string) ((int) $part)) === $part){
+			if($last !== "f" && $last !== "d" && ((string) ((int) $part)) === $part){
 				if($last === "b"){
 					$type = self::TAG_Byte;
 				}elseif($last === "s"){
@@ -384,7 +384,7 @@ class NBT{
 				}
 				$value = (int) $part;
 			}elseif(is_numeric($part)){
-				if($last === "f" or $last === "d" or strpos($part, ".") !== false){
+				if($last === "f" || $last === "d" || strpos($part, ".") !== false){
 					if($last === "f"){
 						$type = self::TAG_Float;
 					}elseif($last === "d"){
@@ -420,7 +420,7 @@ class NBT{
 			if($c === ":"){
 				++$offset;
 				break;
-			}elseif($c !== " " and $c !== "\r" and $c !== "\n" and $c !== "\t"){
+			}elseif($c !== " " && $c !== "\r" && $c !== "\n" && $c !== "\t"){
 				$key .= $c;
 			}
 		}
@@ -460,7 +460,7 @@ class NBT{
 		$this->offset = 0;
 		$this->buffer = $buffer;
 		$this->data = $this->readTag();
-		if($doMultiple and $this->offset < strlen($this->buffer)){
+		if($doMultiple && $this->offset < strlen($this->buffer)){
 			$this->data = [$this->data];
 			do{
 				$this->data[] = $this->readTag();
@@ -630,7 +630,7 @@ class NBT{
 	private static function toArray(array &$data, Tag $tag){
 		/** @var CompoundTag[]|ListTag[]|IntArrayTag[] $tag */
 		foreach($tag as $key => $value){
-			if($value instanceof CompoundTag or $value instanceof ListTag or $value instanceof IntArrayTag){
+			if($value instanceof CompoundTag || $value instanceof ListTag || $value instanceof IntArrayTag){
 				$data[$key] = [];
 				self::toArray($data[$key], $value);
 			}else{

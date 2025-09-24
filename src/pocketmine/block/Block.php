@@ -496,7 +496,7 @@ class Block extends Position implements Metadatable{
 
 					if($block->isSolid()){
 						if($block->isTransparent()){
-							if($block instanceof Liquid or $block instanceof Ice){
+							if($block instanceof Liquid || $block instanceof Ice){
 								self::$lightFilter[$id] = 2;
 							}else{
 								self::$lightFilter[$id] = 1;
@@ -780,12 +780,12 @@ class Block extends Position implements Metadatable{
 	public function getBreakTime(Item $item){
 		$base = $this->getHardness() * 1.5;
 		if($this->canBeBrokenWith($item)){
-			if($this->getToolType() === Tool::TYPE_SHEARS and $item->isShears()){
+			if($this->getToolType() === Tool::TYPE_SHEARS && $item->isShears()){
 				$base /= 15;
 			}elseif(
-				($this->getToolType() === Tool::TYPE_PICKAXE and ($tier = $item->isPickaxe()) !== false) or
-				($this->getToolType() === Tool::TYPE_AXE and ($tier = $item->isAxe()) !== false) or
-				($this->getToolType() === Tool::TYPE_SHOVEL and ($tier = $item->isShovel()) !== false)
+				($this->getToolType() === Tool::TYPE_PICKAXE && ($tier = $item->isPickaxe()) !== false) or
+				($this->getToolType() === Tool::TYPE_AXE && ($tier = $item->isAxe()) !== false) or
+				($this->getToolType() === Tool::TYPE_SHOVEL && ($tier = $item->isShovel()) !== false)
 			){
 				switch($tier){
 					case Tool::TIER_WOODEN:
@@ -853,7 +853,7 @@ class Block extends Position implements Metadatable{
 	public function collidesWithBB(AxisAlignedBB $bb){
 		$bb2 = $this->getBoundingBox();
 
-		return $bb2 !== null and $bb->intersectsWith($bb2);
+		return $bb2 !== null && $bb->intersectsWith($bb2);
 	}
 
 	/**
@@ -906,49 +906,49 @@ class Block extends Position implements Metadatable{
 		$v5 = $pos1->getIntermediateWithZValue($pos2, $bb->minZ);
 		$v6 = $pos1->getIntermediateWithZValue($pos2, $bb->maxZ);
 
-		if($v1 !== null and !$bb->isVectorInYZ($v1)){
+		if($v1 !== null && !$bb->isVectorInYZ($v1)){
 			$v1 = null;
 		}
 
-		if($v2 !== null and !$bb->isVectorInYZ($v2)){
+		if($v2 !== null && !$bb->isVectorInYZ($v2)){
 			$v2 = null;
 		}
 
-		if($v3 !== null and !$bb->isVectorInXZ($v3)){
+		if($v3 !== null && !$bb->isVectorInXZ($v3)){
 			$v3 = null;
 		}
 
-		if($v4 !== null and !$bb->isVectorInXZ($v4)){
+		if($v4 !== null && !$bb->isVectorInXZ($v4)){
 			$v4 = null;
 		}
 
-		if($v5 !== null and !$bb->isVectorInXY($v5)){
+		if($v5 !== null && !$bb->isVectorInXY($v5)){
 			$v5 = null;
 		}
 
-		if($v6 !== null and !$bb->isVectorInXY($v6)){
+		if($v6 !== null && !$bb->isVectorInXY($v6)){
 			$v6 = null;
 		}
 
 		$vector = $v1;
 
-		if($v2 !== null and ($vector === null or $pos1->distanceSquared($v2) < $pos1->distanceSquared($vector))){
+		if($v2 !== null && ($vector === null || $pos1->distanceSquared($v2) < $pos1->distanceSquared($vector))){
 			$vector = $v2;
 		}
 
-		if($v3 !== null and ($vector === null or $pos1->distanceSquared($v3) < $pos1->distanceSquared($vector))){
+		if($v3 !== null && ($vector === null || $pos1->distanceSquared($v3) < $pos1->distanceSquared($vector))){
 			$vector = $v3;
 		}
 
-		if($v4 !== null and ($vector === null or $pos1->distanceSquared($v4) < $pos1->distanceSquared($vector))){
+		if($v4 !== null && ($vector === null || $pos1->distanceSquared($v4) < $pos1->distanceSquared($vector))){
 			$vector = $v4;
 		}
 
-		if($v5 !== null and ($vector === null or $pos1->distanceSquared($v5) < $pos1->distanceSquared($vector))){
+		if($v5 !== null && ($vector === null || $pos1->distanceSquared($v5) < $pos1->distanceSquared($vector))){
 			$vector = $v5;
 		}
 
-		if($v6 !== null and ($vector === null or $pos1->distanceSquared($v6) < $pos1->distanceSquared($vector))){
+		if($v6 !== null && ($vector === null || $pos1->distanceSquared($v6) < $pos1->distanceSquared($vector))){
 			$vector = $v6;
 		}
 

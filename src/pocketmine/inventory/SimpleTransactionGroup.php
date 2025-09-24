@@ -73,7 +73,7 @@ class SimpleTransactionGroup implements TransactionGroup{
 			return;
 		}
 		foreach($this->transactions as $hash => $tx){
-			if($tx->getInventory() === $transaction->getInventory() and $tx->getSlot() === $transaction->getSlot()){
+			if($tx->getInventory() === $transaction->getInventory() && $tx->getSlot() === $transaction->getSlot()){
 				if($transaction->getCreationTime() >= $tx->getCreationTime()){
 					unset($this->transactions[$hash]);
 				}else{
@@ -98,7 +98,7 @@ class SimpleTransactionGroup implements TransactionGroup{
 			}
 			$checkSourceItem = $ts->getInventory()->getItem($ts->getSlot());
 			$sourceItem = $ts->getSourceItem();
-			if(!$checkSourceItem->deepEquals($sourceItem) or $sourceItem->getCount() !== $checkSourceItem->getCount()){
+			if(!$checkSourceItem->deepEquals($sourceItem) || $sourceItem->getCount() !== $checkSourceItem->getCount()){
 				return false;
 			}
 			if($sourceItem->getId() !== Item::AIR){
@@ -130,11 +130,11 @@ class SimpleTransactionGroup implements TransactionGroup{
 		$haveItems = [];
 		$needItems = [];
 
-		return $this->matchItems($haveItems, $needItems) and count($haveItems) === 0 and count($needItems) === 0 and count($this->transactions) > 0;
+		return $this->matchItems($haveItems, $needItems) && count($haveItems) === 0 && count($needItems) === 0 && count($this->transactions) > 0;
 	}
 
 	public function execute(){
-		if($this->hasExecuted() or !$this->canExecute()){
+		if($this->hasExecuted() || !$this->canExecute()){
 			return false;
 		}
 

@@ -137,7 +137,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 					}
 				}
 			}catch(\Throwable $e){
-				if(\pocketmine\DEBUG > 1 and isset($pk)){
+				if(\pocketmine\DEBUG > 1 && isset($pk)){
 					$logger = $this->server->getLogger();
 					$logger->debug("Packet " . get_class($pk) . " 0x" . bin2hex($packet->buffer));
 					$logger->logException($e);
@@ -206,9 +206,9 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 				$pk = $packet->__encapsulatedPacket;
 			}
 
-			if(!$immediate and !$needACK and $packet::NETWORK_ID !== ProtocolInfo::BATCH_PACKET
-				and Network::$BATCH_THRESHOLD >= 0
-				and strlen($packet->buffer) >= Network::$BATCH_THRESHOLD){
+			if(!$immediate && !$needACK && $packet::NETWORK_ID !== ProtocolInfo::BATCH_PACKET
+				&& Network::$BATCH_THRESHOLD >= 0
+				&& strlen($packet->buffer) >= Network::$BATCH_THRESHOLD){
 				$this->server->batchPackets([$player], [$packet], true);
 				return null;
 			}

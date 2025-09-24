@@ -76,7 +76,7 @@ class FormattedCommandAlias extends Command{
 		$index = strpos($formatString, '$');
 		while($index !== false){
 			$start = $index;
-			if($index > 0 and $formatString[$start - 1] === "\\"){
+			if($index > 0 && $formatString[$start - 1] === "\\"){
 				$formatString = substr($formatString, 0, $start - 1) . substr($formatString, $start);
 				$index = strpos($formatString, '$', $index);
 				continue;
@@ -93,7 +93,7 @@ class FormattedCommandAlias extends Command{
 
 			$argStart = $index;
 
-			while($index < strlen($formatString) and self::inRange(ord($formatString[$index]) - 48, 0, 9)){
+			while($index < strlen($formatString) && self::inRange(ord($formatString[$index]) - 48, 0, 9)){
 				++$index;
 			}
 
@@ -111,19 +111,19 @@ class FormattedCommandAlias extends Command{
 
 			$rest = false;
 
-			if($index < strlen($formatString) and $formatString[$index] === "-"){
+			if($index < strlen($formatString) && $formatString[$index] === "-"){
 				$rest = true;
 				++$index;
 			}
 
 			$end = $index;
 
-			if($required and $position >= count($args)){
+			if($required && $position >= count($args)){
 				throw new \InvalidArgumentException("Missing required argument " . ($position + 1));
 			}
 
 			$replacement = "";
-			if($rest and $position < count($args)){
+			if($rest && $position < count($args)){
 				for($i = $position; $i < count($args); ++$i){
 					if($i !== $position){
 						$replacement .= " ";
@@ -153,7 +153,7 @@ class FormattedCommandAlias extends Command{
 	 * @return bool
 	 */
 	private static function inRange($i, $j, $k){
-		return $i >= $j and $i <= $k;
+		return $i >= $j && $i <= $k;
 	}
 
 }

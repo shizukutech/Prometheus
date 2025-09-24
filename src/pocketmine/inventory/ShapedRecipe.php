@@ -49,7 +49,7 @@ class ShapedRecipe implements Recipe{
 	 */
 	public function __construct(Item $result, $height, $width){
 		for($h = 0; $h < $height; $h++){
-			if($width === 0 or $width > 3){
+			if($width === 0 || $width > 3){
 				throw new \InvalidStateException("Crafting rows should be 1, 2, 3 wide, not $width");
 			}
 			$this->ingredients[] = array_fill(0, $width, null);

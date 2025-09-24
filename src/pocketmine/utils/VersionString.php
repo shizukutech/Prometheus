@@ -79,7 +79,7 @@ class VersionString{
 	}
 
 	public function get($build = false){
-		return $this->getRelease() . ($this->development === true ? "dev" : "") . (($this->build > 0 and $build === true) ? "-" . $this->build : "");
+		return $this->getRelease() . ($this->development === true ? "dev" : "") . (($this->build > 0 && $build === true) ? "-" . $this->build : "");
 	}
 
 	public function __toString(){

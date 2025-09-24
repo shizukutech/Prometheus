@@ -227,7 +227,7 @@ class Vector3{
 	}
 
 	public function equals(Vector3 $v){
-		return $this->x == $v->x and $this->y == $v->y and $this->z == $v->z;
+		return $this->x == $v->x && $this->y == $v->y && $this->z == $v->z;
 	}
 
 	/**
@@ -250,7 +250,7 @@ class Vector3{
 
 		$f = ($x - $this->x) / $xDiff;
 
-		if($f < 0 or $f > 1){
+		if($f < 0 || $f > 1){
 			return null;
 		}else{
 			return new Vector3($this->x + $xDiff * $f, $this->y + $yDiff * $f, $this->z + $zDiff * $f);
@@ -277,7 +277,7 @@ class Vector3{
 
 		$f = ($y - $this->y) / $yDiff;
 
-		if($f < 0 or $f > 1){
+		if($f < 0 || $f > 1){
 			return null;
 		}else{
 			return new Vector3($this->x + $xDiff * $f, $this->y + $yDiff * $f, $this->z + $zDiff * $f);
@@ -304,7 +304,7 @@ class Vector3{
 
 		$f = ($z - $this->z) / $zDiff;
 
-		if($f < 0 or $f > 1){
+		if($f < 0 || $f > 1){
 			return null;
 		}else{
 			return new Vector3($this->x + $xDiff * $f, $this->y + $yDiff * $f, $this->z + $zDiff * $f);

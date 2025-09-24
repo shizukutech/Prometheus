@@ -96,7 +96,7 @@ class Squid extends WaterAnimal implements Ageable{
 
 		if($this->isAlive()){
 
-			if($this->y > 62 and $this->swimDirection !== null){
+			if($this->y > 62 && $this->swimDirection !== null){
 				$this->swimDirection->y = -0.5;
 			}
 
@@ -142,7 +142,7 @@ class Squid extends WaterAnimal implements Ageable{
 
 		$this->timings->stopTiming();
 
-		return $hasUpdate or !$this->onGround or abs($this->motionX) > 0.00001 or abs($this->motionY) > 0.00001 or abs($this->motionZ) > 0.00001;
+		return $hasUpdate || !$this->onGround || abs($this->motionX) > 0.00001 || abs($this->motionY) > 0.00001 || abs($this->motionZ) > 0.00001;
 	}
 
 

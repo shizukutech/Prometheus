@@ -126,14 +126,14 @@ class BaseClassLoader extends \Threaded implements ClassLoader{
         $path = $this->findClass($name);
         if($path !== null){
             include($path);
-            if(!class_exists($name, false) and !interface_exists($name, false) and !trait_exists($name, false)){
+            if(!class_exists($name, false) && !interface_exists($name, false) && !trait_exists($name, false)){
 	            if($this->getParent() === null){
 		            throw new ClassNotFoundException("Class $name not found");
 	            }
                 return false;
             }
 
-	        if(method_exists($name, "onClassLoaded") and (new ReflectionClass($name))->getMethod("onClassLoaded")->isStatic()){
+	        if(method_exists($name, "onClassLoaded") && (new ReflectionClass($name))->getMethod("onClassLoaded")->isStatic()){
 		        $name::onClassLoaded();
 	        }
 	        
@@ -161,9 +161,9 @@ class BaseClassLoader extends \Threaded implements ClassLoader{
 
 
         foreach($this->lookup as $path){
-            if(PHP_INT_SIZE === 8 and file_exists($path . DIRECTORY_SEPARATOR . $baseName . "__64bit.php")){
+            if(PHP_INT_SIZE === 8 && file_exists($path . DIRECTORY_SEPARATOR . $baseName . "__64bit.php")){
                 return $path . DIRECTORY_SEPARATOR . $baseName . "__64bit.php";
-            }elseif(PHP_INT_SIZE === 4 and file_exists($path . DIRECTORY_SEPARATOR . $baseName . "__32bit.php")){
+            }elseif(PHP_INT_SIZE === 4 && file_exists($path . DIRECTORY_SEPARATOR . $baseName . "__32bit.php")){
                 return $path . DIRECTORY_SEPARATOR . $baseName . "__32bit.php";
             }elseif(file_exists($path . DIRECTORY_SEPARATOR . $baseName . ".php")){
                 return $path . DIRECTORY_SEPARATOR . $baseName . ".php";

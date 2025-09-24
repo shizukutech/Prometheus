@@ -60,21 +60,21 @@ abstract class Tool extends Item{
 
 		if($object instanceof Block){
 			if(
-				$object->getToolType() === Tool::TYPE_PICKAXE and $this->isPickaxe() or
-				$object->getToolType() === Tool::TYPE_SHOVEL and $this->isShovel() or
-				$object->getToolType() === Tool::TYPE_AXE and $this->isAxe() or
-				$object->getToolType() === Tool::TYPE_SWORD and $this->isSword() or
-				$object->getToolType() === Tool::TYPE_SHEARS and $this->isShears()
+				$object->getToolType() === Tool::TYPE_PICKAXE && $this->isPickaxe() or
+				$object->getToolType() === Tool::TYPE_SHOVEL && $this->isShovel() or
+				$object->getToolType() === Tool::TYPE_AXE && $this->isAxe() or
+				$object->getToolType() === Tool::TYPE_SWORD && $this->isSword() or
+				$object->getToolType() === Tool::TYPE_SHEARS && $this->isShears()
 			){
 				$this->meta++;
-			}elseif(!$this->isShears() and $object->getBreakTime($this) > 0){
+			}elseif(!$this->isShears() && $object->getBreakTime($this) > 0){
 				$this->meta += 2;
 			}
 		}elseif($this->isHoe()){
-			if(($object instanceof Block) and ($object->getId() === self::GRASS or $object->getId() === self::DIRT)){
+			if(($object instanceof Block) && ($object->getId() === self::GRASS || $object->getId() === self::DIRT)){
 				$this->meta++;
 			}
-		}elseif(($object instanceof Entity) and !$this->isSword()){
+		}elseif(($object instanceof Entity) && !$this->isSword()){
 			$this->meta += 2;
 		}else{
 			$this->meta++;
@@ -118,7 +118,7 @@ abstract class Tool extends Item{
 
 	public function isUnbreakable(){
 		$tag = $this->getNamedTagEntry("Unbreakable");
-		return $tag !== null and $tag->getValue() > 0;
+		return $tag !== null && $tag->getValue() > 0;
 	}
 
 	public function isPickaxe(){
@@ -146,6 +146,6 @@ abstract class Tool extends Item{
 	}
 
 	public function isTool(){
-		return ($this->id === self::FLINT_STEEL or $this->id === self::SHEARS or $this->id === self::BOW or $this->isPickaxe() !== false or $this->isAxe() !== false or $this->isShovel() !== false or $this->isSword() !== false);
+		return ($this->id === self::FLINT_STEEL || $this->id === self::SHEARS || $this->id === self::BOW || $this->isPickaxe() !== false || $this->isAxe() !== false || $this->isShovel() !== false || $this->isSword() !== false);
 	}
 }

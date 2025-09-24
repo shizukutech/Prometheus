@@ -147,16 +147,16 @@ namespace pocketmine {
 	$logger = new MainLogger(\pocketmine\DATA . "server.log", \pocketmine\ANSI);
 
 	if(!ini_get("date.timezone")){
-		if(($timezone = detect_system_timezone()) and date_default_timezone_set($timezone)){
+		if(($timezone = detect_system_timezone()) && date_default_timezone_set($timezone)){
 			//Success! Timezone has already been set and validated in the if statement.
 			//This here is just for redundancy just in case some program wants to read timezone data from the ini.
 			ini_set("date.timezone", $timezone);
 		}else{
 			//If system timezone detection fails or timezone is an invalid value.
-			if($response = Utils::getURL("http://ip-api.com/json")
-				and $ip_geolocation_data = json_decode($response, true)
-				and $ip_geolocation_data['status'] != 'fail'
-				and date_default_timezone_set($ip_geolocation_data['timezone'])
+			if(($response = Utils::getURL("http://ip-api.com/json"))
+				&& ($ip_geolocation_data = json_decode($response, true))
+				&& $ip_geolocation_data['status'] != 'fail'
+				&& date_default_timezone_set($ip_geolocation_data['timezone'])
 			){
 				//Again, for redundancy.
 				ini_set("date.timezone", $ip_geolocation_data['timezone']);
@@ -341,7 +341,7 @@ namespace pocketmine {
 		$ret = explode("\n", ob_get_contents());
 		ob_end_clean();
 
-		if(count($ret) >= 1 and preg_match('/^.* refcount\\(([0-9]+)\\)\\{$/', trim($ret[0]), $m) > 0){
+		if(count($ret) >= 1 && preg_match('/^.* refcount\\(([0-9]+)\\)\\{$/', trim($ret[0]), $m) > 0){
 			return ((int) $m[1]) - ($includeCurrent ? 3 : 4); //$value + zval call + extra call
 		}
 		return -1;
@@ -361,7 +361,7 @@ namespace pocketmine {
 		$j = 0;
 		for($i = (int) $start; isset($trace[$i]); ++$i, ++$j){
 			$params = "";
-			if(isset($trace[$i]["args"]) or isset($trace[$i]["params"])){
+			if(isset($trace[$i]["args"]) || isset($trace[$i]["params"])){
 				if(isset($trace[$i]["args"])){
 					$args = $trace[$i]["args"];
 				}else{
@@ -371,7 +371,7 @@ namespace pocketmine {
 					$params .= (is_object($value) ? get_class($value) . " " . (method_exists($value, "__toString") ? $value->__toString() : "object") : gettype($value) . " " . (is_array($value) ? "Array()" : Utils::printable(@strval($value)))) . ", ";
 				}
 			}
-			$messages[] = "#$j " . (isset($trace[$i]["file"]) ? cleanPath($trace[$i]["file"]) : "") . "(" . (isset($trace[$i]["line"]) ? $trace[$i]["line"] : "") . "): " . (isset($trace[$i]["class"]) ? $trace[$i]["class"] . (($trace[$i]["type"] === "dynamic" or $trace[$i]["type"] === "->") ? "->" : "::") : "") . $trace[$i]["function"] . "(" . Utils::printable(substr($params, 0, -2)) . ")";
+			$messages[] = "#$j " . (isset($trace[$i]["file"]) ? cleanPath($trace[$i]["file"]) : "") . "(" . (isset($trace[$i]["line"]) ? $trace[$i]["line"] : "") . "): " . (isset($trace[$i]["class"]) ? $trace[$i]["class"] . (($trace[$i]["type"] === "dynamic" || $trace[$i]["type"] === "->") ? "->" : "::") : "") . $trace[$i]["function"] . "(" . Utils::printable(substr($params, 0, -2)) . ")";
 		}
 
 		return $messages;
@@ -453,7 +453,7 @@ namespace pocketmine {
 	@define("INT32_MASK", is_int(0xffffffff) ? 0xffffffff : -1);
 	@ini_set("opcache.mmap_base", bin2hex(random_bytes(8))); //Fix OPCache address errors
 
-	if(!file_exists(\pocketmine\DATA . "server.properties") and !isset($opts["no-wizard"])){
+	if(!file_exists(\pocketmine\DATA . "server.properties") && !isset($opts["no-wizard"])){
 		new Installer();
 	}
 

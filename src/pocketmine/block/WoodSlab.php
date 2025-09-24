@@ -78,11 +78,11 @@ class WoodSlab extends Transparent{
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$this->meta &= 0x07;
 		if($face === 0){
-			if($target->getId() === self::WOOD_SLAB and ($target->getDamage() & 0x08) === 0x08 and ($target->getDamage() & 0x07) === ($this->meta & 0x07)){
+			if($target->getId() === self::WOOD_SLAB && ($target->getDamage() & 0x08) === 0x08 && ($target->getDamage() & 0x07) === ($this->meta & 0x07)){
 				$this->getLevel()->setBlock($target, Block::get(Item::DOUBLE_WOOD_SLAB, $this->meta), true);
 
 				return true;
-			}elseif($block->getId() === self::WOOD_SLAB and ($block->getDamage() & 0x07) === ($this->meta & 0x07)){
+			}elseif($block->getId() === self::WOOD_SLAB && ($block->getDamage() & 0x07) === ($this->meta & 0x07)){
 				$this->getLevel()->setBlock($block, Block::get(Item::DOUBLE_WOOD_SLAB, $this->meta), true);
 
 				return true;
@@ -90,11 +90,11 @@ class WoodSlab extends Transparent{
 				$this->meta |= 0x08;
 			}
 		}elseif($face === 1){
-			if($target->getId() === self::WOOD_SLAB and ($target->getDamage() & 0x08) === 0 and ($target->getDamage() & 0x07) === ($this->meta & 0x07)){
+			if($target->getId() === self::WOOD_SLAB && ($target->getDamage() & 0x08) === 0 && ($target->getDamage() & 0x07) === ($this->meta & 0x07)){
 				$this->getLevel()->setBlock($target, Block::get(Item::DOUBLE_WOOD_SLAB, $this->meta), true);
 
 				return true;
-			}elseif($block->getId() === self::WOOD_SLAB and ($block->getDamage() & 0x07) === ($this->meta & 0x07)){
+			}elseif($block->getId() === self::WOOD_SLAB && ($block->getDamage() & 0x07) === ($this->meta & 0x07)){
 				$this->getLevel()->setBlock($block, Block::get(Item::DOUBLE_WOOD_SLAB, $this->meta), true);
 
 				return true;
@@ -115,7 +115,7 @@ class WoodSlab extends Transparent{
 			}
 		}
 
-		if($block->getId() === self::WOOD_SLAB and ($target->getDamage() & 0x07) !== ($this->meta & 0x07)){
+		if($block->getId() === self::WOOD_SLAB && ($target->getDamage() & 0x07) !== ($this->meta & 0x07)){
 			return false;
 		}
 		$this->getLevel()->setBlock($block, $this, true, true);

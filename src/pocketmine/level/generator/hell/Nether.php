@@ -145,7 +145,7 @@ class Nether extends Generator{
 				$chunk->setBiomeColor($x, $z, $color[0], $color[1], $color[2]);
 
 				for($y = 0; $y < 128; ++$y){
-					if($y === 0 or $y === 127){
+					if($y === 0 || $y === 127){
 						$chunk->setBlockId($x, $y, $z, Block::BEDROCK);
 						continue;
 					}

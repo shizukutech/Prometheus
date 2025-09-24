@@ -56,7 +56,7 @@ class McRegion extends BaseLevelProvider{
 	}
 
 	public static function isValid($path){
-		$isValid = (file_exists($path . "/level.dat") and is_dir($path . "/region/"));
+		$isValid = (file_exists($path . "/level.dat") && is_dir($path . "/region/"));
 
 		if($isValid){
 			$files = glob($path . "/region/*.mc*");
@@ -202,7 +202,7 @@ class McRegion extends BaseLevelProvider{
 		$this->loadRegion($regionX, $regionZ);
 		$this->level->timings->syncChunkLoadDataTimer->startTiming();
 		$chunk = $this->getRegion($regionX, $regionZ)->readChunk($chunkX - $regionX * 32, $chunkZ - $regionZ * 32);
-		if($chunk === null and $create){
+		if($chunk === null && $create){
 			$chunk = $this->getEmptyChunk($chunkX, $chunkZ);
 		}
 		$this->level->timings->syncChunkLoadDataTimer->stopTiming();
@@ -221,7 +221,7 @@ class McRegion extends BaseLevelProvider{
 
 	public function unloadChunk($x, $z, $safe = true){
 		$chunk = isset($this->chunks[$index = Level::chunkHash($x, $z)]) ? $this->chunks[$index] : null;
-		if($chunk instanceof FullChunk and $chunk->unload(false, $safe)){
+		if($chunk instanceof FullChunk && $chunk->unload(false, $safe)){
 			unset($this->chunks[$index]);
 			return true;
 		}
@@ -281,7 +281,7 @@ class McRegion extends BaseLevelProvider{
 		$chunk->setZ($chunkZ);
 
 
-		if(isset($this->chunks[$index = Level::chunkHash($chunkX, $chunkZ)]) and $this->chunks[$index] !== $chunk){
+		if(isset($this->chunks[$index = Level::chunkHash($chunkX, $chunkZ)]) && $this->chunks[$index] !== $chunk){
 			$this->unloadChunk($chunkX, $chunkZ, false);
 		}
 
@@ -294,7 +294,7 @@ class McRegion extends BaseLevelProvider{
 
 	public function isChunkGenerated($chunkX, $chunkZ){
 		if(($region = $this->getRegion($chunkX >> 5, $chunkZ >> 5)) !== null){
-			return $region->chunkExists($chunkX - $region->getX() * 32, $chunkZ - $region->getZ() * 32) and $this->getChunk($chunkX - $region->getX() * 32, $chunkZ - $region->getZ() * 32, true)->isGenerated();
+			return $region->chunkExists($chunkX - $region->getX() * 32, $chunkZ - $region->getZ() * 32) && $this->getChunk($chunkX - $region->getX() * 32, $chunkZ - $region->getZ() * 32, true)->isGenerated();
 		}
 
 		return false;

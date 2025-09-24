@@ -74,7 +74,7 @@ class Attribute{
 	 * @return Attribute
 	 */
 	public static function addAttribute($id, $name, $minValue, $maxValue, $defaultValue, $shouldSend = true){
-		if($minValue > $maxValue or $defaultValue > $maxValue or $defaultValue < $minValue){
+		if($minValue > $maxValue || $defaultValue > $maxValue || $defaultValue < $minValue){
 			throw new \InvalidArgumentException("Invalid ranges: min value: $minValue, max value: $maxValue, $defaultValue: $defaultValue");
 		}
 
@@ -153,7 +153,7 @@ class Attribute{
 	}
 
 	public function setDefaultValue($defaultValue){
-		if($defaultValue > $this->getMaxValue() or $defaultValue < $this->getMinValue()){
+		if($defaultValue > $this->getMaxValue() || $defaultValue < $this->getMinValue()){
 			throw new \InvalidArgumentException("Value $defaultValue exceeds the range!");
 		}
 
@@ -169,7 +169,7 @@ class Attribute{
 	}
 
 	public function setValue($value, $fit = false){
-		if($value > $this->getMaxValue() or $value < $this->getMinValue()){
+		if($value > $this->getMaxValue() || $value < $this->getMinValue()){
 			if(!$fit){
 				throw new \InvalidArgumentException("Value $value exceeds the range!");
 			}
@@ -196,7 +196,7 @@ class Attribute{
 	}
 
 	public function isDesynchronized() : bool{
-		return $this->shouldSend and $this->desynchronized;
+		return $this->shouldSend && $this->desynchronized;
 	}
 
 	public function markSynchronized(bool $synced = true){

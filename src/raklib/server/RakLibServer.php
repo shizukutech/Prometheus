@@ -44,7 +44,7 @@ class RakLibServer extends \Thread{
 	 */
     public function __construct(\ThreadedLogger $logger, \ClassLoader $loader, $port, $interface = "0.0.0.0"){
         $this->port = (int) $port;
-        if($port < 1 or $port > 65536){
+        if($port < 1 || $port > 65536){
             throw new \Exception("Invalid port range");
         }
 
@@ -192,7 +192,7 @@ class RakLibServer extends \Thread{
 		$j = 0;
 		for($i = (int) $start; isset($trace[$i]); ++$i, ++$j){
 			$params = "";
-			if(isset($trace[$i]["args"]) or isset($trace[$i]["params"])){
+			if(isset($trace[$i]["args"]) || isset($trace[$i]["params"])){
 				if(isset($trace[$i]["args"])){
 					$args = $trace[$i]["args"];
 				}else{
@@ -202,7 +202,7 @@ class RakLibServer extends \Thread{
 					$params .= (is_object($value) ? get_class($value) . " " . (method_exists($value, "__toString") ? $value->__toString() : "object") : gettype($value) . " " . @strval($value)) . ", ";
 				}
 			}
-			$messages[] = "#$j " . (isset($trace[$i]["file"]) ? $this->cleanPath($trace[$i]["file"]) : "") . "(" . (isset($trace[$i]["line"]) ? $trace[$i]["line"] : "") . "): " . (isset($trace[$i]["class"]) ? $trace[$i]["class"] . (($trace[$i]["type"] === "dynamic" or $trace[$i]["type"] === "->") ? "->" : "::") : "") . $trace[$i]["function"] . "(" . substr($params, 0, -2) . ")";
+			$messages[] = "#$j " . (isset($trace[$i]["file"]) ? $this->cleanPath($trace[$i]["file"]) : "") . "(" . (isset($trace[$i]["line"]) ? $trace[$i]["line"] : "") . "): " . (isset($trace[$i]["class"]) ? $trace[$i]["class"] . (($trace[$i]["type"] === "dynamic" || $trace[$i]["type"] === "->") ? "->" : "::") : "") . $trace[$i]["function"] . "(" . substr($params, 0, -2) . ")";
 		}
 
 		return $messages;
@@ -215,7 +215,7 @@ class RakLibServer extends \Thread{
     public function run(){
         //Load removed dependencies, can't use require_once()
         foreach($this->loadPaths as $name => $path){
-            if(!class_exists($name, false) and !interface_exists($name, false)){
+            if(!class_exists($name, false) && !interface_exists($name, false)){
                 require($path);
             }
         }

@@ -50,7 +50,7 @@ abstract class Living extends Entity implements Damageable{
 		if(isset($this->namedtag->HealF)){
 			$this->namedtag->Health = new ShortTag("Health", (int) $this->namedtag["HealF"]);
 			unset($this->namedtag->HealF);
-		}elseif(!isset($this->namedtag->Health) or !($this->namedtag->Health instanceof ShortTag)){
+		}elseif(!isset($this->namedtag->Health) || !($this->namedtag->Health instanceof ShortTag)){
 			$this->namedtag->Health = new ShortTag("Health", $this->getMaxHealth());
 		}
 
@@ -70,7 +70,7 @@ abstract class Living extends Entity implements Damageable{
 		$wasAlive = $this->isAlive();
 		parent::setHealth($amount);
 		$this->attributeMap->getAttribute(Attribute::HEALTH)->setValue($this->getHealth());
-		if($this->isAlive() and !$wasAlive){
+		if($this->isAlive() && !$wasAlive){
 			$pk = new EntityEventPacket();
 			$pk->eid = $this->getId();
 			$pk->event = EntityEventPacket::RESPAWN;
@@ -105,9 +105,9 @@ abstract class Living extends Entity implements Damageable{
 	}
 
 	public function attack($damage, EntityDamageEvent $source){
-		if($this->attackTime > 0 or $this->noDamageTicks > 0){
+		if($this->attackTime > 0 || $this->noDamageTicks > 0){
 			$lastCause = $this->getLastDamageCause();
-			if($lastCause !== null and $lastCause->getDamage() >= $damage){
+			if($lastCause !== null && $lastCause->getDamage() >= $damage){
 				$source->setCancelled();
 			}
 		}
@@ -188,7 +188,7 @@ abstract class Living extends Entity implements Damageable{
 				$this->attack($ev->getFinalDamage(), $ev);
 			}
 
-			if(!$this->hasEffect(Effect::WATER_BREATHING) and $this->isInsideOfWater()){
+			if(!$this->hasEffect(Effect::WATER_BREATHING) && $this->isInsideOfWater()){
 				if($this instanceof WaterAnimal){
 					$this->setDataProperty(self::DATA_AIR, self::DATA_TYPE_SHORT, 300);
 				}else{
@@ -261,7 +261,7 @@ abstract class Living extends Entity implements Damageable{
 			$block = $itr->current();
 			$blocks[$nextIndex++] = $block;
 
-			if($maxLength !== 0 and count($blocks) > $maxLength){
+			if($maxLength !== 0 && count($blocks) > $maxLength){
 				array_shift($blocks);
 				--$nextIndex;
 			}

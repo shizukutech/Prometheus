@@ -53,7 +53,7 @@ class RCON{
 		$this->threads = (int) max(1, $threads);
 		$this->clientsPerThread = (int) max(1, $clientsPerThread);
 		$this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-		if($this->socket === false or !socket_bind($this->socket, $interface, (int) $port) or !socket_listen($this->socket)){
+		if($this->socket === false || !socket_bind($this->socket, $interface, (int) $port) || !socket_listen($this->socket)){
 			$this->server->getLogger()->critical("RCON can't be started: " . socket_strerror(socket_last_error()));
 			$this->threads = 0;
 			return;

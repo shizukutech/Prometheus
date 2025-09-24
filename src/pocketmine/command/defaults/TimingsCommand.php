@@ -75,7 +75,7 @@ class TimingsCommand extends VanillaCommand{
 		if($mode === "reset"){
 			TimingsHandler::reload();
 			$sender->sendMessage(new TranslationContainer("pocketmine.command.timings.reset"));
-		}elseif($mode === "merged" or $mode === "report" or $paste){
+		}elseif($mode === "merged" || $mode === "report" || $paste){
 
 			$sampleTime = microtime(true) - self::$timingStart;
 			$index = 0;

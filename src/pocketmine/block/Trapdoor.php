@@ -126,7 +126,7 @@ class Trapdoor extends Transparent{
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if(($target->isTransparent() === false or $target->getId() === self::SLAB) and $face !== 0 and $face !== 1){
+		if(($target->isTransparent() === false || $target->getId() === self::SLAB) && $face !== 0 && $face !== 1){
 			$faces = [
 				self::SIDE_SOUTH => self::MASK_SIDE_SOUTH,
 				self::SIDE_NORTH => self::MASK_SIDE_NORTH,

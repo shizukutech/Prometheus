@@ -211,7 +211,7 @@ abstract class Liquid extends Transparent{
 
 				$k = $smallestFlowDecay + $multiplier;
 
-				if($k >= 8 or $smallestFlowDecay < 0){
+				if($k >= 8 || $smallestFlowDecay < 0){
 					$k = -1;
 				}
 
@@ -223,16 +223,16 @@ abstract class Liquid extends Transparent{
 					}
 				}
 
-				if($this->adjacentSources >= 2 and $this instanceof Water){
+				if($this->adjacentSources >= 2 && $this instanceof Water){
 					$bottomBlock = $this->level->getBlock($this->level->getBlock($this->temporalVector->setComponents($this->x, $this->y - 1, $this->z)));
 					if($bottomBlock->isSolid()){
 						$k = 0;
-					}elseif($bottomBlock instanceof Water and $bottomBlock->getDamage() === 0){
+					}elseif($bottomBlock instanceof Water && $bottomBlock->getDamage() === 0){
 						$k = 0;
 					}
 				}
 
-				if($this instanceof Lava and $decay < 8 and $k < 8 and $k > 1 and mt_rand(0, 4) !== 0){
+				if($this instanceof Lava && $decay < 8 && $k < 8 && $k > 1 && mt_rand(0, 4) !== 0){
 					$k = $decay;
 					$flag = false;
 				}
@@ -255,8 +255,8 @@ abstract class Liquid extends Transparent{
 
 			$bottomBlock = $this->level->getBlock($this->temporalVector->setComponents($this->x, $this->y - 1, $this->z));
 
-			if($bottomBlock->canBeFlowedInto() or $bottomBlock instanceof Liquid){
-				if($this instanceof Lava and $bottomBlock instanceof Water){
+			if($bottomBlock->canBeFlowedInto() || $bottomBlock instanceof Liquid){
+				if($this instanceof Lava && $bottomBlock instanceof Water){
 					$this->getLevel()->setBlock($bottomBlock, Block::get(Item::STONE), true);
 					return;
 				}
@@ -268,7 +268,7 @@ abstract class Liquid extends Transparent{
 					$this->getLevel()->setBlock($bottomBlock, Block::get($this->id, $decay + 8), true);
 					$this->getLevel()->scheduleUpdate($bottomBlock, $this->tickRate());
 				}
-			}elseif($decay >= 0 and ($decay === 0 or !$bottomBlock->canBeFlowedInto())){
+			}elseif($decay >= 0 && ($decay === 0 || !$bottomBlock->canBeFlowedInto())){
 				$flags = $this->getOptimalFlowDirections();
 
 				$l = $decay + $multiplier;
@@ -320,10 +320,10 @@ abstract class Liquid extends Transparent{
 
 		for($j = 0; $j < 4; ++$j){
 			if(
-				($j === 0 and $previousDirection === 1) or
-				($j === 1 and $previousDirection === 0) or
-				($j === 2 and $previousDirection === 3) or
-				($j === 3 and $previousDirection === 2)
+				($j === 0 && $previousDirection === 1) or
+				($j === 1 && $previousDirection === 0) or
+				($j === 2 && $previousDirection === 3) or
+				($j === 3 && $previousDirection === 2)
 			){
 				$x = $block->x;
 				$y = $block->y;
@@ -340,9 +340,9 @@ abstract class Liquid extends Transparent{
 				}
 				$blockSide = $this->getLevel()->getBlock($this->temporalVector->setComponents($x, $y, $z));
 
-				if(!$blockSide->canBeFlowedInto() and !($blockSide instanceof Liquid)){
+				if(!$blockSide->canBeFlowedInto() && !($blockSide instanceof Liquid)){
 					continue;
-				}elseif($blockSide instanceof Liquid and $blockSide->getDamage() === 0){
+				}elseif($blockSide instanceof Liquid && $blockSide->getDamage() === 0){
 					continue;
 				}elseif($this->getLevel()->getBlock($this->temporalVector->setComponents($x, $y - 1, $z))->canBeFlowedInto()){
 					return $accumulatedCost;
@@ -390,9 +390,9 @@ abstract class Liquid extends Transparent{
 			}
 			$block = $this->getLevel()->getBlock($this->temporalVector->setComponents($x, $y, $z));
 
-			if(!$block->canBeFlowedInto() and !($block instanceof Liquid)){
+			if(!$block->canBeFlowedInto() && !($block instanceof Liquid)){
 				continue;
-			}elseif($block instanceof Liquid and $block->getDamage() === 0){
+			}elseif($block instanceof Liquid && $block->getDamage() === 0){
 				continue;
 			}elseif($this->getLevel()->getBlock($this->temporalVector->setComponents($x, $y - 1, $z))->canBeFlowedInto()){
 				$this->flowCost[$j] = 0;
@@ -433,7 +433,7 @@ abstract class Liquid extends Transparent{
 	private function checkForHarden(){
 		if($this instanceof Lava){
 			$colliding = false;
-			for($side = 0; $side <= 5 and !$colliding; ++$side){
+			for($side = 0; $side <= 5 && !$colliding; ++$side){
 				$colliding = $this->getSide($side) instanceof Water;
 			}
 

@@ -54,7 +54,7 @@ class SpruceTree extends Tree{
 				$xOff = abs($xx - $x);
 				for($zz = $z - $radius; $zz <= $z + $radius; ++$zz){
 					$zOff = abs($zz - $z);
-                    if($xOff === $radius and $zOff === $radius and $radius > 0){
+                    if($xOff === $radius && $zOff === $radius && $radius > 0){
 						continue;
 					}
 

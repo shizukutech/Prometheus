@@ -64,7 +64,7 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 	}
 
 	public function offsetGet($offset){
-		if(isset($this->{$offset}) and $this->{$offset} instanceof Tag){
+		if(isset($this->{$offset}) && $this->{$offset} instanceof Tag){
 			if($this->{$offset} instanceof \ArrayAccess){
 				return $this->{$offset};
 			}else{
@@ -118,7 +118,7 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 		$this->value = [];
 		$this->tagType = $nbt->getByte();
 		$size = $nbt->getInt();
-		for($i = 0; $i < $size and !$nbt->feof(); ++$i){
+		for($i = 0; $i < $size && !$nbt->feof(); ++$i){
 			switch($this->tagType){
 				case NBT::TAG_Byte:
 					$tag = new ByteTag("");

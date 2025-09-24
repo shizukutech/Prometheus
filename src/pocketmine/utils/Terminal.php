@@ -55,7 +55,7 @@ abstract class Terminal{
 			if(isset($opts["disable-ansi"])){
 				self::$formattingCodes = false;
 			}else{
-				self::$formattingCodes = ((Utils::getOS() !== "win" and getenv("TERM") != "" and (!function_exists("posix_ttyname") or !defined("STDOUT") or posix_ttyname(STDOUT) !== false)) or isset($opts["enable-ansi"]));
+				self::$formattingCodes = ((Utils::getOS() !== "win" && getenv("TERM") != "" && (!function_exists("posix_ttyname") || !defined("STDOUT") || posix_ttyname(STDOUT) !== false)) || isset($opts["enable-ansi"]));
 			}
 		}
 

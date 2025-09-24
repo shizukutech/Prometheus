@@ -70,7 +70,7 @@ abstract class Projectile extends Entity{
 	}
 
 	public function canCollideWith(Entity $entity){
-		return $entity instanceof Living and !$this->onGround;
+		return $entity instanceof Living && !$this->onGround;
 	}
 
 	public function saveNBT(){
@@ -85,7 +85,7 @@ abstract class Projectile extends Entity{
 
 
 		$tickDiff = $currentTick - $this->lastUpdate;
-		if($tickDiff <= 0 and !$this->justCreated){
+		if($tickDiff <= 0 && !$this->justCreated){
 			return true;
 		}
 		$this->lastUpdate = $currentTick;
@@ -109,7 +109,7 @@ abstract class Projectile extends Entity{
 
 			foreach($list as $entity){
 				if(/*!$entity->canCollideWith($this) or */
-				($entity === $this->shootingEntity and $this->ticksLived < 5)
+				($entity === $this->shootingEntity && $this->ticksLived < 5)
 				){
 					continue;
 				}
@@ -141,7 +141,7 @@ abstract class Projectile extends Entity{
 					$motion = sqrt($this->motionX ** 2 + $this->motionY ** 2 + $this->motionZ ** 2);
 					$damage = ceil($motion * $this->damage);
 
-					if($this instanceof Arrow and $this->isCritical){
+					if($this instanceof Arrow && $this->isCritical){
 						$damage += mt_rand(0, (int) ($damage / 2) + 1);
 					}
 
@@ -170,7 +170,7 @@ abstract class Projectile extends Entity{
 
 			$this->move($this->motionX, $this->motionY, $this->motionZ);
 
-			if($this->isCollided and !$this->hadCollision){
+			if($this->isCollided && !$this->hadCollision){
 				$this->hadCollision = true;
 
 				$this->motionX = 0;
@@ -178,11 +178,11 @@ abstract class Projectile extends Entity{
 				$this->motionZ = 0;
 
 				$this->server->getPluginManager()->callEvent(new ProjectileHitEvent($this));
-			}elseif(!$this->isCollided and $this->hadCollision){
+			}elseif(!$this->isCollided && $this->hadCollision){
 				$this->hadCollision = false;
 			}
 
-			if(!$this->onGround or abs($this->motionX) > 0.00001 or abs($this->motionY) > 0.00001 or abs($this->motionZ) > 0.00001){
+			if(!$this->onGround || abs($this->motionX) > 0.00001 || abs($this->motionY) > 0.00001 || abs($this->motionZ) > 0.00001){
 				$f = sqrt(($this->motionX ** 2) + ($this->motionZ ** 2));
 				$this->yaw = (atan2($this->motionX, $this->motionZ) * 180 / M_PI);
 				$this->pitch = (atan2($this->motionY, $f) * 180 / M_PI);

@@ -83,7 +83,7 @@ class Fire extends Flowable{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			for($s = 0; $s <= 5; ++$s){
 				$side = $this->getSide($s);
-				if($side->getId() !== self::AIR and !($side instanceof Liquid)){
+				if($side->getId() !== self::AIR && !($side instanceof Liquid)){
 					return false;
 				}
 			}
