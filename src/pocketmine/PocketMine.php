@@ -19,51 +19,6 @@
  *
 */
 
-namespace {
-	function safe_var_dump(){
-		static $cnt = 0;
-		foreach(func_get_args() as $var){
-			switch(true){
-				case is_array($var):
-					echo str_repeat("  ", $cnt) . "array(" . count($var) . ") {" . PHP_EOL;
-					foreach($var as $key => $value){
-						echo str_repeat("  ", $cnt + 1) . "[" . (is_integer($key) ? $key : '"' . $key . '"') . "]=>" . PHP_EOL;
-						++$cnt;
-						safe_var_dump($value);
-						--$cnt;
-					}
-					echo str_repeat("  ", $cnt) . "}" . PHP_EOL;
-					break;
-				case is_int($var):
-					echo str_repeat("  ", $cnt) . "int(" . $var . ")" . PHP_EOL;
-					break;
-				case is_float($var):
-					echo str_repeat("  ", $cnt) . "float(" . $var . ")" . PHP_EOL;
-					break;
-				case is_bool($var):
-					echo str_repeat("  ", $cnt) . "bool(" . ($var === true ? "true" : "false") . ")" . PHP_EOL;
-					break;
-				case is_string($var):
-					echo str_repeat("  ", $cnt) . "string(" . strlen($var) . ") \"$var\"" . PHP_EOL;
-					break;
-				case is_resource($var):
-					echo str_repeat("  ", $cnt) . "resource() of type (" . get_resource_type($var) . ")" . PHP_EOL;
-					break;
-				case is_object($var):
-					echo str_repeat("  ", $cnt) . "object(" . get_class($var) . ")" . PHP_EOL;
-					break;
-				case is_null($var):
-					echo str_repeat("  ", $cnt) . "NULL" . PHP_EOL;
-					break;
-			}
-		}
-	}
-
-	function dummy(){
-
-	}
-}
-
 namespace pocketmine {
 	use pocketmine\utils\Binary;
 	use pocketmine\utils\MainLogger;
@@ -218,7 +173,6 @@ namespace pocketmine {
 				}
 
 				return parse_offset($offset);
-				break;
 			case 'linux':
 				// Ubuntu / Debian.
 				if(file_exists('/etc/timezone')){
@@ -245,7 +199,6 @@ namespace pocketmine {
 				}
 
 				return parse_offset($offset);
-				break;
 			case 'mac':
 				if(is_link('/etc/localtime')){
 					$filename = readlink('/etc/localtime');
@@ -256,10 +209,8 @@ namespace pocketmine {
 				}
 
 				return false;
-				break;
 			default:
 				return false;
-				break;
 		}
 	}
 
@@ -329,24 +280,6 @@ namespace pocketmine {
 		}
 	}
 
-	/**
-	 * @param object $value
-	 * @param bool   $includeCurrent
-	 *
-	 * @return int
-	 */
-	function getReferenceCount($value, $includeCurrent = true){
-		ob_start();
-		debug_zval_dump($value);
-		$ret = explode("\n", ob_get_contents());
-		ob_end_clean();
-
-		if(count($ret) >= 1 && preg_match('/^.* refcount\\(([0-9]+)\\)\\{$/', trim($ret[0]), $m) > 0){
-			return ((int) $m[1]) - ($includeCurrent ? 3 : 4); //$value + zval call + extra call
-		}
-		return -1;
-	}
-
 	function getTrace($start = 1, $trace = null){
 		if($trace === null){
 			if(function_exists("xdebug_get_function_stack")){
@@ -367,7 +300,7 @@ namespace pocketmine {
 				}else{
 					$args = $trace[$i]["params"];
 				}
-				foreach($args as $name => $value){
+				foreach($args as $value){
 					$params .= (is_object($value) ? get_class($value) . " " . (method_exists($value, "__toString") ? $value->__toString() : "object") : gettype($value) . " " . (is_array($value) ? "Array()" : Utils::printable(@strval($value)))) . ", ";
 				}
 			}
@@ -375,10 +308,6 @@ namespace pocketmine {
 		}
 
 		return $messages;
-	}
-
-	function cleanPath($path){
-		return rtrim(str_replace(["\\", ".php", "phar://", rtrim(str_replace(["\\", "phar://"], ["/", ""], \pocketmine\PATH), "/"), rtrim(str_replace(["\\", "phar://"], ["/", ""], \pocketmine\PLUGIN_PATH), "/")], ["/", "", "", "", ""], $path), "/");
 	}
 
 	$errors = 0;
@@ -462,11 +391,11 @@ namespace pocketmine {
 	}
 
 	ThreadManager::init();
-	$server = new Server($autoloader, $logger, \pocketmine\PATH, \pocketmine\DATA, \pocketmine\PLUGIN_PATH);
+	new Server($autoloader, $logger, \pocketmine\PATH, \pocketmine\DATA, \pocketmine\PLUGIN_PATH);
 
 	$logger->info("Stopping other threads");
 
-	foreach(ThreadManager::getInstance()->getAll() as $id => $thread){
+	foreach(ThreadManager::getInstance()->getAll() as $thread){
 		$logger->debug("Stopping " . (new \ReflectionClass($thread))->getShortName() . " thread");
 		$thread->quit();
 	}
