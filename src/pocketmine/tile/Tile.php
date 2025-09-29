@@ -53,9 +53,9 @@ abstract class Tile extends Position{
 	public $chunk;
 	public $name;
 	public $id;
-	public $x;
-	public $y;
-	public $z;
+	public float|int $x;
+	public float|int $y;
+	public float|int $z;
 	public $attach;
 	public $metadata;
 	public $closed = false;

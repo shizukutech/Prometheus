@@ -70,31 +70,19 @@ class Position extends Vector3{
 	/**
 	 * Returns a side Vector
 	 *
-	 * @param int $side
-	 * @param int $step
-	 *
-	 * @return Position
-	 *
 	 * @throws LevelException
 	 */
-	public function getSide($side, $step = 1){
+	public function getSide(int $side, int $step = 1) : Position{
 		assert($this->isValid());
 
 		return Position::fromObject(parent::getSide($side, $step), $this->level);
 	}
 
-	public function __toString(){
+	public function __toString() : string{
 		return "Position(level=" . ($this->isValid() ? $this->getLevel()->getName() : "null") . ",x=" . $this->x . ",y=" . $this->y . ",z=" . $this->z . ")";
 	}
 
-	/**
-	 * @param $x
-	 * @param $y
-	 * @param $z
-	 *
-	 * @return Position
-	 */
-	public function setComponents($x, $y, $z){
+	public function setComponents(float|int $x, float|int $y, float|int $z) : Position{
 		$this->x = $x;
 		$this->y = $y;
 		$this->z = $z;
