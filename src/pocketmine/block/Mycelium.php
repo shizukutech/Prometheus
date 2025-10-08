@@ -30,31 +30,31 @@ use pocketmine\Server;
 
 class Mycelium extends Solid{
 
-	protected $id = self::MYCELIUM;
+	protected int $id = self::MYCELIUM;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Mycelium";
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_SHOVEL;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.6;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[Item::DIRT, 0, 1],
 		];
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_RANDOM){
 			//TODO: light levels
 			$x = mt_rand($this->x - 1, $this->x + 1);
@@ -69,6 +69,10 @@ class Mycelium extends Solid{
 					}
 				}
 			}
+
+			return Level::BLOCK_UPDATE_RANDOM;
 		}
+
+		return false;
 	}
 }

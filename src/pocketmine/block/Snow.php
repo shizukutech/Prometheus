@@ -26,21 +26,21 @@ use pocketmine\item\Tool;
 
 class Snow extends Solid{
 
-	protected $id = self::SNOW_BLOCK;
+	protected int $id = self::SNOW_BLOCK;
 
 	public function __construct(){
 
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.2;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_SHOVEL;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Snow Block";
 	}
 

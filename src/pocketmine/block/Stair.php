@@ -104,7 +104,7 @@ abstract class Stair extends Transparent{
 	}
 	*/
 
-	protected function recalculateBoundingBox(){
+	protected function recalculateBoundingBox() : ?AxisAlignedBB{
 
 		if(($this->getDamage() & 0x04) > 0){
 			return new AxisAlignedBB(
@@ -127,7 +127,7 @@ abstract class Stair extends Transparent{
 		}
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		$faces = [
 			0 => 0,
 			1 => 2,
@@ -143,7 +143,7 @@ abstract class Stair extends Transparent{
 		return true;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_WOODEN){
 			return [
 				[$this->getId(), 0, 1],

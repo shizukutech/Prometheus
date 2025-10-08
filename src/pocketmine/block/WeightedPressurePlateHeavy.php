@@ -23,13 +23,13 @@ namespace pocketmine\block;
 
 class WeightedPressurePlateHeavy extends Solid {
 
-    protected $id = self::WEIGHTED_PRESSURE_PLATE_HEAVY;
+    protected int $id = self::WEIGHTED_PRESSURE_PLATE_HEAVY;
 
-    public function __construct($meta = 0){
+    public function __construct(int $meta = 0){
         $this->meta = $meta;
     }
 
-    public function getName(){
+    public function getName() : string{
         return "Weighted Pressure Plate Heavy";
     }
 }

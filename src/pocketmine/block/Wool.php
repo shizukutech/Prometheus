@@ -26,21 +26,21 @@ use pocketmine\item\Tool;
 
 class Wool extends Solid{
 
-	protected $id = self::WOOL;
+	protected int $id = self::WOOL;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.8;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_SHEARS;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		static $names = [
 			0 => "White Wool",
 			1 => "Orange Wool",

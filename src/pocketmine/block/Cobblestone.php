@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class Cobblestone extends Solid{
 
-	protected $id = self::COBBLESTONE;
+	protected int $id = self::COBBLESTONE;
 
 	public function __construct(){
 
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Cobblestone";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 2;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_WOODEN){
 			return [
 				[Item::COBBLESTONE, 0, 1],

@@ -23,9 +23,9 @@ namespace pocketmine\block;
 
 class StillLava extends Lava{
 
-	protected $id = self::STILL_LAVA;
+	protected int $id = self::STILL_LAVA;
 
-	public function getName(){
+	public function getName() : string{
 		return "Still Lava";
 	}
 

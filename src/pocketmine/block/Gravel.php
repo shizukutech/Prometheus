@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class Gravel extends Fallable{
 
-	protected $id = self::GRAVEL;
+	protected int $id = self::GRAVEL;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Gravel";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.6;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_SHOVEL;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if(mt_rand(1, 10) === 1){
 			return [
 				[Item::FLINT, 0, 1],

@@ -27,29 +27,29 @@ use pocketmine\Player;
 
 class LitPumpkin extends Solid{
 
-	protected $id = self::LIT_PUMPKIN;
+	protected int $id = self::LIT_PUMPKIN;
 
-	public function getLightLevel(){
+	public function getLightLevel() : int{
 		return 15;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 1;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_AXE;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Jack o'Lantern";
 	}
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		if($player instanceof Player){
 			$this->meta = ((int) $player->getDirection() + 5) % 4;
 		}

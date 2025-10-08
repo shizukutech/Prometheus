@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class Obsidian extends Solid{
 
-	protected $id = self::OBSIDIAN;
+	protected int $id = self::OBSIDIAN;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Obsidian";
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 50;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_DIAMOND){
 			return [
 				[Item::OBSIDIAN, 0, 1],

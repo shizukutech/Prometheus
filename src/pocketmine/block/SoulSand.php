@@ -27,25 +27,25 @@ use pocketmine\math\AxisAlignedBB;
 
 class SoulSand extends Solid{
 
-	protected $id = self::SOUL_SAND;
+	protected int $id = self::SOUL_SAND;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Soul Sand";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.5;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_SHOVEL;
 	}
 
-	protected function recalculateBoundingBox(){
+	protected function recalculateBoundingBox() : ?AxisAlignedBB{
 
 		return new AxisAlignedBB(
 			$this->x,

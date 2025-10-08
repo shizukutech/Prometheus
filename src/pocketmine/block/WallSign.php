@@ -26,13 +26,13 @@ use pocketmine\level\Level;
 
 class WallSign extends SignPost{
 
-	protected $id = self::WALL_SIGN;
+	protected int $id = self::WALL_SIGN;
 
-	public function getName(){
+	public function getName() : string{
 		return "Wall Sign";
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		$faces = [
 			2 => 3,
 			3 => 2,

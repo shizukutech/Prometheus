@@ -276,29 +276,21 @@ class Block extends Position implements Metadatable{
 	const STONECUTTER = 245;
 	const GLOWING_OBSIDIAN = 246;
 
-	/** @var \SplFixedArray */
-	public static $list = null;
-	/** @var \SplFixedArray */
-	public static $fullList = null;
+	public static ?\SplFixedArray $list = null;
+	public static ?\SplFixedArray $fullList = null;
 
-	/** @var \SplFixedArray */
-	public static $light = null;
-	/** @var \SplFixedArray */
-	public static $lightFilter = null;
-	/** @var \SplFixedArray */
-	public static $solid = null;
-	/** @var \SplFixedArray */
-	public static $hardness = null;
-	/** @var \SplFixedArray */
-	public static $transparent = null;
+	public static ?\SplFixedArray $light = null;
+	public static ?\SplFixedArray $lightFilter = null;
+	public static ?\SplFixedArray $solid = null;
+	public static ?\SplFixedArray $hardness = null;
+	public static ?\SplFixedArray $transparent = null;
 
-	protected $id;
-	protected $meta = 0;
+	protected int $id;
+	protected int $meta = 0;
 
-	/** @var AxisAlignedBB */
-	public $boundingBox = null;
+	public ?AxisAlignedBB $boundingBox = null;
 
-	public static function init(){
+	public static function init() : void{
 		if(self::$list === null){
 			self::$list = new \SplFixedArray(256);
 			self::$fullList = new \SplFixedArray(4096);
@@ -517,14 +509,7 @@ class Block extends Position implements Metadatable{
 		}
 	}
 
-	/**
-	 * @param int      $id
-	 * @param int      $meta
-	 * @param Position $pos
-	 *
-	 * @return Block
-	 */
-	public static function get($id, $meta = 0, Position $pos = null){
+	public static function get(int $id, int $meta = 0, ?Position $pos = null) : Block{
 		try{
 			$block = self::$list[$id];
 			if($block !== null){
@@ -546,206 +531,139 @@ class Block extends Position implements Metadatable{
 		return $block;
 	}
 
-	/**
-	 * @param int $id
-	 * @param int $meta
-	 */
-	public function __construct($id, $meta = 0){
-		$this->id = (int) $id;
-		$this->meta = (int) $meta;
+	public function __construct(int $id, int $meta = 0){
+		$this->id = $id;
+		$this->meta = $meta;
 	}
 
 	/**
 	 * Places the Block, using block space and block target, and side. Returns if the block has been placed.
 	 *
-	 * @param Item   $item
-	 * @param Block  $block
-	 * @param Block  $target
-	 * @param int    $face
-	 * @param float  $fx
-	 * @param float  $fy
-	 * @param float  $fz
-	 * @param Player $player = null
-	 *
-	 * @return bool
+	 * @param Player|null $player = null
 	 */
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		return $this->getLevel()->setBlock($this, $this, true, true);
 	}
 
 	/**
 	 * Returns if the item can be broken with an specific Item
-	 *
-	 * @param Item $item
-	 *
-	 * @return bool
 	 */
-	public function isBreakable(Item $item){
+	public function isBreakable(Item $item) : bool{
 		return true;
 	}
 
 	/**
 	 * Do the actions needed so the block is broken with the Item
-	 *
-	 * @param Item $item
-	 *
-	 * @return mixed
 	 */
-	public function onBreak(Item $item){
+	public function onBreak(Item $item) : bool{
 		return $this->getLevel()->setBlock($this, new Air(), true, true);
 	}
 
 	/**
 	 * Fires a block update on the Block
-	 *
-	 * @param int $type
-	 *
-	 * @return void
 	 */
-	public function onUpdate($type){
-
-	}
-
-	/**
-	 * Do actions when activated by Item. Returns if it has done anything
-	 *
-	 * @param Item   $item
-	 * @param Player $player
-	 *
-	 * @return bool
-	 */
-	public function onActivate(Item $item, Player $player = null){
+	public function onUpdate(int $type) : false|int{
 		return false;
 	}
 
 	/**
-	 * @return int
+	 * Do actions when activated by Item. Returns if it has done anything
 	 */
-	public function getHardness(){
+	public function onActivate(Item $item, ?Player $player = null) : bool{
+		return false;
+	}
+
+	public function getHardness() : float{
 		return 10;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getResistance(){
+	public function getResistance() : int{
 		return $this->getHardness() * 5;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_NONE;
 	}
 
-	/**
-	 * @return float
-	 */
-	public function getFrictionFactor(){
+	public function getFrictionFactor() : float{
 		return 0.6;
 	}
 
 	/**
 	 * @return int 0-15
 	 */
-	public function getLightLevel(){
+	public function getLightLevel() : int{
 		return 0;
 	}
 
 	/**
 	 * AKA: Block->isPlaceable
-	 *
-	 * @return bool
 	 */
-	public function canBePlaced(){
+	public function canBePlaced() : bool{
 		return true;
 	}
 
 	/**
 	 * AKA: Block->canBeReplaced()
-	 *
-	 * @return bool
 	 */
-	public function canBeReplaced(){
+	public function canBeReplaced() : bool{
 		return false;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isTransparent(){
+	public function isTransparent() : bool{
 		return false;
 	}
 
-	public function isSolid(){
+	public function isSolid() : bool{
 		return true;
 	}
 
 	/**
 	 * AKA: Block->isFlowable
-	 *
-	 * @return bool
 	 */
-	public function canBeFlowedInto(){
+	public function canBeFlowedInto() : bool{
 		return false;
 	}
 
 	/**
 	 * AKA: Block->isActivable
-	 *
-	 * @return bool
 	 */
-	public function canBeActivated(){
+	public function canBeActivated() : bool{
 		return false;
 	}
 
-	public function hasEntityCollision(){
+	public function hasEntityCollision() : bool{
 		return false;
 	}
 
-	public function canPassThrough(){
+	public function canPassThrough() : bool{
 		return false;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName(){
+	public function getName() : string{
 		return "Unknown";
 	}
 
-	/**
-	 * @return int
-	 */
-	final public function getId(){
+	final public function getId() : int{
 		return $this->id;
 	}
 
-	public function addVelocityToEntity(Entity $entity, Vector3 $vector){
+	public function addVelocityToEntity(Entity $entity, Vector3 $vector) : void{
 
 	}
 
-	/**
-	 * @return int
-	 */
-	final public function getDamage(){
+	final public function getDamage() : int{
 		return $this->meta;
 	}
 
-	/**
-	 * @param int $meta
-	 */
-	final public function setDamage($meta){
+	final public function setDamage(int $meta) : void{
 		$this->meta = $meta & 0x0f;
 	}
 
 	/**
 	 * Sets the block position to a new Position object
-	 *
-	 * @param Position $v
 	 */
-	final public function position(Position $v){
+	final public function position(Position $v) : void{
 		$this->x = (int) $v->x;
 		$this->y = (int) $v->y;
 		$this->z = (int) $v->z;
@@ -755,12 +673,8 @@ class Block extends Position implements Metadatable{
 
 	/**
 	 * Returns an array of Item objects to be dropped
-	 *
-	 * @param Item $item
-	 *
-	 * @return array
 	 */
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if(!isset(self::$list[$this->getId()])){ //Unknown blocks
 			return [];
 		}else{
@@ -772,12 +686,8 @@ class Block extends Position implements Metadatable{
 
 	/**
 	 * Returns the seconds that this block takes to be broken using an specific Item
-	 *
-	 * @param Item $item
-	 *
-	 * @return float
 	 */
-	public function getBreakTime(Item $item){
+	public function getBreakTime(Item $item) : float{
 		$base = $this->getHardness() * 1.5;
 		if($this->canBeBrokenWith($item)){
 			if($this->getToolType() === Tool::TYPE_SHEARS && $item->isShears()){
@@ -816,8 +726,8 @@ class Block extends Position implements Metadatable{
 		return $base;
 	}
 
-	public function canBeBrokenWith(Item $item){
-		return $this->getHardness() !== -1;
+	public function canBeBrokenWith(Item $item) : bool{
+		return $this->getHardness() != -1;
 	}
 
 	/**
@@ -837,38 +747,25 @@ class Block extends Position implements Metadatable{
 
 	/**
 	 * Checks for collision against an AxisAlignedBB
-	 *
-	 * @param AxisAlignedBB $bb
-	 *
-	 * @return bool
 	 */
-	public function collidesWithBB(AxisAlignedBB $bb){
+	public function collidesWithBB(AxisAlignedBB $bb) : bool{
 		$bb2 = $this->getBoundingBox();
 
 		return $bb2 !== null && $bb->intersectsWith($bb2);
 	}
 
-	/**
-	 * @param Entity $entity
-	 */
-	public function onEntityCollide(Entity $entity){
+	public function onEntityCollide(Entity $entity) : void{
 
 	}
 
-	/**
-	 * @return AxisAlignedBB
-	 */
-	public function getBoundingBox(){
+	public function getBoundingBox() : ?AxisAlignedBB{
 		if($this->boundingBox === null){
 			$this->boundingBox = $this->recalculateBoundingBox();
 		}
 		return $this->boundingBox;
 	}
 
-	/**
-	 * @return AxisAlignedBB
-	 */
-	protected function recalculateBoundingBox(){
+	protected function recalculateBoundingBox() : ?AxisAlignedBB{
 		return new AxisAlignedBB(
 			$this->x,
 			$this->y,
@@ -879,13 +776,7 @@ class Block extends Position implements Metadatable{
 		);
 	}
 
-	/**
-	 * @param Vector3 $pos1
-	 * @param Vector3 $pos2
-	 *
-	 * @return MovingObjectPosition
-	 */
-	public function calculateIntercept(Vector3 $pos1, Vector3 $pos2){
+	public function calculateIntercept(Vector3 $pos1, Vector3 $pos2) : ?MovingObjectPosition{
 		$bb = $this->getBoundingBox();
 		if($bb === null){
 			return null;

@@ -29,30 +29,30 @@ use pocketmine\Player;
 
 class FenceGate extends Transparent{
 
-	protected $id = self::FENCE_GATE;
+	protected int $id = self::FENCE_GATE;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Oak Fence Gate";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 2;
 	}
 
-	public function canBeActivated(){
+	public function canBeActivated() : bool{
 		return true;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_AXE;
 	}
 
 
-	protected function recalculateBoundingBox(){
+	protected function recalculateBoundingBox() : ?AxisAlignedBB{
 
 		if(($this->getDamage() & 0x04) > 0){
 			return null;
@@ -80,7 +80,7 @@ class FenceGate extends Transparent{
 		}
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		$faces = [
 			0 => 3,
 			1 => 0,
@@ -93,13 +93,13 @@ class FenceGate extends Transparent{
 		return true;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[$this->id, 0, 1],
 		];
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, ?Player $player = null) : bool{
 		$faces = [
 			0 => 3,
 			1 => 0,

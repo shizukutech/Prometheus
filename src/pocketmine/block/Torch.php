@@ -27,22 +27,22 @@ use pocketmine\Player;
 
 class Torch extends Flowable{
 
-	protected $id = self::TORCH;
+	protected int $id = self::TORCH;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getLightLevel(){
+	public function getLightLevel() : int{
 		return 15;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Torch";
 	}
 
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			$below = $this->getSide(0);
 			$side = $this->getDamage();
@@ -66,7 +66,7 @@ class Torch extends Flowable{
 		return false;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		$below = $this->getSide(0);
 
 		if($target->isTransparent() === false && $face !== 0){
@@ -91,7 +91,7 @@ class Torch extends Flowable{
 		return false;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[$this->id, 0, 1],
 		];

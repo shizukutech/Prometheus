@@ -31,21 +31,21 @@ use pocketmine\math\AxisAlignedBB;
 
 class GrassPath extends Transparent{
 
-	protected $id = self::GRASS_PATH;
+	protected int $id = self::GRASS_PATH;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Grass Path";
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_SHOVEL;
 	}
 
-	protected function recalculateBoundingBox(){
+	protected function recalculateBoundingBox() : ?AxisAlignedBB{
 		return new AxisAlignedBB(
 			$this->x,
 			$this->y,
@@ -56,11 +56,11 @@ class GrassPath extends Transparent{
 		);
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.6;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[Item::DIRT, 0, 1],
 		];

@@ -26,11 +26,11 @@ use pocketmine\math\AxisAlignedBB;
 
 abstract class Thin extends Transparent{
 
-	public function isSolid(){
+	public function isSolid() : bool{
 		return false;
 	}
 
-	protected function recalculateBoundingBox(){
+	protected function recalculateBoundingBox() : ?AxisAlignedBB{
 
 		$f = 0.4375;
 		$f1 = 0.5625;
@@ -75,7 +75,7 @@ abstract class Thin extends Transparent{
 	}
 
 
-	public function canConnect(Block $block){
+	public function canConnect(Block $block) : bool{
 		return $block->isSolid() || $block->getId() === $this->getId() || $block->getId() === self::GLASS_PANE || $block->getId() === self::GLASS;
 	}
 

@@ -23,13 +23,13 @@ namespace pocketmine\block;
 
 class WoodenPressurePlate extends Solid{
 	
-	protected $id = self::WOODEN_PRESSURE_PLATE;
+	protected int $id = self::WOODEN_PRESSURE_PLATE;
 
 	public function __construct($meta = 0) {
 		$this->meta = $meta;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Wooden Pressure Plate";
 	}
 }

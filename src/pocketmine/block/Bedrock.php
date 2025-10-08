@@ -25,25 +25,25 @@ use pocketmine\item\Item;
 
 class Bedrock extends Solid{
 
-	protected $id = self::BEDROCK;
+	protected int $id = self::BEDROCK;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Bedrock";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return -1;
 	}
 
-	public function getResistance(){
+	public function getResistance() : int{
 		return 18000000;
 	}
 
-	public function isBreakable(Item $item){
+	public function isBreakable(Item $item) : bool{
 		return false;
 	}
 

@@ -26,17 +26,17 @@ use pocketmine\level\Level;
 
 class DoublePlant extends Flowable{
 
-	protected $id = self::DOUBLE_PLANT;
+	protected int $id = self::DOUBLE_PLANT;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function canBeReplaced(){
+	public function canBeReplaced() : bool{
 		return true;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		static $names = [
 			0 => "Sunflower",
 			1 => "Lilac",
@@ -49,7 +49,7 @@ class DoublePlant extends Flowable{
 	}
 
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(0)->isTransparent() === true){ //Replace with common break method
 				$this->getLevel()->setBlock($this, new Air(), false, false, true);
@@ -61,7 +61,7 @@ class DoublePlant extends Flowable{
 		return false;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		//TODO
 
 		return [];

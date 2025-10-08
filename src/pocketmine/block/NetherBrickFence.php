@@ -25,13 +25,13 @@ use pocketmine\item\Tool;
 
 class NetherBrickFence extends Transparent {
 
-	protected $id = self::NETHER_BRICK_FENCE;
+	protected int $id = self::NETHER_BRICK_FENCE;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 	
-	public function getBreakTime(Item $item){
+	public function getBreakTime(Item $item) : float{
 		if ($item instanceof Air){
 			//Breaking by hand
 			return 10;
@@ -42,24 +42,24 @@ class NetherBrickFence extends Transparent {
 		}
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 2;
 	}
         
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 	
-	public function getName(){
+	public function getName() : string{
 		return "Nether Brick Fence";
 	}
 	
-	public function canConnect(Block $block){
+	public function canConnect(Block $block) : bool{
 		//TODO: activate comments when the NetherBrickFenceGate class has been created.
 		return ($block instanceof NetherBrickFence /* or $block instanceof NetherBrickFenceGate */) ? true : $block->isSolid() && !$block->isTransparent();
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_WOODEN){
 			return [
 				[$this->id, $this->meta, 1],

@@ -26,29 +26,29 @@ use pocketmine\item\Tool;
 
 class Glowstone extends Transparent{
 
-	protected $id = self::GLOWSTONE_BLOCK;
+	protected int $id = self::GLOWSTONE_BLOCK;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Glowstone";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.3;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getLightLevel(){
+	public function getLightLevel() : int{
 		return 15;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[Item::GLOWSTONE_DUST, 0, mt_rand(2, 4)],
 		];

@@ -26,21 +26,21 @@ use pocketmine\item\Item;
 
 class GlassPane extends Thin{
 
-	protected $id = self::GLASS_PANE;
+	protected int $id = self::GLASS_PANE;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Glass Pane";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.3;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [];
 	}
 }

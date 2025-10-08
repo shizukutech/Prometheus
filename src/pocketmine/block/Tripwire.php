@@ -23,13 +23,13 @@ namespace pocketmine\block;
 
 class Tripwire extends Solid {
 
-    protected $id = self::TRIPWIRE;
+    protected int $id = self::TRIPWIRE;
 
-    public function __construct($meta = 0){
+    public function __construct(int $meta = 0){
         $this->meta = $meta;
     }
 
-    public function getName(){
+    public function getName() : string{
         return "Tripwire";
     }
 }

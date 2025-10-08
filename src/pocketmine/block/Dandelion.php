@@ -27,18 +27,18 @@ use pocketmine\Player;
 
 class Dandelion extends Flowable{
 
-	protected $id = self::DANDELION;
+	protected int $id = self::DANDELION;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Dandelion";
 	}
 
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		$down = $this->getSide(0);
 		if($down->getId() === 2 || $down->getId() === 3 || $down->getId() === 60){
 			$this->getLevel()->setBlock($block, $this, true, true);
@@ -49,7 +49,7 @@ class Dandelion extends Flowable{
 		return false;
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(0)->isTransparent() === true){
 				$this->getLevel()->useBreakOn($this);

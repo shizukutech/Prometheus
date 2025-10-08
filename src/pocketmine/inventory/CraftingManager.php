@@ -27,6 +27,7 @@ use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\utils\MainLogger;
 use pocketmine\utils\UUID;
+use function max;
 
 class CraftingManager{
 
@@ -69,7 +70,7 @@ class CraftingManager{
 					$shape = array_chunk($recipe["Ingredients"], $recipe["Width"]);
 					foreach($shape as $y => $row){
 						foreach($row as $x => $ingredient){
-							$result->addIngredient($x, $y, Item::get($ingredient["ID"], ($ingredient["Damage"] < 0 ? null : $ingredient["Damage"]), $ingredient["Count"]));
+							$result->addIngredient($x, $y, Item::get($ingredient["ID"], max($ingredient["Damage"], 0), $ingredient["Count"]));
 						}
 					}
 					$this->registerRecipe($result);

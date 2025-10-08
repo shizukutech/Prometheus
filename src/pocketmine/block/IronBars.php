@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class IronBars extends Thin{
 
-	protected $id = self::IRON_BARS;
+	protected int $id = self::IRON_BARS;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Iron Bars";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 5;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_WOODEN){
 			return [
 				[Item::IRON_BARS, 0, 1],

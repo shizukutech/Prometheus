@@ -26,31 +26,31 @@ use pocketmine\item\Tool;
 
 class Ice extends Transparent{
 
-	protected $id = self::ICE;
+	protected int $id = self::ICE;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Ice";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.5;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function onBreak(Item $item){
+	public function onBreak(Item $item) : bool{
 		$this->getLevel()->setBlock($this, new Water(), true);
 
 		return true;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [];
 	}
 }

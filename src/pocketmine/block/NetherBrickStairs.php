@@ -26,21 +26,21 @@ use pocketmine\item\Tool;
 
 class NetherBrickStairs extends Stair{
 
-	protected $id = self::NETHER_BRICKS_STAIRS;
+	protected int $id = self::NETHER_BRICKS_STAIRS;
 
-	public function getName(){
+	public function getName() : string{
 		return "Nether Bricks Stairs";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 2;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 

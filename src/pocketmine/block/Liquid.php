@@ -25,34 +25,34 @@ namespace pocketmine\block;
 use pocketmine\entity\Entity;
 use pocketmine\item\Item;
 use pocketmine\level\Level;
+use pocketmine\math\AxisAlignedBB;
 use pocketmine\math\Vector3;
 
 abstract class Liquid extends Transparent{
 
-	/** @var Vector3 */
-	private $temporalVector = null;
+	private ?Vector3 $temporalVector = null;
 
-	public function hasEntityCollision(){
+	public function hasEntityCollision() : bool{
 		return true;
 	}
 
-	public function isBreakable(Item $item){
+	public function isBreakable(Item $item) : bool{
 		return false;
 	}
 
-	public function canBeReplaced(){
+	public function canBeReplaced() : bool{
 		return true;
 	}
 
-	public function isSolid(){
+	public function isSolid() : bool{
 		return false;
 	}
 
-	public $adjacentSources = 0;
-	public $isOptimalFlowDirection = [0, 0, 0, 0];
-	public $flowCost = [0, 0, 0, 0];
+	public int $adjacentSources = 0;
+	public array $isOptimalFlowDirection = [0, 0, 0, 0];
+	public array $flowCost = [0, 0, 0, 0];
 
-	public function getFluidHeightPercent(){
+	public function getFluidHeightPercent() : float{
 		$d = $this->meta;
 		if($d >= 8){
 			$d = 0;
@@ -61,7 +61,7 @@ abstract class Liquid extends Transparent{
 		return ($d + 1) / 9;
 	}
 
-	protected function getFlowDecay(Vector3 $pos){
+	protected function getFlowDecay(Vector3 $pos) : int{
 		if(!($pos instanceof Block)){
 			$pos = $this->getLevel()->getBlock($pos);
 		}
@@ -73,7 +73,7 @@ abstract class Liquid extends Transparent{
 		}
 	}
 
-	protected function getEffectiveFlowDecay(Vector3 $pos){
+	protected function getEffectiveFlowDecay(Vector3 $pos) : int{
 		if(!($pos instanceof Block)){
 			$pos = $this->getLevel()->getBlock($pos);
 		}
@@ -91,7 +91,7 @@ abstract class Liquid extends Transparent{
 		return $decay;
 	}
 
-	public function getFlowVector(){
+	public function getFlowVector() : Vector3{
 		$vector = new Vector3(0, 0, 0);
 
 		if($this->temporalVector === null){
@@ -170,14 +170,14 @@ abstract class Liquid extends Transparent{
 		return $vector->normalize();
 	}
 
-	public function addVelocityToEntity(Entity $entity, Vector3 $vector){
+	public function addVelocityToEntity(Entity $entity, Vector3 $vector) : void{
 		$flow = $this->getFlowVector();
 		$vector->x += $flow->x;
 		$vector->y += $flow->y;
 		$vector->z += $flow->z;
 	}
 
-	public function tickRate(){
+	public function tickRate() : int{
 		if($this instanceof Water){
 			return 5;
 		}elseif($this instanceof Lava){
@@ -187,10 +187,11 @@ abstract class Liquid extends Transparent{
 		return 0;
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			$this->checkForHarden();
 			$this->getLevel()->scheduleUpdate($this, $this->tickRate());
+			return Level::BLOCK_UPDATE_NORMAL;
 		}elseif($type === Level::BLOCK_UPDATE_SCHEDULED){
 			if($this->temporalVector === null){
 				$this->temporalVector = new Vector3(0, 0, 0);
@@ -258,7 +259,7 @@ abstract class Liquid extends Transparent{
 			if($bottomBlock->canBeFlowedInto() || $bottomBlock instanceof Liquid){
 				if($this instanceof Lava && $bottomBlock instanceof Water){
 					$this->getLevel()->setBlock($bottomBlock, Block::get(Item::STONE), true);
-					return;
+					return Level::BLOCK_UPDATE_SCHEDULED;
 				}
 
 				if($decay >= 8){
@@ -279,7 +280,7 @@ abstract class Liquid extends Transparent{
 
 				if($l >= 8){
 					$this->checkForHarden();
-					return;
+					return Level::BLOCK_UPDATE_SCHEDULED;
 				}
 
 				if($flags[0]){
@@ -302,9 +303,11 @@ abstract class Liquid extends Transparent{
 			$this->checkForHarden();
 
 		}
+
+		return false;
 	}
 
-	private function flowIntoBlock(Block $block, $newFlowDecay){
+	private function flowIntoBlock(Block $block, int $newFlowDecay) : void{
 		if($block->canBeFlowedInto()){
 			if($block->getId() > 0){
 				$this->getLevel()->useBreakOn($block);
@@ -315,7 +318,7 @@ abstract class Liquid extends Transparent{
 		}
 	}
 
-	private function calculateFlowCost(Block $block, $accumulatedCost, $previousDirection){
+	private function calculateFlowCost(Block $block, int $accumulatedCost, int $previousDirection) : int{
 		$cost = 1000;
 
 		for($j = 0; $j < 4; ++$j){
@@ -363,11 +366,11 @@ abstract class Liquid extends Transparent{
 		return $cost;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 100;
 	}
 
-	private function getOptimalFlowDirections(){
+	private function getOptimalFlowDirections() : array{
 		if($this->temporalVector === null){
 			$this->temporalVector = new Vector3(0, 0, 0);
 		}
@@ -416,7 +419,7 @@ abstract class Liquid extends Transparent{
 		return $this->isOptimalFlowDirection;
 	}
 
-	private function getSmallestFlowDecay(Vector3 $pos, $decay){
+	private function getSmallestFlowDecay(Vector3 $pos, int $decay) : int{
 		$blockDecay = $this->getFlowDecay($pos);
 
 		if($blockDecay < 0){
@@ -430,7 +433,7 @@ abstract class Liquid extends Transparent{
 		return ($decay >= 0 && $blockDecay >= $decay) ? $decay : $blockDecay;
 	}
 
-	private function checkForHarden(){
+	private function checkForHarden() : void{
 		if($this instanceof Lava){
 			$colliding = false;
 			for($side = 0; $side <= 5 && !$colliding; ++$side){
@@ -447,11 +450,11 @@ abstract class Liquid extends Transparent{
 		}
 	}
 
-	public function getBoundingBox(){
+	public function getBoundingBox() : ?AxisAlignedBB{
 		return null;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [];
 	}
 }

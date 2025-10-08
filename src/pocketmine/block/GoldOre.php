@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class GoldOre extends Solid{
 
-	protected $id = self::GOLD_ORE;
+	protected int $id = self::GOLD_ORE;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Gold Ore";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 3;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_IRON){
 			return [
 				[Item::GOLD_ORE, 0, 1],

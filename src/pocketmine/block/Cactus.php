@@ -34,25 +34,25 @@ use pocketmine\Server;
 
 class Cactus extends Transparent{
 
-	protected $id = self::CACTUS;
+	protected int $id = self::CACTUS;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.4;
 	}
 
-	public function hasEntityCollision(){
+	public function hasEntityCollision() : bool{
 		return true;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Cactus";
 	}
 
-	protected function recalculateBoundingBox(){
+	protected function recalculateBoundingBox() : ?AxisAlignedBB{
 
 		return new AxisAlignedBB(
 			$this->x + 0.0625,
@@ -64,12 +64,12 @@ class Cactus extends Transparent{
 		);
 	}
 
-	public function onEntityCollide(Entity $entity){
+	public function onEntityCollide(Entity $entity) : void{
 		$ev = new EntityDamageByBlockEvent($this, $entity, EntityDamageEvent::CAUSE_CONTACT, 1);
 		$entity->attack($ev->getFinalDamage(), $ev);
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			$down = $this->getSide(0);
 			if($down->getId() !== self::SAND && $down->getId() !== self::CACTUS){
@@ -106,7 +106,7 @@ class Cactus extends Transparent{
 		return false;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		$down = $this->getSide(0);
 		if($down->getId() === self::SAND || $down->getId() === self::CACTUS){
 			$block0 = $this->getSide(2);
@@ -123,7 +123,7 @@ class Cactus extends Transparent{
 		return false;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[$this->id, 0, 1],
 		];

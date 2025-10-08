@@ -26,21 +26,21 @@ use pocketmine\item\Tool;
 
 class SpruceWoodStairs extends Stair{
 
-	protected $id = self::SPRUCE_WOOD_STAIRS;
+	protected int $id = self::SPRUCE_WOOD_STAIRS;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Spruce Wood Stairs";
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_AXE;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[$this->id, 0, 1],
 		];

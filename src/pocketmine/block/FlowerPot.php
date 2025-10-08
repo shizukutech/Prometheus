@@ -25,13 +25,13 @@ use pocketmine\item\Item;
 
 class FlowerPot extends Transparent{
 
-	protected $id = self::FLOWER_POT_BLOCK;
+	protected int $id = self::FLOWER_POT_BLOCK;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Flower Pot Block";
 	}
 

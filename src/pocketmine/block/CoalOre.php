@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class CoalOre extends Solid{
 
-	protected $id = self::COAL_ORE;
+	protected int $id = self::COAL_ORE;
 
 	public function __construct(){
 
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 3;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Coal Ore";
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_WOODEN){
 			return [
 				[Item::COAL, 0, 1],

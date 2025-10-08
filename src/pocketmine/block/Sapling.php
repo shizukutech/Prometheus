@@ -35,17 +35,17 @@ class Sapling extends Flowable{
 	const ACACIA = 4;
 	const DARK_OAK = 5;
 
-	protected $id = self::SAPLING;
+	protected int $id = self::SAPLING;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function canBeActivated(){
+	public function canBeActivated() : bool{
 		return true;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		static $names = [
 			0 => "Oak Sapling",
 			1 => "Spruce Sapling",
@@ -60,7 +60,7 @@ class Sapling extends Flowable{
 	}
 
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		$down = $this->getSide(0);
 		if($down->getId() === self::GRASS || $down->getId() === self::DIRT || $down->getId() === self::FARMLAND){
 			$this->getLevel()->setBlock($block, $this, true, true);
@@ -71,7 +71,7 @@ class Sapling extends Flowable{
 		return false;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, ?Player $player = null) : bool{
 		if($item->getId() === Item::DYE && $item->getDamage() === 0x0F){ //Bonemeal
 			//TODO: change log type
 			Tree::growTree($this->getLevel(), $this->x, $this->y, $this->z, new Random(mt_rand()), $this->meta & 0x07);
@@ -85,7 +85,7 @@ class Sapling extends Flowable{
 		return false;
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(0)->isTransparent() === true){
 				$this->getLevel()->useBreakOn($this);
@@ -110,7 +110,7 @@ class Sapling extends Flowable{
 		return false;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[$this->id, $this->meta & 0x07, 1],
 		];

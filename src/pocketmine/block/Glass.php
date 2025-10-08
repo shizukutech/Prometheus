@@ -25,21 +25,21 @@ use pocketmine\item\Item;
 
 class Glass extends Transparent{
 
-	protected $id = self::GLASS;
+	protected int $id = self::GLASS;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Glass";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.3;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [];
 	}
 }

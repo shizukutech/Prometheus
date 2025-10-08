@@ -24,34 +24,35 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\level\Level;
+use pocketmine\math\AxisAlignedBB;
 use pocketmine\Player;
 
 class SignPost extends Transparent{
 
-	protected $id = self::SIGN_POST;
+	protected int $id = self::SIGN_POST;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 1;
 	}
 
-	public function isSolid(){
+	public function isSolid() : bool{
 		return false;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Sign Post";
 	}
 
-	public function getBoundingBox(){
+	public function getBoundingBox() : ?AxisAlignedBB{
 		return null;
 	}
 
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		if($face !== 0){
 			if($face === 1){
 				$this->meta = floor((($player->yaw + 180) * 16 / 360) + 0.5) & 0x0F;
@@ -69,7 +70,7 @@ class SignPost extends Transparent{
 		return false;
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(0)->getId() === self::AIR){
 				$this->getLevel()->useBreakOn($this);
@@ -81,19 +82,19 @@ class SignPost extends Transparent{
 		return false;
 	}
 
-	public function onBreak(Item $item){
+	public function onBreak(Item $item) : bool{
 		$this->getLevel()->setBlock($this, new Air(), true, true);
 
 		return true;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[Item::SIGN, 0, 1],
 		];
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_AXE;
 	}
 }

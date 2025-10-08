@@ -36,25 +36,25 @@ class Trapdoor extends Transparent{
 	const MASK_SIDE_EAST = 0;
 	const MASK_SIDE_WEST = 1;
 
-	protected $id = self::TRAPDOOR;
+	protected int $id = self::TRAPDOOR;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Wooden Trapdoor";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 3;
 	}
 
-	public function canBeActivated(){
+	public function canBeActivated() : bool{
 		return true;
 	}
 
-	protected function recalculateBoundingBox(){
+	protected function recalculateBoundingBox() : ?AxisAlignedBB{
 
 		$damage = $this->getDamage();
 
@@ -125,7 +125,7 @@ class Trapdoor extends Transparent{
 		return $bb;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		if(($target->isTransparent() === false || $target->getId() === self::SLAB) && $face !== 0 && $face !== 1){
 			$faces = [
 				self::SIDE_SOUTH => self::MASK_SIDE_SOUTH,
@@ -146,20 +146,20 @@ class Trapdoor extends Transparent{
 		return false;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[$this->id, 0, 1],
 		];
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, ?Player $player = null) : bool{
 		$this->meta ^= self::MASK_OPENED;
 		$this->getLevel()->setBlock($this, $this, true);
 		$this->level->addSound(new DoorSound($this));
 		return true;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_AXE;
 	}
 }

@@ -32,22 +32,22 @@ use pocketmine\tile\Spawnable;
 use pocketmine\tile\Tile;
 
 class MobHead extends Solid{
-	protected $id = self::MOB_HEAD;
-	protected $type;
+	protected int $id = self::MOB_HEAD;
+	protected int $type;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 1;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Mob Head";
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		if($face !== 0){
 			$this->meta = $face;
 			if($face === 1){
@@ -74,7 +74,7 @@ class MobHead extends Solid{
 		return false;
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		parent::onUpdate($type);
 		$faces = [
 			1 => 0,
@@ -94,7 +94,7 @@ class MobHead extends Solid{
 		return false;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($this->meta === 3){
 			return [];
 		}

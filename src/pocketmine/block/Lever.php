@@ -23,13 +23,13 @@ namespace pocketmine\block;
 
 class Lever extends Solid {
 
-    protected $id = self::LEVER;
+    protected int $id = self::LEVER;
 
-    public function __construct($meta = 0){
-        $this->meta = $meta;
+	public function __construct(int $meta = 0){
+		$this->meta = $meta;
     }
 
-    public function getName(){
+    public function getName() : string{
         return "Lever";
     }
 }

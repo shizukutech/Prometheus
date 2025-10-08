@@ -26,21 +26,21 @@ use pocketmine\item\Tool;
 
 class Bookshelf extends Solid{
 
-	protected $id = self::BOOKSHELF;
+	protected int $id = self::BOOKSHELF;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Bookshelf";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 1.5;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_AXE;
 	}
 

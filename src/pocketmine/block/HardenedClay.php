@@ -26,21 +26,21 @@ use pocketmine\item\Tool;
 
 class HardenedClay extends Solid{
 
-	protected $id = self::HARDENED_CLAY;
+	protected int $id = self::HARDENED_CLAY;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Hardened Clay";
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 1.25;
 	}
 }

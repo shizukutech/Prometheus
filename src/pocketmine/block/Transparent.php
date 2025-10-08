@@ -24,7 +24,7 @@ namespace pocketmine\block;
 
 abstract class Transparent extends Block{
 
-	public function isTransparent(){
+	public function isTransparent() : bool{
 		return true;
 	}
 }

@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class Clay extends Solid{
 
-	protected $id = self::CLAY_BLOCK;
+	protected int $id = self::CLAY_BLOCK;
 
 	public function __construct(){
 
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.6;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_SHOVEL;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Clay Block";
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[Item::CLAY, 0, 4],
 		];

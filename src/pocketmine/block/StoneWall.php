@@ -30,25 +30,25 @@ class StoneWall extends Transparent{
 	const NONE_MOSSY_WALL = 0;
 	const MOSSY_WALL = 1;
 
-	protected $id = self::STONE_WALL;
+	protected int $id = self::STONE_WALL;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function isSolid(){
+	public function isSolid() : bool{
 		return false;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 2;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		if($this->meta === 0x01){
 			return "Mossy Cobblestone Wall";
 		}
@@ -56,7 +56,7 @@ class StoneWall extends Transparent{
 		return "Cobblestone Wall";
 	}
 
-	protected function recalculateBoundingBox(){
+	protected function recalculateBoundingBox() : ?AxisAlignedBB{
 
 		$north = $this->canConnect($this->getSide(Vector3::SIDE_NORTH));
 		$south = $this->canConnect($this->getSide(Vector3::SIDE_SOUTH));
@@ -86,7 +86,7 @@ class StoneWall extends Transparent{
 		);
 	}
 
-	public function canConnect(Block $block){
+	public function canConnect(Block $block) : bool{
 		return ($block->getId() !== self::COBBLE_WALL && $block->getId() !== self::FENCE_GATE) ? $block->isSolid() && !$block->isTransparent() : true;
 	}
 

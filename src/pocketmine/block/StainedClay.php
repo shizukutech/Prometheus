@@ -26,21 +26,21 @@ use pocketmine\item\Tool;
 
 class StainedClay extends Solid{
 
-	protected $id = self::STAINED_CLAY;
+	protected int $id = self::STAINED_CLAY;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 1.25;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		static $names = [
 			0 => "White Stained Clay",
 			1 => "Orange Stained Clay",

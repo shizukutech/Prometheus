@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class NetherBrick extends Solid{
 
-	protected $id = self::NETHER_BRICKS;
+	protected int $id = self::NETHER_BRICKS;
 
 	public function __construct(){
 
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Nether Bricks";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 2;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_WOODEN){
 			return [
 				[Item::NETHER_BRICKS, 0, 1],

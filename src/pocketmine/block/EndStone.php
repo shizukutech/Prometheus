@@ -26,21 +26,21 @@ use pocketmine\item\Tool;
 
 class EndStone extends Solid{
 
-	protected $id = self::END_STONE;
+	protected int $id = self::END_STONE;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "EndTag Stone";
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 3;
 	}
 }

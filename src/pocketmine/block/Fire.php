@@ -33,33 +33,33 @@ use pocketmine\Server;
 
 class Fire extends Flowable{
 
-	protected $id = self::FIRE;
+	protected int $id = self::FIRE;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function hasEntityCollision(){
+	public function hasEntityCollision() : bool{
 		return true;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Fire Block";
 	}
 
-	public function getLightLevel(){
+	public function getLightLevel() : int{
 		return 15;
 	}
 
-	public function isBreakable(Item $item){
+	public function isBreakable(Item $item) : bool{
 		return false;
 	}
 
-	public function canBeReplaced(){
+	public function canBeReplaced() : bool{
 		return true;
 	}
 
-	public function onEntityCollide(Entity $entity){
+	public function onEntityCollide(Entity $entity) : void{
 		if(!$entity->hasEffect(Effect::FIRE_RESISTANCE)){
 			$ev = new EntityDamageByBlockEvent($this, $entity, EntityDamageEvent::CAUSE_FIRE, 1);
 			$entity->attack($ev->getFinalDamage(), $ev);
@@ -75,11 +75,11 @@ class Fire extends Flowable{
 		}
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [];
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			for($s = 0; $s <= 5; ++$s){
 				$side = $this->getSide($s);

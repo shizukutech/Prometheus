@@ -30,24 +30,24 @@ use pocketmine\Server;
 
 class Sugarcane extends Flowable{
 
-	protected $id = self::SUGARCANE_BLOCK;
+	protected int $id = self::SUGARCANE_BLOCK;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Sugarcane";
 	}
 
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[Item::SUGARCANE, 0, 1],
 		];
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, ?Player $player = null) : bool{
 		if($item->getId() === Item::DYE && $item->getDamage() === 0x0F){ //Bonemeal
 			if($this->getSide(0)->getId() !== self::SUGARCANE_BLOCK){
 				for($y = 1; $y < 3; ++$y){
@@ -73,7 +73,7 @@ class Sugarcane extends Flowable{
 		return false;
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			$down = $this->getSide(0);
 			if($down->isTransparent() === true && $down->getId() !== self::SUGARCANE_BLOCK){
@@ -105,7 +105,7 @@ class Sugarcane extends Flowable{
 		return false;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		$down = $this->getSide(0);
 		if($down->getId() === self::SUGARCANE_BLOCK){
 			$this->getLevel()->setBlock($block, new Sugarcane(), true);

@@ -27,21 +27,21 @@ use pocketmine\level\Level;
 
 class RedstoneOre extends Solid{
 
-	protected $id = self::REDSTONE_ORE;
+	protected int $id = self::REDSTONE_ORE;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Redstone Ore";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 3;
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL || $type === Level::BLOCK_UPDATE_TOUCH){
 			$this->getLevel()->setBlock($this, Block::get(Item::GLOWING_REDSTONE_ORE, $this->meta));
 
@@ -51,11 +51,11 @@ class RedstoneOre extends Solid{
 		return false;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_IRON){
 			return [
 				[Item::REDSTONE_DUST, 0, mt_rand(4, 5)],

@@ -26,21 +26,21 @@ use pocketmine\item\Tool;
 
 class BrewingStand extends Transparent{
 
-	protected $id = self::BREWING_STAND;
+	protected int $id = self::BREWING_STAND;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Brewing Stand";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.5;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 }

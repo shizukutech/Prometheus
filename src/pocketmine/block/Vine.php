@@ -30,37 +30,37 @@ use pocketmine\Player;
 
 class Vine extends Transparent{
 
-	protected $id = self::VINE;
+	protected int $id = self::VINE;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function isSolid(){
+	public function isSolid() : bool{
 		return false;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Vines";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.2;
 	}
 
-	public function canPassThrough(){
+	public function canPassThrough() : bool{
 		return true;
 	}
 
-	public function hasEntityCollision(){
+	public function hasEntityCollision() : bool{
 		return true;
 	}
 
-	public function onEntityCollide(Entity $entity){
+	public function onEntityCollide(Entity $entity) : void{
 		$entity->resetFallDistance();
 	}
 
-	protected function recalculateBoundingBox(){
+	protected function recalculateBoundingBox() : ?AxisAlignedBB{
 
 		$f1 = 1;
 		$f2 = 1;
@@ -121,7 +121,7 @@ class Vine extends Transparent{
 	}
 
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		if(!$target->isTransparent() && $target->isSolid()){
 			$faces = [
 				0 => 0,
@@ -142,7 +142,7 @@ class Vine extends Transparent{
 		return false;
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			/*if($this->getSide(0)->getId() === self::AIR){ //Replace with common break method
 				Server::getInstance()->api->entity->drop($this, Item::get(LADDER, 0, 1));
@@ -154,7 +154,7 @@ class Vine extends Transparent{
 		return false;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isShears()){
 			return [
 				[$this->id, 0, 1],
@@ -164,7 +164,7 @@ class Vine extends Transparent{
 		}
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_AXE;
 	}
 }

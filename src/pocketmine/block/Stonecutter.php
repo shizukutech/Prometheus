@@ -28,25 +28,25 @@ use pocketmine\Player;
 //TODO: check orientation
 class Stonecutter extends Solid{
 
-	protected $id = self::STONECUTTER;
+	protected int $id = self::STONECUTTER;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Stonecutter";
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function canBeActivated(){
+	public function canBeActivated() : bool{
 		return true;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, ?Player $player = null) : bool{
 		if($player instanceof Player){
 			$player->craftingType = 2;
 		}
@@ -54,7 +54,7 @@ class Stonecutter extends Solid{
 		return true;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_WOODEN){
 			return [
 				[Item::STONECUTTER, 0, 1],

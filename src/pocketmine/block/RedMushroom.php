@@ -27,18 +27,18 @@ use pocketmine\Player;
 
 class RedMushroom extends Flowable{
 
-	protected $id = self::RED_MUSHROOM;
+	protected int $id = self::RED_MUSHROOM;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Red Mushroom";
 	}
 
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(0)->isTransparent() === true){
 				$this->getLevel()->useBreakOn($this);
@@ -50,7 +50,7 @@ class RedMushroom extends Flowable{
 		return false;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		$down = $this->getSide(0);
 		if($down->isTransparent() === false){
 			$this->getLevel()->setBlock($block, $this, true, true);

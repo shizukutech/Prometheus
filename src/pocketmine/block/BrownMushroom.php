@@ -23,25 +23,26 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 use pocketmine\level\Level;
+use pocketmine\math\AxisAlignedBB;
 use pocketmine\Player;
 
 class BrownMushroom extends Flowable{
 
-	protected $id = self::BROWN_MUSHROOM;
+	protected int $id = self::BROWN_MUSHROOM;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Brown Mushroom";
 	}
 
-	public function getLightLevel(){
+	public function getLightLevel() : int{
 		return 1;
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(0)->isTransparent() === true){
 				$this->getLevel()->useBreakOn($this);
@@ -53,7 +54,7 @@ class BrownMushroom extends Flowable{
 		return false;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		$down = $this->getSide(0);
 		if($down->isTransparent() === false){
 			$this->getLevel()->setBlock($block, $this, true, true);
@@ -64,7 +65,7 @@ class BrownMushroom extends Flowable{
 		return false;
 	}
 
-	public function getBoundingBox(){
+	public function getBoundingBox() : ?AxisAlignedBB{
 		return null;
 	}
 

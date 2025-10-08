@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class Melon extends Transparent{
 
-	protected $id = self::MELON_BLOCK;
+	protected int $id = self::MELON_BLOCK;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Melon Block";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 1;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_AXE;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[Item::MELON_SLICE, 0, mt_rand(3, 7)],
 		];

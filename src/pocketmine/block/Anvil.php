@@ -28,37 +28,37 @@ use pocketmine\Player;
 
 class Anvil extends Fallable{
 
-	protected $id = self::ANVIL;
+	protected int $id = self::ANVIL;
 
-	public function isSolid(){
+	public function isSolid() : bool{
 		return false;
 	}
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function canBeActivated(){
+	public function canBeActivated() : bool{
 		return true;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 5;
 	}
 
-	public function getResistance(){
+	public function getResistance() : int{
 		return 6000;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Anvil";
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, ?Player $player = null) : bool{
 		if($player instanceof Player){
 			if($player->isCreative()){
 				return true;
@@ -70,7 +70,7 @@ class Anvil extends Fallable{
 		return true;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_WOODEN){
 			return [
 				[$this->id, 0, 1], //TODO break level

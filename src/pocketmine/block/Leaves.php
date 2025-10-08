@@ -36,21 +36,21 @@ class Leaves extends Transparent{
 	const ACACIA = 0;
 	const DARK_OAK = 1;
 
-	protected $id = self::LEAVES;
+	protected int $id = self::LEAVES;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.2;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_SHEARS;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		static $names = [
 			self::OAK => "Oak Leaves",
 			self::SPRUCE => "Spruce Leaves",
@@ -60,7 +60,7 @@ class Leaves extends Transparent{
 		return $names[$this->meta & 0x03];
 	}
 
-	private function findLog(Block $pos, array $visited, $distance, &$check, $fromSide = null){
+	private function findLog(Block $pos, array $visited, int $distance, int &$check, ?int $fromSide = null) : bool{
 		++$check;
 		$index = $pos->x . "." . $pos->y . "." . $pos->z;
 		if(isset($visited[$index])){
@@ -125,7 +125,7 @@ class Leaves extends Transparent{
 		return false;
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if(($this->meta & 0b00001100) === 0){
 				$this->meta |= 0x08;
@@ -152,12 +152,12 @@ class Leaves extends Transparent{
 		return false;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		$this->meta |= 0x04;
-		$this->getLevel()->setBlock($this, $this, true);
+		return $this->getLevel()->setBlock($this, $this, true);
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		$drops = [];
 		if($item->isShears()){
 			$drops[] = [Item::LEAVES, $this->meta & 0x03, 1];

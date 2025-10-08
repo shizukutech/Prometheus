@@ -36,17 +36,17 @@ class Slab extends Transparent{
 	const QUARTZ = 6;
 	const NETHER_BRICK = 7;
 
-	protected $id = self::SLAB;
+	protected int $id = self::SLAB;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 2;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		static $names = [
 			self::STONE => "Stone",
 			self::SANDSTONE => "Sandstone",
@@ -60,7 +60,7 @@ class Slab extends Transparent{
 		return (($this->meta & 0x08) > 0 ? "Upper " : "") . $names[$this->meta & 0x07] . " Slab";
 	}
 
-	protected function recalculateBoundingBox(){
+	protected function recalculateBoundingBox() : ?AxisAlignedBB{
 
 		if(($this->meta & 0x08) > 0){
 			return new AxisAlignedBB(
@@ -83,7 +83,7 @@ class Slab extends Transparent{
 		}
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		$this->meta &= 0x07;
 		if($face === 0){
 			if($target->getId() === self::SLAB && ($target->getDamage() & 0x08) === 0x08 && ($target->getDamage() & 0x07) === ($this->meta & 0x07)){
@@ -132,7 +132,7 @@ class Slab extends Transparent{
 		return true;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_WOODEN){
 			return [
 				[$this->id, $this->meta & 0x07, 1],
@@ -144,7 +144,7 @@ class Slab extends Transparent{
 
 
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 }

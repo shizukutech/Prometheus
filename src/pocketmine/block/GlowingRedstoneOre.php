@@ -26,17 +26,17 @@ use pocketmine\level\Level;
 
 class GlowingRedstoneOre extends RedstoneOre{
 
-	protected $id = self::GLOWING_REDSTONE_ORE;
+	protected int $id = self::GLOWING_REDSTONE_ORE;
 
-	public function getName(){
+	public function getName() : string{
 		return "Glowing Redstone Ore";
 	}
 
-	public function getLightLevel(){
+	public function getLightLevel() : int{
 		return 9;
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_SCHEDULED || $type === Level::BLOCK_UPDATE_RANDOM){
 			$this->getLevel()->setBlock($this, Block::get(Item::REDSTONE_ORE, $this->meta), false, false);
 

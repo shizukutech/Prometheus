@@ -33,35 +33,35 @@ use pocketmine\utils\Random;
 
 class Grass extends Solid{
 
-	protected $id = self::GRASS;
+	protected int $id = self::GRASS;
 
 	public function __construct(){
 
 	}
 
-	public function canBeActivated(){
+	public function canBeActivated() : bool{
 		return true;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Grass";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.6;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_SHOVEL;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[Item::DIRT, 0, 1],
 		];
 	}
 
-	public function onUpdate($type){
+	public function onUpdate(int $type) : false|int{
 		if($type === Level::BLOCK_UPDATE_RANDOM){
 			$block = $this->getLevel()->getBlock(new Vector3($this->x, $this->y, $this->z));
 			if($block->getSide(1)->getLightLevel() < 4){
@@ -80,10 +80,14 @@ class Grass extends Solid{
 					}
 				}
 			}
+
+			return Level::BLOCK_UPDATE_RANDOM;
 		}
+
+		return false;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, ?Player $player = null) : bool{
 		if($item->getId() === Item::DYE && $item->getDamage() === 0x0F){
 			$item->count--;
 			TallGrassObject::growGrass($this->getLevel(), $this, new Random(mt_rand()), 8, 2);

@@ -29,25 +29,25 @@ use pocketmine\utils\TextFormat;
 
 class Bed extends Transparent{
 
-	protected $id = self::BED_BLOCK;
+	protected int $id = self::BED_BLOCK;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function canBeActivated(){
+	public function canBeActivated() : bool{
 		return true;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.2;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Bed Block";
 	}
 
-	protected function recalculateBoundingBox(){
+	protected function recalculateBoundingBox() : ?AxisAlignedBB{
 		return new AxisAlignedBB(
 			$this->x,
 			$this->y,
@@ -58,7 +58,7 @@ class Bed extends Transparent{
 		);
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, ?Player $player = null) : bool{
 
 		$time = $this->getLevel()->getTime() % Level::TIME_FULL;
 
@@ -100,7 +100,7 @@ class Bed extends Transparent{
 		return true;
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	public function place(Item $item, Block $block, Block $target, int $face, float $fx, float $fy, float $fz, ?Player $player = null) : bool{
 		$down = $this->getSide(0);
 		if($down->isTransparent() === false){
 			$faces = [
@@ -124,7 +124,7 @@ class Bed extends Transparent{
 		return false;
 	}
 
-	public function onBreak(Item $item){
+	public function onBreak(Item $item) : bool{
 		$blockNorth = $this->getSide(2); //Gets the blocks around them
 		$blockSouth = $this->getSide(3);
 		$blockEast = $this->getSide(5);
@@ -156,7 +156,7 @@ class Bed extends Transparent{
 		return true;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[Item::BED, 0, 1],
 		];

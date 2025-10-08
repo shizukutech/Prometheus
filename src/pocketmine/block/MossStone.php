@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class MossStone extends Solid{
 
-	protected $id = self::MOSS_STONE;
+	protected int $id = self::MOSS_STONE;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Moss Stone";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 2;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_WOODEN){
 			return [
 				[Item::MOSS_STONE, $this->meta, 1],

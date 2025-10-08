@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class Netherrack extends Solid{
 
-	protected $id = self::NETHERRACK;
+	protected int $id = self::NETHERRACK;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Netherrack";
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 2;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_WOODEN){
 			return [
 				[Item::NETHERRACK, 0, 1],

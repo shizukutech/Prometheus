@@ -26,29 +26,29 @@ use pocketmine\item\Tool;
 
 class WoodDoor extends Door{
 
-	protected $id = self::WOOD_DOOR_BLOCK;
+	protected int $id = self::WOOD_DOOR_BLOCK;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Wood Door Block";
 	}
 
-	public function canBeActivated(){
+	public function canBeActivated() : bool{
 		return true;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 3;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_AXE;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		return [
 			[Item::WOODEN_DOOR, 0, 1],
 		];

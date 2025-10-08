@@ -26,21 +26,21 @@ use pocketmine\item\Tool;
 
 class QuartzStairs extends Stair{
 
-	protected $id = self::QUARTZ_STAIRS;
+	protected int $id = self::QUARTZ_STAIRS;
 
-	public function __construct($meta = 0){
+	public function __construct(int $meta = 0){
 		$this->meta = $meta;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 0.8;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Quartz Stairs";
 	}
 

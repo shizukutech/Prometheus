@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class LapisOre extends Solid{
 
-	protected $id = self::LAPIS_ORE;
+	protected int $id = self::LAPIS_ORE;
 
 	public function __construct(){
 
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 3;
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Lapis Lazuli Ore";
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_STONE){
 			return [
 				[Item::DYE, 4, mt_rand(4, 8)],

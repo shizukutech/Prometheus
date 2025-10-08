@@ -26,25 +26,25 @@ use pocketmine\item\Tool;
 
 class EmeraldOre extends Solid{
 
-	protected $id = self::EMERALD_ORE;
+	protected int $id = self::EMERALD_ORE;
 
 	public function __construct(){
 
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Emerald Ore";
 	}
 
-	public function getToolType(){
+	public function getToolType() : int{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getHardness(){
+	public function getHardness() : float{
 		return 3;
 	}
 
-	public function getDrops(Item $item){
+	public function getDrops(Item $item) : array{
 		if($item->isPickaxe() >= Tool::TIER_IRON){
 			return [
 				[Item::EMERALD, 0, 1],
