@@ -29,22 +29,13 @@ use pocketmine\utils\PluginException;
 
 abstract class MetadataStore{
 	/** @var \WeakMap[] */
-	private $metadataMap;
+	private array $metadataMap;
 
 	/**
 	 * Adds a metadata value to an object.
-	 *
-	 * @param mixed         $subject
-	 * @param string        $metadataKey
-	 * @param MetadataValue $newMetadataValue
-	 *
-	 * @throws \Exception
 	 */
-	public function setMetadata($subject, $metadataKey, MetadataValue $newMetadataValue){
+	public function setMetadata(mixed $subject, string $metadataKey, MetadataValue $newMetadataValue) : void{
 		$owningPlugin = $newMetadataValue->getOwningPlugin();
-		if($owningPlugin === null){
-			throw new PluginException("Plugin cannot be null");
-		}
 
 		$key = $this->disambiguate($subject, $metadataKey);
 		if(!isset($this->metadataMap[$key])){
@@ -60,14 +51,9 @@ abstract class MetadataStore{
 	 * Returns all metadata values attached to an object. If multiple
 	 * have attached metadata, each will value will be included.
 	 *
-	 * @param mixed  $subject
-	 * @param string $metadataKey
-	 *
 	 * @return MetadataValue[]
-	 *
-	 * @throws \Exception
 	 */
-	public function getMetadata($subject, $metadataKey){
+	public function getMetadata(mixed $subject, string $metadataKey) : array{
 		$key = $this->disambiguate($subject, $metadataKey);
 		if(isset($this->metadataMap[$key])){
 			return $this->metadataMap[$key];
@@ -78,28 +64,15 @@ abstract class MetadataStore{
 
 	/**
 	 * Tests to see if a metadata attribute has been set on an object.
-	 *
-	 * @param mixed  $subject
-	 * @param string $metadataKey
-	 *
-	 * @return bool
-	 *
-	 * @throws \Exception
 	 */
-	public function hasMetadata($subject, $metadataKey){
+	public function hasMetadata(mixed $subject, string $metadataKey) : bool{
 		return isset($this->metadataMap[$this->disambiguate($subject, $metadataKey)]);
 	}
 
 	/**
 	 * Removes a metadata item owned by a plugin from a subject.
-	 *
-	 * @param mixed  $subject
-	 * @param string $metadataKey
-	 * @param Plugin $owningPlugin
-	 *
-	 * @throws \Exception
 	 */
-	public function removeMetadata($subject, $metadataKey, Plugin $owningPlugin){
+	public function removeMetadata(mixed $subject, string $metadataKey, Plugin $owningPlugin) : void{
 		$key = $this->disambiguate($subject, $metadataKey);
 		if(isset($this->metadataMap[$key])){
 			unset($this->metadataMap[$key][$owningPlugin]);
@@ -113,10 +86,8 @@ abstract class MetadataStore{
 	 * Invalidates all metadata in the metadata store that originates from the
 	 * given plugin. Doing this will force each invalidated metadata item to
 	 * be recalculated the next time it is accessed.
-	 *
-	 * @param Plugin $owningPlugin
 	 */
-	public function invalidateAll(Plugin $owningPlugin){
+	public function invalidateAll(Plugin $owningPlugin) : void{
 		/** @var $values MetadataValue[] */
 		foreach($this->metadataMap as $values){
 			if(isset($values[$owningPlugin])){
@@ -129,12 +100,7 @@ abstract class MetadataStore{
 	 * Creates a unique name for the object receiving metadata by combining
 	 * unique data from the subject with a metadataKey.
 	 *
-	 * @param Metadatable $subject
-	 * @param string      $metadataKey
-	 *
-	 * @return string
-	 *
 	 * @throws \InvalidArgumentException
 	 */
-	public abstract function disambiguate(Metadatable $subject, $metadataKey);
+	public abstract function disambiguate(Metadatable $subject, string $metadataKey) : string;
 }
