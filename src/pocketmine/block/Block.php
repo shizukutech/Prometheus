@@ -822,13 +822,8 @@ class Block extends Position implements Metadatable{
 
 	/**
 	 * Returns the Block on the side $side, works like Vector3::side()
-	 *
-	 * @param int $side
-	 * @param int $step
-	 *
-	 * @return Block
 	 */
-	public function getSide($side, $step = 1){
+	public function getSide(int $side, int $step = 1) : Block{
 		if($this->isValid()){
 			return $this->getLevel()->getBlock(Vector3::getSide($side, $step));
 		}
@@ -836,10 +831,7 @@ class Block extends Position implements Metadatable{
 		return Block::get(Item::AIR, 0, Position::fromObject(Vector3::getSide($side, $step)));
 	}
 
-	/**
-	 * @return string
-	 */
-	public function __toString(){
+	public function __toString() : string{
 		return "Block[" . $this->getName() . "] (" . $this->getId() . ":" . $this->getDamage() . ")";
 	}
 
