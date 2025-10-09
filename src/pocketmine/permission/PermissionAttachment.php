@@ -25,24 +25,18 @@ use pocketmine\plugin\Plugin;
 use pocketmine\utils\PluginException;
 
 class PermissionAttachment{
-	/** @var PermissionRemovedExecutor */
-	private $removed = null;
+	private ?PermissionRemovedExecutor $removed = null;
 
 	/**
 	 * @var bool[]
 	 */
-	private $permissions = [];
+	private array $permissions = [];
 
-	/** @var Permissible */
-	private $permissible;
+	private Permissible $permissible;
 
-	/** @var Plugin */
-	private $plugin;
+	private Plugin $plugin;
 
 	/**
-	 * @param Plugin      $plugin
-	 * @param Permissible $permissible
-	 *
 	 * @throws PluginException
 	 */
 	public function __construct(Plugin $plugin, Permissible $permissible){
@@ -54,45 +48,30 @@ class PermissionAttachment{
 		$this->plugin = $plugin;
 	}
 
-	/**
-	 * @return Plugin
-	 */
-	public function getPlugin(){
+	public function getPlugin() : Plugin{
 		return $this->plugin;
 	}
 
-	/**
-	 * @param PermissionRemovedExecutor $ex
-	 */
-	public function setRemovalCallback(PermissionRemovedExecutor $ex){
+	public function setRemovalCallback(PermissionRemovedExecutor $ex) : void{
 		$this->removed = $ex;
 	}
 
-	/**
-	 * @return PermissionRemovedExecutor
-	 */
-	public function getRemovalCallback(){
+	public function getRemovalCallback() : ?PermissionRemovedExecutor{
 		return $this->removed;
 	}
 
-	/**
-	 * @return Permissible
-	 */
-	public function getPermissible(){
+	public function getPermissible() : Permissible{
 		return $this->permissible;
 	}
 
 	/**
 	 * @return bool[]
 	 */
-	public function getPermissions(){
+	public function getPermissions() : array{
 		return $this->permissions;
 	}
 
-	/**
-	 * @return bool[]
-	 */
-	public function clearPermissions(){
+	public function clearPermissions() : void{
 		$this->permissions = [];
 		$this->permissible->recalculatePermissions();
 	}
@@ -100,9 +79,9 @@ class PermissionAttachment{
 	/**
 	 * @param bool[] $permissions
 	 */
-	public function setPermissions(array $permissions){
+	public function setPermissions(array $permissions) : void{
 		foreach($permissions as $key => $value){
-			$this->permissions[$key] = (bool) $value;
+			$this->permissions[$key] = $value;
 		}
 		$this->permissible->recalculatePermissions();
 	}
@@ -110,18 +89,14 @@ class PermissionAttachment{
 	/**
 	 * @param string[] $permissions
 	 */
-	public function unsetPermissions(array $permissions){
+	public function unsetPermissions(array $permissions) : void{
 		foreach($permissions as $node){
 			unset($this->permissions[$node]);
 		}
 		$this->permissible->recalculatePermissions();
 	}
 
-	/**
-	 * @param string|Permission $name
-	 * @param bool              $value
-	 */
-	public function setPermission($name, $value){
+	public function setPermission(Permission|string $name, bool $value) : void{
 		$name = $name instanceof Permission ? $name->getName() : $name;
 		if(isset($this->permissions[$name])){
 			if($this->permissions[$name] === $value){
@@ -133,10 +108,7 @@ class PermissionAttachment{
 		$this->permissible->recalculatePermissions();
 	}
 
-	/**
-	 * @param string|Permission $name
-	 */
-	public function unsetPermission($name){
+	public function unsetPermission(Permission|string $name) : void{
 		$name = $name instanceof Permission ? $name->getName() : $name;
 		if(isset($this->permissions[$name])){
 			unset($this->permissions[$name]);
@@ -144,10 +116,7 @@ class PermissionAttachment{
 		}
 	}
 
-	/**
-	 * @return void
-	 */
-	public function remove(){
+	public function remove() : void{
 		$this->permissible->removeAttachment($this);
 	}
 }

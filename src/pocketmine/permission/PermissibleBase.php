@@ -58,10 +58,7 @@ class PermissibleBase implements Permissible{
 		$this->opable = null;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOp(){
+	public function isOp() : bool{
 		if($this->opable === null){
 			return false;
 		}else{
@@ -70,11 +67,9 @@ class PermissibleBase implements Permissible{
 	}
 
 	/**
-	 * @param bool $value
-	 *
 	 * @throws \Exception
 	 */
-	public function setOp($value){
+	public function setOp(bool $value) : void{
 		if($this->opable === null){
 			throw new \LogicException("Cannot change op value as no ServerOperator is set");
 		}else{
@@ -82,21 +77,11 @@ class PermissibleBase implements Permissible{
 		}
 	}
 
-	/**
-	 * @param Permission|string $name
-	 *
-	 * @return bool
-	 */
-	public function isPermissionSet($name){
+	public function isPermissionSet(Permission|string $name) : bool{
 		return isset($this->permissions[$name instanceof Permission ? $name->getName() : $name]);
 	}
 
-	/**
-	 * @param Permission|string $name
-	 *
-	 * @return bool
-	 */
-	public function hasPermission($name){
+	public function hasPermission(Permission|string $name) : bool{
 		if($name instanceof Permission){
 			$name = $name->getName();
 		}
@@ -118,15 +103,9 @@ class PermissibleBase implements Permissible{
 	/**
 	 * //TODO: tick scheduled attachments
 	 *
-	 * @param Plugin $plugin
-	 * @param string $name
-	 * @param bool   $value
-	 *
-	 * @return PermissionAttachment
-	 *
 	 * @throws PluginException
 	 */
-	public function addAttachment(Plugin $plugin, $name = null, $value = null){
+	public function addAttachment(Plugin $plugin, ?string $name = null, ?bool $value = null):PermissionAttachment{
 		if($plugin === null){
 			throw new PluginException("Plugin cannot be null");
 		}elseif(!$plugin->isEnabled()){
@@ -145,15 +124,9 @@ class PermissibleBase implements Permissible{
 	}
 
 	/**
-	 * @param PermissionAttachment $attachment
-	 *
 	 * @throws \Exception
 	 */
-	public function removeAttachment(PermissionAttachment $attachment){
-		if($attachment === null){
-			throw new \InvalidStateException("Attachment cannot be null");
-		}
-
+	public function removeAttachment(PermissionAttachment $attachment) : void{
 		if(isset($this->attachments[spl_object_hash($attachment)])){
 			unset($this->attachments[spl_object_hash($attachment)]);
 			if(($ex = $attachment->getRemovalCallback()) !== null){
@@ -166,7 +139,7 @@ class PermissibleBase implements Permissible{
 
 	}
 
-	public function recalculatePermissions(){
+	public function recalculatePermissions() : void{
 		Timings::$permissibleCalculationTimer->startTiming();
 
 		$this->clearPermissions();
@@ -219,7 +192,7 @@ class PermissibleBase implements Permissible{
 	/**
 	 * @return PermissionAttachmentInfo[]
 	 */
-	public function getEffectivePermissions(){
+	public function getEffectivePermissions() : array{
 		return $this->permissions;
 	}
 }

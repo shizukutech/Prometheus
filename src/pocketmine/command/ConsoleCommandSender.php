@@ -23,7 +23,9 @@ namespace pocketmine\command;
 
 use pocketmine\event\TextContainer;
 use pocketmine\permission\PermissibleBase;
+use pocketmine\permission\Permission;
 use pocketmine\permission\PermissionAttachment;
+use pocketmine\permission\PermissionAttachmentInfo;
 use pocketmine\plugin\Plugin;
 use pocketmine\Server;
 use pocketmine\utils\MainLogger;
@@ -36,52 +38,30 @@ class ConsoleCommandSender implements CommandSender{
 		$this->perm = new PermissibleBase($this);
 	}
 
-	/**
-	 * @param \pocketmine\permission\Permission|string $name
-	 *
-	 * @return bool
-	 */
-	public function isPermissionSet($name){
+	public function isPermissionSet(Permission|string $name) : bool{
 		return $this->perm->isPermissionSet($name);
 	}
 
-	/**
-	 * @param \pocketmine\permission\Permission|string $name
-	 *
-	 * @return bool
-	 */
-	public function hasPermission($name){
+	public function hasPermission(Permission|string $name) : bool{
 		return $this->perm->hasPermission($name);
 	}
 
-	/**
-	 * @param Plugin $plugin
-	 * @param string $name
-	 * @param bool   $value
-	 *
-	 * @return \pocketmine\permission\PermissionAttachment
-	 */
-	public function addAttachment(Plugin $plugin, $name = null, $value = null){
+	public function addAttachment(Plugin $plugin, ?string $name = null, ?bool $value = null) : PermissionAttachment{
 		return $this->perm->addAttachment($plugin, $name, $value);
 	}
 
-	/**
-	 * @param PermissionAttachment $attachment
-	 *
-	 * @return void
-	 */
-	public function removeAttachment(PermissionAttachment $attachment){
+	public function removeAttachment(PermissionAttachment $attachment) : void{
 		$this->perm->removeAttachment($attachment);
 	}
 
-	public function recalculatePermissions(){
+	public function recalculatePermissions() : void{
 		$this->perm->recalculatePermissions();
 	}
 
 	/**
-	 * @return \pocketmine\permission\PermissionAttachmentInfo[]
+	 * @return PermissionAttachmentInfo[]
 	 */
-	public function getEffectivePermissions(){
+	public function getEffectivePermissions() : array{
 		return $this->perm->getEffectivePermissions();
 	}
 
@@ -121,17 +101,11 @@ class ConsoleCommandSender implements CommandSender{
 		return "CONSOLE";
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOp(){
+	public function isOp() : bool{
 		return true;
 	}
 
-	/**
-	 * @param bool $value
-	 */
-	public function setOp($value){
+	public function setOp(bool $value) : void{
 
 	}
 

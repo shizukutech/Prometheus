@@ -27,47 +27,24 @@ interface Permissible extends ServerOperator{
 
 	/**
 	 * Checks if this instance has a permission overridden
-	 *
-	 * @param string|Permission $name
-	 *
-	 * @return boolean
 	 */
-	public function isPermissionSet($name);
+	public function isPermissionSet(Permission|string $name) : bool;
 
 	/**
 	 * Returns the permission value if overridden, or the default value if not
-	 *
-	 * @param string|Permission $name
-	 *
-	 * @return mixed
 	 */
-	public function hasPermission($name);
+	public function hasPermission(Permission|string $name) : bool;
+
+	public function addAttachment(Plugin $plugin, ?string $name = null, ?bool $value = null) : PermissionAttachment;
+
+	public function removeAttachment(PermissionAttachment $attachment) : void;
+
+
+	public function recalculatePermissions() : void;
 
 	/**
-	 * @param Plugin $plugin
-	 * @param string $name
-	 * @param bool   $value
-	 *
-	 * @return PermissionAttachment
+	 * @return PermissionAttachmentInfo[]
 	 */
-	public function addAttachment(Plugin $plugin, $name = null, $value = null);
-
-	/**
-	 * @param PermissionAttachment $attachment
-	 *
-	 * @return void
-	 */
-	public function removeAttachment(PermissionAttachment $attachment);
-
-
-	/**
-	 * @return void
-	 */
-	public function recalculatePermissions();
-
-	/**
-	 * @return Permission[]
-	 */
-	public function getEffectivePermissions();
+	public function getEffectivePermissions() : array;
 
 }

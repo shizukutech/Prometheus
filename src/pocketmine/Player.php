@@ -127,7 +127,9 @@ use pocketmine\network\protocol\UpdateAttributesPacket;
 use pocketmine\network\protocol\UpdateBlockPacket;
 use pocketmine\network\SourceInterface;
 use pocketmine\permission\PermissibleBase;
+use pocketmine\permission\Permission;
 use pocketmine\permission\PermissionAttachment;
+use pocketmine\permission\PermissionAttachmentInfo;
 use pocketmine\plugin\Plugin;
 use pocketmine\tile\Sign;
 use pocketmine\tile\Spawnable;
@@ -407,17 +409,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		return $this->connected === true && $this->loggedIn === true;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isOp(){
+	public function isOp() : bool{
 		return $this->server->isOp($this->getName());
 	}
 
-	/**
-	 * @param bool $value
-	 */
-	public function setOp($value){
+	public function setOp(bool $value) : void{
 		if($value === $this->isOp()){
 			return;
 		}
@@ -431,43 +427,23 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->recalculatePermissions();
 	}
 
-	/**
-	 * @param permission\Permission|string $name
-	 *
-	 * @return bool
-	 */
-	public function isPermissionSet($name){
+	public function isPermissionSet(Permission|string $name) : bool{
 		return $this->perm->isPermissionSet($name);
 	}
 
-	/**
-	 * @param permission\Permission|string $name
-	 *
-	 * @return bool
-	 */
-	public function hasPermission($name){
+	public function hasPermission(Permission|string $name) : bool{
 		return $this->perm->hasPermission($name);
 	}
 
-	/**
-	 * @param Plugin $plugin
-	 * @param string $name
-	 * @param bool   $value
-	 *
-	 * @return permission\PermissionAttachment
-	 */
-	public function addAttachment(Plugin $plugin, $name = null, $value = null){
+	public function addAttachment(Plugin $plugin, ?string $name = null, ?bool $value = null) : PermissionAttachment{
 		return $this->perm->addAttachment($plugin, $name, $value);
 	}
 
-	/**
-	 * @param PermissionAttachment $attachment
-	 */
-	public function removeAttachment(PermissionAttachment $attachment){
+	public function removeAttachment(PermissionAttachment $attachment) : void{
 		$this->perm->removeAttachment($attachment);
 	}
 
-	public function recalculatePermissions(){
+	public function recalculatePermissions() : void{
 		$this->server->getPluginManager()->unsubscribeFromPermission(Server::BROADCAST_CHANNEL_USERS, $this);
 		$this->server->getPluginManager()->unsubscribeFromPermission(Server::BROADCAST_CHANNEL_ADMINISTRATIVE, $this);
 
@@ -486,9 +462,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 
 	/**
-	 * @return permission\PermissionAttachmentInfo[]
+	 * @return PermissionAttachmentInfo[]
 	 */
-	public function getEffectivePermissions(){
+	public function getEffectivePermissions() : array{
 		return $this->perm->getEffectivePermissions();
 	}
 

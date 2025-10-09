@@ -27,50 +27,34 @@ use pocketmine\utils\MainLogger;
 class BanList{
 
 	/** @var BanEntry[] */
-	private $list = [];
+	private array $list = [];
 
-	/** @var string */
-	private $file;
+	private string $file;
 
-	/** @var bool */
-	private $enabled = true;
+	private bool $enabled = true;
 
-	/**
-	 * @param string $file
-	 */
-	public function __construct($file){
+	public function __construct(string $file){
 		$this->file = $file;
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isEnabled(){
+	public function isEnabled() : bool{
 		return $this->enabled === true;
 	}
 
-	/**
-	 * @param bool $flag
-	 */
-	public function setEnabled($flag){
-		$this->enabled = (bool) $flag;
+	public function setEnabled(bool $flag) : void{
+		$this->enabled = $flag;
 	}
 
 	/**
 	 * @return BanEntry[]
 	 */
-	public function getEntries(){
+	public function getEntries() : array{
 		$this->removeExpired();
 
 		return $this->list;
 	}
 
-	/**
-	 * @param string $name
-	 *
-	 * @return bool
-	 */
-	public function isBanned($name){
+	public function isBanned(string $name) : bool{
 		$name = strtolower($name);
 		if(!$this->isEnabled()){
 			return false;
@@ -81,23 +65,12 @@ class BanList{
 		}
 	}
 
-	/**
-	 * @param BanEntry $entry
-	 */
-	public function add(BanEntry $entry){
+	public function add(BanEntry $entry) : void{
 		$this->list[$entry->getName()] = $entry;
 		$this->save();
 	}
 
-	/**
-	 * @param string    $target
-	 * @param string    $reason
-	 * @param \DateTime $expires
-	 * @param string    $source
-	 *
-	 * @return BanEntry
-	 */
-	public function addBan($target, $reason = null, $expires = null, $source = null){
+	public function addBan(string $target, ?string $reason = null, ?\DateTime $expires = null, ?string $source = null) : BanEntry{
 		$entry = new BanEntry($target);
 		$entry->setSource($source != null ? $source : $entry->getSource());
 		$entry->setExpires($expires);
@@ -109,10 +82,7 @@ class BanList{
 		return $entry;
 	}
 
-	/**
-	 * @param string $name
-	 */
-	public function remove($name){
+	public function remove(string $name) : void{
 		$name = strtolower($name);
 		if(isset($this->list[$name])){
 			unset($this->list[$name]);
@@ -120,7 +90,7 @@ class BanList{
 		}
 	}
 
-	public function removeExpired(){
+	public function removeExpired() : void{
 		foreach($this->list as $name => $entry){
 			if($entry->hasExpired()){
 				unset($this->list[$name]);
@@ -128,7 +98,7 @@ class BanList{
 		}
 	}
 
-	public function load(){
+	public function load() : void{
 		$this->list = [];
 		$fp = @fopen($this->file, "r");
 		if(is_resource($fp)){
@@ -146,7 +116,7 @@ class BanList{
 		}
 	}
 
-	public function save($flag = true){
+	public function save(bool $flag = true) : void{
 		$this->removeExpired();
 		$fp = @fopen($this->file, "w");
 		if(is_resource($fp)){
