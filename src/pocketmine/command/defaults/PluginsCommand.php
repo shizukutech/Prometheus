@@ -27,7 +27,7 @@ use pocketmine\utils\TextFormat;
 
 class PluginsCommand extends VanillaCommand{
 
-	public function __construct($name){
+	public function __construct(string $name){
 		parent::__construct(
 			$name,
 			"%pocketmine.command.plugins.description",
@@ -37,7 +37,7 @@ class PluginsCommand extends VanillaCommand{
 		$this->setPermission("pocketmine.command.plugins");
 	}
 
-	public function execute(CommandSender $sender, $currentAlias, array $args){
+	public function execute(CommandSender $sender, string $commandLabel, array $args) : bool{
 		if(!$this->testPermission($sender)){
 			return true;
 		}
@@ -45,7 +45,7 @@ class PluginsCommand extends VanillaCommand{
 		return true;
 	}
 
-	private function sendPluginList(CommandSender $sender){
+	private function sendPluginList(CommandSender $sender) : void{
 		$list = "";
 		foreach(($plugins = $sender->getServer()->getPluginManager()->getPlugins()) as $plugin){
 			if(strlen($list) > 0){

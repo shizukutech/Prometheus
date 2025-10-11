@@ -24,21 +24,20 @@ namespace pocketmine\command;
 use pocketmine\Thread;
 
 class CommandReader extends Thread{
-	private $readline;
-	/** @var \Threaded */
-	protected $buffer;
-	private $shutdown = false;
+	private bool $readline;
+	protected \Threaded $buffer;
+	private bool $shutdown = false;
 
 	public function __construct(){
 		$this->buffer = new \Threaded;
 		$this->start();
 	}
 
-	public function shutdown(){
+	public function shutdown() : void{
 		$this->shutdown = true;
 	}
 
-	private function readLine(){
+	private function readLine() : string{
 		if(!$this->readline){
 			global $stdin;
 
@@ -59,10 +58,8 @@ class CommandReader extends Thread{
 
 	/**
 	 * Reads a line from console, if available. Returns null if not available
-	 *
-	 * @return string|null
 	 */
-	public function getLine(){
+	public function getLine() : ?string{
 		if($this->buffer->count() !== 0){
 			return $this->buffer->shift();
 		}
@@ -70,7 +67,7 @@ class CommandReader extends Thread{
 		return null;
 	}
 
-	public function run(){
+	public function run() : void{
 		$opts = getopt("", ["disable-readline"]);
 		if(extension_loaded("readline") && !isset($opts["disable-readline"])){
 			$this->readline = true;
@@ -95,7 +92,7 @@ class CommandReader extends Thread{
 		}
 	}
 
-	public function getThreadName(){
+	public function getThreadName() : string{
 		return "Console";
 	}
 }

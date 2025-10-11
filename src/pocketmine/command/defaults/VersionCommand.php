@@ -29,7 +29,7 @@ use pocketmine\utils\TextFormat;
 
 class VersionCommand extends VanillaCommand{
 
-	public function __construct($name){
+	public function __construct(string $name){
 		parent::__construct(
 			$name,
 			"%pocketmine.command.version.description",
@@ -39,7 +39,7 @@ class VersionCommand extends VanillaCommand{
 		$this->setPermission("pocketmine.command.version");
 	}
 
-	public function execute(CommandSender $sender, $currentAlias, array $args){
+	public function execute(CommandSender $sender, string $commandLabel, array $args) : bool{
 		if(!$this->testPermission($sender)){
 			return true;
 		}
@@ -80,7 +80,7 @@ class VersionCommand extends VanillaCommand{
 		return true;
 	}
 
-	private function describeToSender(Plugin $plugin, CommandSender $sender){
+	private function describeToSender(Plugin $plugin, CommandSender $sender) : void{
 		$desc = $plugin->getDescription();
 		$sender->sendMessage(TextFormat::DARK_GREEN . $desc->getName() . TextFormat::WHITE . " version " . TextFormat::DARK_GREEN . $desc->getVersion());
 

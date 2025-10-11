@@ -29,7 +29,7 @@ use pocketmine\Player;
 
 class BanCommand extends VanillaCommand{
 
-	public function __construct($name){
+	public function __construct(string $name){
 		parent::__construct(
 			$name,
 			"%pocketmine.command.ban.player.description",
@@ -38,7 +38,7 @@ class BanCommand extends VanillaCommand{
 		$this->setPermission("pocketmine.command.ban.player");
 	}
 
-	public function execute(CommandSender $sender, $currentAlias, array $args){
+	public function execute(CommandSender $sender, string $commandLabel, array $args) : bool{
 		if(!$this->testPermission($sender)){
 			return true;
 		}

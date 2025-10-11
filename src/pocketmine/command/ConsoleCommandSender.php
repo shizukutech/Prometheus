@@ -32,7 +32,7 @@ use pocketmine\utils\MainLogger;
 
 class ConsoleCommandSender implements CommandSender{
 
-	private $perm;
+	private PermissibleBase $perm;
 
 	public function __construct(){
 		$this->perm = new PermissibleBase($this);
@@ -65,24 +65,15 @@ class ConsoleCommandSender implements CommandSender{
 		return $this->perm->getEffectivePermissions();
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isPlayer(){
+	public function isPlayer() : bool{
 		return false;
 	}
 
-	/**
-	 * @return \pocketmine\Server
-	 */
-	public function getServer(){
+	public function getServer() : Server{
 		return Server::getInstance();
 	}
 
-	/**
-	 * @param string $message
-	 */
-	public function sendMessage($message){
+	public function sendMessage(TextContainer|string $message) : void{
 		if($message instanceof TextContainer){
 			$message = $this->getServer()->getLanguage()->translate($message);
 		}else{
@@ -94,10 +85,7 @@ class ConsoleCommandSender implements CommandSender{
 		}
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getName(){
+	public function getName() : string{
 		return "CONSOLE";
 	}
 

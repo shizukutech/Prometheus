@@ -30,7 +30,7 @@ use pocketmine\utils\TextFormat;
 
 class TeleportCommand extends VanillaCommand{
 
-	public function __construct($name){
+	public function __construct(string $name){
 		parent::__construct(
 			$name,
 			"%pocketmine.command.tp.description",
@@ -39,7 +39,7 @@ class TeleportCommand extends VanillaCommand{
 		$this->setPermission("pocketmine.command.teleport");
 	}
 
-	public function execute(CommandSender $sender, $currentAlias, array $args){
+	public function execute(CommandSender $sender, string $commandLabel, array $args) : bool{
 		if(!$this->testPermission($sender)){
 			return true;
 		}

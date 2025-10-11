@@ -59,7 +59,7 @@ use pocketmine\utils\TextFormat;
 
 class ParticleCommand extends VanillaCommand{
 
-	public function __construct($name){
+	public function __construct(string $name){
 		parent::__construct(
 			$name,
 			"%pocketmine.command.particle.description",
@@ -68,7 +68,7 @@ class ParticleCommand extends VanillaCommand{
 		$this->setPermission("pocketmine.command.particle");
 	}
 
-	public function execute(CommandSender $sender, $currentAlias, array $args){
+	public function execute(CommandSender $sender, string $commandLabel, array $args) : bool{
 		if(!$this->testPermission($sender)){
 			return true;
 		}
@@ -121,12 +121,7 @@ class ParticleCommand extends VanillaCommand{
 		return true;
 	}
 
-	/**
-	 * @param $name
-	 *
-	 * @return Particle
-	 */
-	private function getParticle($name, Vector3 $pos, $xd, $yd, $zd, $data){
+	private function getParticle(string $name, Vector3 $pos, float $xd, float $yd, float $zd, ?int $data) : ?Particle{
 		switch($name){
 			case "explode":
 				return new ExplodeParticle($pos);
@@ -170,12 +165,12 @@ class ParticleCommand extends VanillaCommand{
 				return new ItemBreakParticle($pos, Item::get(Item::SLIMEBALL));
 			case "itembreak":
 				if($data !== null && $data !== 0){
-					return new ItemBreakParticle($pos, $data);
+					return new ItemBreakParticle($pos, Item::get($data));
 				}
 				break;
 			case "terrain":
 				if($data !== null && $data !== 0){
-					return new TerrainParticle($pos, $data);
+					return new TerrainParticle($pos, Block::get($data));
 				}
 				break;
 			case "heart":

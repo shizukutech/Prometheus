@@ -29,7 +29,7 @@ use pocketmine\utils\TextFormat;
 
 class SayCommand extends VanillaCommand{
 
-	public function __construct($name){
+	public function __construct(string $name){
 		parent::__construct(
 			$name,
 			"%pocketmine.command.say.description",
@@ -38,7 +38,7 @@ class SayCommand extends VanillaCommand{
 		$this->setPermission("pocketmine.command.say");
 	}
 
-	public function execute(CommandSender $sender, $currentAlias, array $args){
+	public function execute(CommandSender $sender, string $commandLabel, array $args) : bool{
 		if(!$this->testPermission($sender)){
 			return true;
 		}

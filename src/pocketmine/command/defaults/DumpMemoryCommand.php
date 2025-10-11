@@ -26,9 +26,9 @@ use pocketmine\command\CommandSender;
 
 class DumpMemoryCommand extends VanillaCommand{
 
-	private static $executions = 0;
+	private static int $executions = 0;
 
-	public function __construct($name){
+	public function __construct(string $name){
 		parent::__construct(
 			$name,
 			"Dumps the memory",
@@ -37,7 +37,7 @@ class DumpMemoryCommand extends VanillaCommand{
 		$this->setPermission("pocketmine.command.dumpmemory");
 	}
 
-	public function execute(CommandSender $sender, $currentAlias, array $args){
+	public function execute(CommandSender $sender, string $commandLabel, array $args) : bool{
 		if(!$this->testPermission($sender)){
 			return true;
 		}

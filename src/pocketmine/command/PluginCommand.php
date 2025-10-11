@@ -27,24 +27,18 @@ use pocketmine\plugin\Plugin;
 
 class PluginCommand extends Command implements PluginIdentifiableCommand{
 
-	/** @var Plugin */
-	private $owningPlugin;
+	private Plugin $owningPlugin;
 
-	/** @var CommandExecutor */
-	private $executor;
+	private CommandExecutor $executor;
 
-	/**
-	 * @param string $name
-	 * @param Plugin $owner
-	 */
-	public function __construct($name, Plugin $owner){
+	public function __construct(string $name, Plugin $owner){
 		parent::__construct($name);
 		$this->owningPlugin = $owner;
 		$this->executor = $owner;
 		$this->usageMessage = "";
 	}
 
-	public function execute(CommandSender $sender, $commandLabel, array $args){
+	public function execute(CommandSender $sender, string $commandLabel, array $args) : bool{
 
 		if(!$this->owningPlugin->isEnabled()){
 			return false;
@@ -63,21 +57,15 @@ class PluginCommand extends Command implements PluginIdentifiableCommand{
 		return $success;
 	}
 
-	public function getExecutor(){
+	public function getExecutor() : CommandExecutor{
 		return $this->executor;
 	}
 
-	/**
-	 * @param CommandExecutor $executor
-	 */
-	public function setExecutor(CommandExecutor $executor){
+	public function setExecutor(CommandExecutor $executor) : void{
 		$this->executor = ($executor != null) ? $executor : $this->owningPlugin;
 	}
 
-	/**
-	 * @return Plugin
-	 */
-	public function getPlugin(){
+	public function getPlugin() : Plugin{
 		return $this->owningPlugin;
 	}
 }

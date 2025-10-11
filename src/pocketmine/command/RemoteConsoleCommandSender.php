@@ -26,10 +26,9 @@ use pocketmine\event\TextContainer;
 
 class RemoteConsoleCommandSender extends ConsoleCommandSender{
 
-	/** @var string */
-	private $messages = "";
+	private string $messages = "";
 
-	public function sendMessage($message){
+	public function sendMessage(TextContainer|string $message) : void{
 		if($message instanceof TextContainer){
 			$message = $this->getServer()->getLanguage()->translate($message);
 		}else{
@@ -39,11 +38,11 @@ class RemoteConsoleCommandSender extends ConsoleCommandSender{
 		$this->messages .= trim($message, "\r\n") . "\n";
 	}
 
-	public function getMessage(){
+	public function getMessage() : string{
 		return $this->messages;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Rcon";
 	}
 

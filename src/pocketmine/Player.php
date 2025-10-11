@@ -336,10 +336,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 	}
 
-	/**
-	 * @return Server
-	 */
-	public function getServer(){
+	public function getServer() : Server{
 		return $this->server;
 	}
 
@@ -2878,10 +2875,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	/**
 	 * Sends a direct chat message to a player
-	 *
-	 * @param string|TextContainer $message
 	 */
-	public function sendMessage($message){
+	public function sendMessage(TextContainer|string $message) : void{
 		if($message instanceof TextContainer){
 			if($message instanceof TranslationContainer){
 				$this->sendTranslation($message->getText(), $message->getParameters());
@@ -3057,10 +3052,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	/**
 	 * Gets the username
-	 *
-	 * @return string
 	 */
-	public function getName(){
+	public function getName() : string{
 		return $this->username;
 	}
 
