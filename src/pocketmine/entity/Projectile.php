@@ -38,13 +38,12 @@ abstract class Projectile extends Entity{
 
 	const DATA_SHOOTER_ID = 17;
 
-	/** @var Entity */
-	public $shootingEntity = null;
-	protected $damage = 0;
+	public ?Entity $shootingEntity = null;
+	protected int $damage = 0;
 
-	public $hadCollision = false;
+	public bool $hadCollision = false;
 
-	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt, ?Entity $shootingEntity = null){
 		$this->shootingEntity = $shootingEntity;
 		if($shootingEntity !== null){
 			$this->setDataProperty(self::DATA_SHOOTER_ID, self::DATA_TYPE_LONG, $shootingEntity->getId());
@@ -52,13 +51,13 @@ abstract class Projectile extends Entity{
 		parent::__construct($chunk, $nbt);
 	}
 
-	public function attack($damage, EntityDamageEvent $source){
+	public function attack(float $damage, EntityDamageEvent $source) : void{
 		if($source->getCause() === EntityDamageEvent::CAUSE_VOID){
 			parent::attack($damage, $source);
 		}
 	}
 
-	protected function initEntity(){
+	protected function initEntity() : void{
 		parent::initEntity();
 
 		$this->setMaxHealth(1);
@@ -69,16 +68,16 @@ abstract class Projectile extends Entity{
 
 	}
 
-	public function canCollideWith(Entity $entity){
+	public function canCollideWith(Entity $entity) : bool{
 		return $entity instanceof Living && !$this->onGround;
 	}
 
-	public function saveNBT(){
+	public function saveNBT() : void{
 		parent::saveNBT();
 		$this->namedtag->Age = new ShortTag("Age", $this->age);
 	}
 
-	public function onUpdate($currentTick){
+	public function onUpdate(int $currentTick) : bool{
 		if($this->closed){
 			return false;
 		}

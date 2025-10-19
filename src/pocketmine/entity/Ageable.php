@@ -27,5 +27,5 @@ interface Ageable{
 
 	const DATA_FLAG_BABY = 0;
 
-	public function isBaby();
+	public function isBaby() : bool;
 }

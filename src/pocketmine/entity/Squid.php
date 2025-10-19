@@ -34,26 +34,25 @@ use pocketmine\Server;
 class Squid extends WaterAnimal implements Ageable{
 	const NETWORK_ID = 17;
 
-	public $width = 0.95;
-	public $length = 0.95;
-	public $height = 0.95;
+	public float $width = 0.95;
+	public float $length = 0.95;
+	public float $height = 0.95;
 
-	/** @var Vector3 */
-	public $swimDirection = null;
-	public $swimSpeed = 0.1;
+	public ?Vector3 $swimDirection = null;
+	public float $swimSpeed = 0.1;
 
-	private $switchDirectionTicker = 0;
+	private int $switchDirectionTicker = 0;
 
-	public function initEntity(){
+	public function initEntity() : void{
 		parent::initEntity();
 		$this->setMaxHealth(5);
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return "Squid";
 	}
 
-	public function attack($damage, EntityDamageEvent $source){
+	public function attack(float $damage, EntityDamageEvent $source) : void{
 		parent::attack($damage, $source);
 		if($source->isCancelled()){
 			return;
@@ -71,12 +70,12 @@ class Squid extends WaterAnimal implements Ageable{
 		}
 	}
 
-	private function generateRandomDirection(){
+	private function generateRandomDirection() : Vector3{
 		return new Vector3(mt_rand(-1000, 1000) / 1000, mt_rand(-500, 500) / 1000, mt_rand(-1000, 1000) / 1000);
 	}
 
 
-	public function onUpdate($currentTick){
+	public function onUpdate(int $currentTick) : bool{
 		if($this->closed !== false){
 			return false;
 		}
@@ -146,7 +145,7 @@ class Squid extends WaterAnimal implements Ageable{
 	}
 
 
-	public function spawnTo(Player $player){
+	public function spawnTo(Player $player) : void{
 		$pk = new AddEntityPacket();
 		$pk->eid = $this->getId();
 		$pk->type = Squid::NETWORK_ID;
@@ -164,7 +163,7 @@ class Squid extends WaterAnimal implements Ageable{
 		parent::spawnTo($player);
 	}
 
-	public function getDrops(){
+	public function getDrops() : array{
 		return [
 			ItemItem::get(ItemItem::DYE, 0, mt_rand(1, 3))
 		];

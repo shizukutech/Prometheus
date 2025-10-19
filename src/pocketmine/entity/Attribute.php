@@ -36,20 +36,20 @@ class Attribute{
 	const EXPERIENCE_LEVEL = 9;
 	const EXPERIENCE = 10;
 
-	private $id;
-	protected $minValue;
-	protected $maxValue;
-	protected $defaultValue;
-	protected $currentValue;
-	protected $name;
-	protected $shouldSend;
+	private int $id;
+	protected float $minValue;
+	protected float $maxValue;
+	protected float $defaultValue;
+	protected float $currentValue;
+	protected string $name;
+	protected bool $shouldSend;
 
-	protected $desynchronized = true;
+	protected bool $desynchronized = true;
 
 	/** @var Attribute[] */
-	protected static $attributes = [];
+	protected static array $attributes = [];
 
-	public static function init(){
+	public static function init() : void{
 		self::addAttribute(self::ABSORPTION, "generic.absorption", 0.00, 340282346638528859811704183484516925440.00, 0.00);
 		self::addAttribute(self::SATURATION, "player.saturation", 0.00, 20.00, 5.00);
 		self::addAttribute(self::EXHAUSTION, "player.exhaustion", 0.00, 5.00, 0.41);
@@ -63,39 +63,19 @@ class Attribute{
 		self::addAttribute(self::EXPERIENCE, "player.experience", 0.00, 1.00, 0.00);
 	}
 
-	/**
-	 * @param int    $id
-	 * @param string $name
-	 * @param float  $minValue
-	 * @param float  $maxValue
-	 * @param float  $defaultValue
-	 * @param bool   $shouldSend
-	 *
-	 * @return Attribute
-	 */
-	public static function addAttribute($id, $name, $minValue, $maxValue, $defaultValue, $shouldSend = true){
+	public static function addAttribute(int $id, string $name, float $minValue, float $maxValue, float $defaultValue, bool $shouldSend = true) : Attribute{
 		if($minValue > $maxValue || $defaultValue > $maxValue || $defaultValue < $minValue){
 			throw new \InvalidArgumentException("Invalid ranges: min value: $minValue, max value: $maxValue, $defaultValue: $defaultValue");
 		}
 
-		return self::$attributes[(int) $id] = new Attribute($id, $name, $minValue, $maxValue, $defaultValue, $shouldSend);
+		return self::$attributes[$id] = new Attribute($id, $name, $minValue, $maxValue, $defaultValue, $shouldSend);
 	}
 
-	/**
-	 * @param $id
-	 *
-	 * @return null|Attribute
-	 */
-	public static function getAttribute($id){
+	public static function getAttribute(int $id) : ?Attribute{
 		return isset(self::$attributes[$id]) ? clone self::$attributes[$id] : null;
 	}
 
-	/**
-	 * @param $name
-	 *
-	 * @return null|Attribute
-	 */
-	public static function getAttributeByName($name){
+	public static function getAttributeByName(string $name) : ?Attribute{
 		foreach(self::$attributes as $a){
 			if($a->getName() === $name){
 				return clone $a;
@@ -105,22 +85,22 @@ class Attribute{
 		return null;
 	}
 
-	private function __construct($id, $name, $minValue, $maxValue, $defaultValue, $shouldSend = true){
-		$this->id = (int) $id;
-		$this->name = (string) $name;
-		$this->minValue = (float) $minValue;
-		$this->maxValue = (float) $maxValue;
-		$this->defaultValue = (float) $defaultValue;
-		$this->shouldSend = (bool) $shouldSend;
+	private function __construct(int $id, string $name, float $minValue, float $maxValue, float $defaultValue, bool $shouldSend = true){
+		$this->id = $id;
+		$this->name = $name;
+		$this->minValue = $minValue;
+		$this->maxValue = $maxValue;
+		$this->defaultValue = $defaultValue;
+		$this->shouldSend = $shouldSend;
 
 		$this->currentValue = $this->defaultValue;
 	}
 
-	public function getMinValue(){
+	public function getMinValue() : float{
 		return $this->minValue;
 	}
 
-	public function setMinValue($minValue){
+	public function setMinValue(float $minValue) : Attribute{
 		if($minValue > $this->getMaxValue()){
 			throw new \InvalidArgumentException("Value $minValue is bigger than the maxValue!");
 		}
@@ -132,11 +112,11 @@ class Attribute{
 		return $this;
 	}
 
-	public function getMaxValue(){
+	public function getMaxValue() : float{
 		return $this->maxValue;
 	}
 
-	public function setMaxValue($maxValue){
+	public function setMaxValue(float $maxValue) : Attribute{
 		if($maxValue < $this->getMinValue()){
 			throw new \InvalidArgumentException("Value $maxValue is bigger than the minValue!");
 		}
@@ -148,11 +128,11 @@ class Attribute{
 		return $this;
 	}
 
-	public function getDefaultValue(){
+	public function getDefaultValue() : float{
 		return $this->defaultValue;
 	}
 
-	public function setDefaultValue($defaultValue){
+	public function setDefaultValue(float $defaultValue) : Attribute{
 		if($defaultValue > $this->getMaxValue() || $defaultValue < $this->getMinValue()){
 			throw new \InvalidArgumentException("Value $defaultValue exceeds the range!");
 		}
@@ -164,11 +144,11 @@ class Attribute{
 		return $this;
 	}
 
-	public function getValue(){
+	public function getValue() : float{
 		return $this->currentValue;
 	}
 
-	public function setValue($value, $fit = false){
+	public function setValue(float $value, bool $fit = false) : Attribute{
 		if($value > $this->getMaxValue() || $value < $this->getMinValue()){
 			if(!$fit){
 				throw new \InvalidArgumentException("Value $value exceeds the range!");
@@ -183,15 +163,15 @@ class Attribute{
 		return $this;
 	}
 
-	public function getName(){
+	public function getName() : string{
 		return $this->name;
 	}
 
-	public function getId(){
+	public function getId() : int{
 		return $this->id;
 	}
 
-	public function isSyncable(){
+	public function isSyncable() : bool{
 		return $this->shouldSend;
 	}
 
@@ -199,7 +179,7 @@ class Attribute{
 		return $this->shouldSend && $this->desynchronized;
 	}
 
-	public function markSynchronized(bool $synced = true){
+	public function markSynchronized(bool $synced = true) : void{
 		$this->desynchronized = !$synced;
 	}
 }

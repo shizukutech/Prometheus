@@ -37,14 +37,14 @@ use pocketmine\utils\BlockIterator;
 
 abstract class Living extends Entity implements Damageable{
 
-	protected $gravity = 0.08;
-	protected $drag = 0.02;
+	protected float $gravity = 0.08;
+	protected float $drag = 0.02;
 
-	protected $attackTime = 0;
+	protected int $attackTime = 0;
 
-	protected $invisible = false;
+	protected bool $invisible = false;
 
-	protected function initEntity(){
+	protected function initEntity() : void{
 		parent::initEntity();
 
 		if(isset($this->namedtag->HealF)){
@@ -57,7 +57,7 @@ abstract class Living extends Entity implements Damageable{
 		$this->setHealth($this->namedtag["Health"]);
 	}
 
-	protected function addAttributes(){
+	protected function addAttributes() : void{
 		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::HEALTH));
 		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::FOLLOW_RANGE));
 		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::KNOCKBACK_RESISTANCE));
@@ -66,7 +66,7 @@ abstract class Living extends Entity implements Damageable{
 		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::ABSORPTION));
 	}
 
-	public function setHealth($amount){
+	public function setHealth(int $amount) : void{
 		$wasAlive = $this->isAlive();
 		parent::setHealth($amount);
 		$this->attributeMap->getAttribute(Attribute::HEALTH)->setValue($this->getHealth());
@@ -78,24 +78,24 @@ abstract class Living extends Entity implements Damageable{
 		}
 	}
 
-	public function setMaxHealth($amount){
+	public function setMaxHealth(int $amount) : void{
 		$this->attributeMap->getAttribute(Attribute::HEALTH)->setMaxValue($amount);
 	}
 
-	public function saveNBT(){
+	public function saveNBT() : void{
 		parent::saveNBT();
 		$this->namedtag->Health = new ShortTag("Health", $this->getHealth());
 	}
 
-	public abstract function getName();
+	public abstract function getName() : string;
 
-	public function hasLineOfSight(Entity $entity){
+	public function hasLineOfSight(Entity $entity) : bool{
 		//TODO: head height
 		return true;
 		//return $this->getLevel()->rayTraceBlocks(Vector3::createVector($this->x, $this->y + $this->height, $this->z), Vector3::createVector($entity->x, $entity->y + $entity->height, $entity->z)) === null;
 	}
 
-	public function heal($amount, EntityRegainHealthEvent $source){
+	public function heal(float $amount, EntityRegainHealthEvent $source) : void{
 		parent::heal($amount, $source);
 		if($source->isCancelled()){
 			return;
@@ -104,7 +104,7 @@ abstract class Living extends Entity implements Damageable{
 		$this->attackTime = 0;
 	}
 
-	public function attack($damage, EntityDamageEvent $source){
+	public function attack(float $damage, EntityDamageEvent $source) : void{
 		if($this->attackTime > 0 || $this->noDamageTicks > 0){
 			$lastCause = $this->getLastDamageCause();
 			if($lastCause !== null && $lastCause->getDamage() >= $damage){
@@ -141,7 +141,7 @@ abstract class Living extends Entity implements Damageable{
 		$this->attackTime = 10; //0.5 seconds cooldown
 	}
 
-	public function knockBack(Entity $attacker, $damage, $x, $z, $base = 0.4){
+	public function knockBack(Entity $attacker, float $damage, float $x, float $z, float $base = 0.4) : void{
 		$f = sqrt($x * $x + $z * $z);
 		if($f <= 0){
 			return;
@@ -165,7 +165,7 @@ abstract class Living extends Entity implements Damageable{
 		$this->setMotion($motion);
 	}
 
-	public function kill(){
+	public function kill() : void{
 		if(!$this->isAlive()){
 			return;
 		}
@@ -176,7 +176,7 @@ abstract class Living extends Entity implements Damageable{
 		}
 	}
 
-	public function entityBaseTick($tickDiff = 1){
+	public function entityBaseTick(int $tickDiff = 1) : bool{
 		Timings::$timerLivingEntityBaseTick->startTiming();
 
 		$hasUpdate = parent::entityBaseTick($tickDiff);
@@ -231,18 +231,14 @@ abstract class Living extends Entity implements Damageable{
 	/**
 	 * @return ItemItem[]
 	 */
-	public function getDrops(){
+	public function getDrops() : array{
 		return [];
 	}
 
 	/**
-	 * @param int   $maxDistance
-	 * @param int   $maxLength
-	 * @param array $transparent
-	 *
 	 * @return Block[]
 	 */
-	public function getLineOfSight($maxDistance, $maxLength = 0, array $transparent = []){
+	public function getLineOfSight(int $maxDistance, int $maxLength = 0, array $transparent = []) : array{
 		if($maxDistance > 120){
 			$maxDistance = 120;
 		}
@@ -282,13 +278,7 @@ abstract class Living extends Entity implements Damageable{
 		return $blocks;
 	}
 
-	/**
-	 * @param int   $maxDistance
-	 * @param array $transparent
-	 *
-	 * @return Block
-	 */
-	public function getTargetBlock($maxDistance, array $transparent = []){
+	public function getTargetBlock(int $maxDistance, array $transparent = []) : ?Block{
 		try{
 			$block = $this->getLineOfSight($maxDistance, 1, $transparent)[0];
 			if($block instanceof Block){

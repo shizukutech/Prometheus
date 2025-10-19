@@ -24,5 +24,5 @@ namespace pocketmine\entity;
 
 interface Explosive{
 
-	public function explode();
+	public function explode() : void;
 }

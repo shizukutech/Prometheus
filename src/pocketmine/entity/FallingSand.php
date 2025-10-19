@@ -41,18 +41,18 @@ class FallingSand extends Entity{
 
 	const DATA_BLOCK_INFO = 20;
 
-	public $width = 0.98;
-	public $length = 0.98;
-	public $height = 0.98;
+	public float $width = 0.98;
+	public float $length = 0.98;
+	public float $height = 0.98;
 
-	protected $gravity = 0.04;
-	protected $drag = 0.02;
-	protected $blockId = 0;
-	protected $damage;
+	protected float $gravity = 0.04;
+	protected float $drag = 0.02;
+	protected int $blockId = 0;
+	protected int $damage;
 
-	public $canCollide = false;
+	public bool $canCollide = false;
 
-	protected function initEntity(){
+	protected function initEntity() : void{
 		parent::initEntity();
 		if(isset($this->namedtag->TileID)){
 			$this->blockId = $this->namedtag["TileID"];
@@ -73,17 +73,17 @@ class FallingSand extends Entity{
 		$this->setDataProperty(self::DATA_BLOCK_INFO, self::DATA_TYPE_INT, $this->getBlock() | ($this->getDamage() << 8));
 	}
 
-	public function canCollideWith(Entity $entity){
+	public function canCollideWith(Entity $entity) : bool{
 		return false;
 	}
 
-	public function attack($damage, EntityDamageEvent $source){
+	public function attack(float $damage, EntityDamageEvent $source) : void{
 		if($source->getCause() === EntityDamageEvent::CAUSE_VOID){
 			parent::attack($damage, $source);
 		}
 	}
 
-	public function onUpdate($currentTick){
+	public function onUpdate(int $currentTick) : bool{
 
 		if($this->closed){
 			return false;
@@ -144,20 +144,20 @@ class FallingSand extends Entity{
 		return $hasUpdate || !$this->onGround || abs($this->motionX) > 0.00001 || abs($this->motionY) > 0.00001 || abs($this->motionZ) > 0.00001;
 	}
 
-	public function getBlock(){
+	public function getBlock() : int{
 		return $this->blockId;
 	}
 
-	public function getDamage(){
+	public function getDamage() : int{
 		return $this->damage;
 	}
 
-	public function saveNBT(){
+	public function saveNBT() : void{
 		$this->namedtag->TileID = new IntTag("TileID", $this->blockId);
 		$this->namedtag->Data = new ByteTag("Data", $this->damage);
 	}
 
-	public function spawnTo(Player $player){
+	public function spawnTo(Player $player) : void{
 		$pk = new AddEntityPacket();
 		$pk->type = FallingSand::NETWORK_ID;
 		$pk->eid = $this->getId();

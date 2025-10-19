@@ -31,18 +31,18 @@ use pocketmine\Player;
 class Snowball extends Projectile{
 	const NETWORK_ID = 81;
 
-	public $width = 0.25;
-	public $length = 0.25;
-	public $height = 0.25;
+	public float $width = 0.25;
+	public float $length = 0.25;
+	public float $height = 0.25;
 
-	protected $gravity = 0.03;
-	protected $drag = 0.01;
+	protected float $gravity = 0.03;
+	protected float $drag = 0.01;
 
-	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt, ?Entity $shootingEntity = null){
 		parent::__construct($chunk, $nbt, $shootingEntity);
 	}
 
-	public function onUpdate($currentTick){
+	public function onUpdate(int $currentTick) : bool{
 		if($this->closed){
 			return false;
 		}
@@ -61,7 +61,7 @@ class Snowball extends Projectile{
 		return $hasUpdate;
 	}
 
-	public function spawnTo(Player $player){
+	public function spawnTo(Player $player) : void{
 		$pk = new AddEntityPacket();
 		$pk->type = Snowball::NETWORK_ID;
 		$pk->eid = $this->getId();

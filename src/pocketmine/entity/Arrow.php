@@ -31,23 +31,23 @@ use pocketmine\Player;
 class Arrow extends Projectile{
 	const NETWORK_ID = 80;
 
-	public $width = 0.5;
-	public $length = 0.5;
-	public $height = 0.5;
+	public float $width = 0.5;
+	public float $length = 0.5;
+	public float $height = 0.5;
 
-	protected $gravity = 0.05;
-	protected $drag = 0.01;
+	protected float $gravity = 0.05;
+	protected float $drag = 0.01;
 
-	protected $damage = 2;
+	protected int $damage = 2;
 
-	protected $isCritical;
+	protected bool $isCritical;
 
-	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null, $critical = false){
-		$this->isCritical = (bool) $critical;
+	public function __construct(FullChunk $chunk, CompoundTag $nbt, ?Entity $shootingEntity = null, bool $critical = false){
+		$this->isCritical = $critical;
 		parent::__construct($chunk, $nbt, $shootingEntity);
 	}
 
-	public function onUpdate($currentTick){
+	public function onUpdate(int $currentTick) : bool{
 		if($this->closed){
 			return false;
 		}
@@ -75,7 +75,7 @@ class Arrow extends Projectile{
 		return $hasUpdate;
 	}
 
-	public function spawnTo(Player $player){
+	public function spawnTo(Player $player) : void{
 		$pk = new AddEntityPacket();
 		$pk->type = Arrow::NETWORK_ID;
 		$pk->eid = $this->getId();

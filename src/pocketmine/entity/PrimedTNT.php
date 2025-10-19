@@ -34,25 +34,25 @@ use pocketmine\Player;
 class PrimedTNT extends Entity implements Explosive{
 	const NETWORK_ID = 65;
 
-	public $width = 0.98;
-	public $length = 0.98;
-	public $height = 0.98;
+	public float $width = 0.98;
+	public float $length = 0.98;
+	public float $height = 0.98;
 
-	protected $gravity = 0.04;
-	protected $drag = 0.02;
+	protected float $gravity = 0.04;
+	protected float $drag = 0.02;
 
-	protected $fuse;
+	protected int $fuse;
 
-	public $canCollide = false;
+	public bool $canCollide = false;
 
 
-	public function attack($damage, EntityDamageEvent $source){
+	public function attack(float $damage, EntityDamageEvent $source) : void{
 		if($source->getCause() === EntityDamageEvent::CAUSE_VOID){
 			parent::attack($damage, $source);
 		}
 	}
 
-	protected function initEntity(){
+	protected function initEntity() : void{
 		parent::initEntity();
 
 		if(isset($this->namedtag->Fuse)){
@@ -63,16 +63,16 @@ class PrimedTNT extends Entity implements Explosive{
 	}
 
 
-	public function canCollideWith(Entity $entity){
+	public function canCollideWith(Entity $entity) : bool{
 		return false;
 	}
 
-	public function saveNBT(){
+	public function saveNBT() : void{
 		parent::saveNBT();
 		$this->namedtag->Fuse = new ByteTag("Fuse", $this->fuse);
 	}
 
-	public function onUpdate($currentTick){
+	public function onUpdate(int $currentTick) : bool{
 
 		if($this->closed){
 			return false;
@@ -121,7 +121,7 @@ class PrimedTNT extends Entity implements Explosive{
 		return $hasUpdate || $this->fuse >= 0 || abs($this->motionX) > 0.00001 || abs($this->motionY) > 0.00001 || abs($this->motionZ) > 0.00001;
 	}
 
-	public function explode(){
+	public function explode() : void{
 		$this->server->getPluginManager()->callEvent($ev = new ExplosionPrimeEvent($this, 4));
 
 		if(!$ev->isCancelled()){
@@ -133,7 +133,7 @@ class PrimedTNT extends Entity implements Explosive{
 		}
 	}
 
-	public function spawnTo(Player $player){
+	public function spawnTo(Player $player) : void{
 		$pk = new AddEntityPacket();
 		$pk->type = PrimedTNT::NETWORK_ID;
 		$pk->eid = $this->getId();

@@ -31,15 +31,15 @@ use pocketmine\Player;
 class Zombie extends Monster{
 	const NETWORK_ID = 32;
 
-	public $width = 0.6;
-	public $length = 0.6;
-	public $height = 1.8;
+	public float $width = 0.6;
+	public float $length = 0.6;
+	public float $height = 1.8;
 
-	public function getName(){
+	public function getName() : string{
 		return "Zombie";
 	}
 
-	public function spawnTo(Player $player){
+	public function spawnTo(Player $player) : void{
 		$pk = new AddEntityPacket();
 		$pk->eid = $this->getId();
 		$pk->type = Zombie::NETWORK_ID;
@@ -57,7 +57,7 @@ class Zombie extends Monster{
 		parent::spawnTo($player);
 	}
 
-	public function getDrops(){
+	public function getDrops() : array{
 		$drops = [
 			ItemItem::get(ItemItem::FEATHER, 0, 1)
 		];

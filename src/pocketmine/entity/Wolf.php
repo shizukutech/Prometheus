@@ -26,7 +26,7 @@ class Wolf extends Animal implements Tameable{
 
 	const NETWORK_ID = 14;
 
-	public function getName(){
+	public function getName() : string{
 		return "Wolf";
 	}
 }
